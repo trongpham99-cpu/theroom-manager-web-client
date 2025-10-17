@@ -8,14 +8,15 @@ import PurchaseButton from './PurchaseButton';
 function DemoLayoutFooterContent() {
 	return (
 		<>
-			<div className="flex flex-auto shrink-0 gap-2">
+			{/* Tắt toàn bộ footer content để đơn giản hóa */}
+			{/* <div className="flex flex-auto shrink-0 gap-2">
 				<PurchaseButton />
 				<DocumentationButton />
 			</div>
 
 			<div className="flex shrink-0 justify-end">
 				<PoweredByLinks />
-			</div>
+			</div> */}
 		</>
 	);
 }

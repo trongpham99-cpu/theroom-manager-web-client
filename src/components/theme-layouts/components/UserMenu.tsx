@@ -170,7 +170,8 @@ function UserMenu(props: UserMenuProps) {
 							</ListItemIcon>
 							<ListItemText primary="My Profile" />
 						</MenuItem>
-						<MenuItem
+						{/* Tắt nút Messages (Inbox) */}
+						{/* <MenuItem
 							component={Link}
 							to="/apps/mailbox"
 							onClick={userMenuClose}
@@ -180,7 +181,7 @@ function UserMenu(props: UserMenuProps) {
 								<FuseSvgIcon>lucide:mail</FuseSvgIcon>
 							</ListItemIcon>
 							<ListItemText primary="Inbox" />
-						</MenuItem>
+						</MenuItem> */}
 						<MenuItem
 							onClick={() => {
 								signOut();

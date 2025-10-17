@@ -27,7 +27,10 @@ const projectOptions: ProjectOption[] = [
 ];
 
 function MainProjectSelection() {
-	const [selectedProjectValue, setSelectedProject] = React.useState<string>(projectOptions[0].value);
+	// Tắt framework selector dropdown (Vitejs/Nextjs)
+	return null;
+	
+	/* const [selectedProjectValue, setSelectedProject] = React.useState<string>(projectOptions[0].value);
 	const selectedProject = projectOptions.find((project) => project.value === selectedProjectValue);
 	const theme = useTheme();
 	const handleMenuItemClick = (projectValue: string) => {
@@ -92,7 +95,7 @@ function MainProjectSelection() {
 				</MenuItem>
 			))}
 		</Select>
-	);
+	); */
 }
 
 export default MainProjectSelection;

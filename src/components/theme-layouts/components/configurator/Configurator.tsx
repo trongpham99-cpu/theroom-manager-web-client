@@ -75,7 +75,8 @@ function Configurator() {
 
 	return (
 		<>
-			<Root
+			{/* Tắt toàn bộ Configurator để loại bỏ nút Settings và Theme */}
+			{/* <Root
 				id="fuse-settings-panel"
 				className="buttonWrapper"
 			>
@@ -103,7 +104,7 @@ function Configurator() {
 				>
 					<FuseSvgIcon>lucide:swatch-book</FuseSvgIcon>
 				</Button>
-			</Root>
+			</Root> */}
 
 			<SettingsPanel
 				open={Boolean(open === 'settings')}

@@ -21,7 +21,8 @@ function FinanceDashboardAppHeader() {
 							Keep track of your financial status
 						</Typography>
 					</div>
-					<div className="flex items-center gap-2">
+					{/* Tắt tất cả buttons trong Finance Dashboard Header */}
+					{/* <div className="flex items-center gap-2">
 						<Button
 							className="whitespace-nowrap"
 							startIcon={<FuseSvgIcon>lucide:chart-area</FuseSvgIcon>}
@@ -46,7 +47,7 @@ function FinanceDashboardAppHeader() {
 						>
 							Export
 						</Button>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>
