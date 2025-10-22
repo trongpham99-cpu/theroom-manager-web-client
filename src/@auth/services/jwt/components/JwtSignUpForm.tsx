@@ -1,9 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FormHelperText from '@mui/material/FormHelperText';
+// Removed terms checkbox to match simplified login form
 import Button from '@mui/material/Button';
 import _ from 'lodash';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,17 +12,16 @@ import useJwtAuth from '../useJwtAuth';
  * Form Validation Schema
  */
 const schema = z
-	.object({
-		displayName: z.string().nonempty('You must enter your name'),
-		email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
-		password: z
-			.string()
-			.nonempty('Please enter your password.')
-			.min(8, 'Password is too short - should be 8 chars minimum.'),
-		passwordConfirm: z.string().nonempty('Password confirmation is required'),
-		acceptTermsConditions: z.boolean().refine((val) => val === true, 'The terms and conditions must be accepted.')
-	})
-	.refine((data) => data.password === data.passwordConfirm, {
+    .object({
+        displayName: z.string().nonempty('You must enter your name'),
+        email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
+        password: z
+            .string()
+            .nonempty('Please enter your password.')
+            .min(8, 'Password is too short - should be 8 chars minimum.'),
+        passwordConfirm: z.string().nonempty('Password confirmation is required')
+    })
+    .refine((data) => data.password === data.passwordConfirm, {
 		message: 'Passwords must match',
 		path: ['passwordConfirm']
 	});
@@ -35,8 +32,7 @@ const defaultValues = {
 	displayName: '',
 	email: '',
 	password: '',
-	passwordConfirm: '',
-	acceptTermsConditions: false
+    passwordConfirm: ''
 };
 
 function JwtSignUpForm() {
@@ -152,35 +148,16 @@ function JwtSignUpForm() {
 				)}
 			/>
 
-			<Controller
-				name="acceptTermsConditions"
-				control={control}
-				render={({ field }) => (
-					<FormControl error={!!errors.acceptTermsConditions}>
-						<FormControlLabel
-							label="I agree with Terms and Privacy Policy"
-							control={
-								<Checkbox
-									size="small"
-									{...field}
-								/>
-							}
-						/>
-						<FormHelperText>{errors?.acceptTermsConditions?.message}</FormHelperText>
-					</FormControl>
-				)}
-			/>
-
 			<Button
 				variant="contained"
 				color="secondary"
-				className="mt-6 w-full"
-				aria-label="Register"
+                className="mt-6 w-full"
+                aria-label="Register"
 				disabled={_.isEmpty(dirtyFields) || !isValid}
 				type="submit"
 				size="large"
 			>
-				Create your free account
+                Create account
 			</Button>
 		</form>
 	);

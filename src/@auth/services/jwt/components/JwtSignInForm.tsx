@@ -112,7 +112,8 @@ function JwtSignInForm() {
 				)}
 			/>
 
-			<div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
+			{/* Tắt Remember me và Forgot password */}
+			{/* <div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
 				<Controller
 					name="remember"
 					control={control}
@@ -137,7 +138,7 @@ function JwtSignInForm() {
 				>
 					Forgot password?
 				</Link>
-			</div>
+			</div> */}
 
 			<Button
 				variant="contained"

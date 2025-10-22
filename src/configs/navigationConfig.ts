@@ -27,6 +27,93 @@ const navigationConfig: FuseNavItemType[] = [
 				type: 'item',
 				icon: 'lucide:clipboard-check',
 				url: '/dashboards/project'
+			},
+			{
+				id: 'dashboards.finance',
+				title: 'Finance',
+				type: 'item',
+				icon: 'lucide:chart-area',
+				url: '/dashboards/finance'
+			}
+		]
+	},
+	{
+		id: 'apps',
+		title: 'Applications',
+		type: 'group',
+		icon: 'lucide:box',
+		children: [
+			{
+				id: 'apps.calendar',
+				title: 'Calendar',
+				type: 'item',
+				icon: 'lucide:calendar',
+				url: '/apps/calendar'
+			},
+			{
+				id: 'apps.messenger',
+				title: 'Messenger',
+				type: 'item',
+				icon: 'lucide:message-circle',
+				url: '/apps/messenger'
+			},
+			{
+				id: 'apps.contacts',
+				title: 'Contacts',
+				type: 'item',
+				icon: 'lucide:users',
+				url: '/apps/contacts'
+			},
+			{
+				id: 'apps.e-commerce',
+				title: 'E-commerce',
+				type: 'item',
+				icon: 'lucide:shopping-cart',
+				url: '/apps/e-commerce'
+			},
+			{
+				id: 'apps.file-manager',
+				title: 'File Manager',
+				type: 'item',
+				icon: 'lucide:folder',
+				url: '/apps/file-manager'
+			},
+			// Help Center moved to Pages group
+			{
+				id: 'apps.settings',
+				title: 'Settings',
+				type: 'item',
+				icon: 'lucide:settings',
+				url: '/apps/settings'
+			},
+			{
+				id: 'apps.invoice',
+				title: 'Invoice',
+				type: 'item',
+				icon: 'lucide:file-text',
+				url: '/apps/invoice'
+			}
+		]
+	},
+	{
+		id: 'pages',
+		title: 'Pages',
+		type: 'group',
+		icon: 'lucide:file-text',
+		children: [
+			{
+				id: 'pages.help-center',
+				title: 'Help Center',
+				type: 'item',
+				icon: 'lucide:help-circle',
+				url: '/apps/help-center'
+			},
+			{
+				id: 'pages.error',
+				title: 'Error',
+				type: 'item',
+				icon: 'lucide:alert-triangle',
+				url: '/pages/error'
 			}
 		]
 	}

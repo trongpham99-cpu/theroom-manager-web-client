@@ -1,96 +1,127 @@
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { useState } from 'react';
-import _ from 'lodash';
-import JwtSignUpTab from '../tabs/sign-up/JwSignUpTab';
-import FirebaseSignUpTab from '../tabs/sign-up/FirebaseSignUpTab';
-import AwsSignUpTab from '../tabs/sign-up/AwsSignUpTab';
 import SignUpPageTitle from '../ui/SignUpPageTitle';
 import AuthPagesMessageSection from '../ui/AuthPagesMessageSection';
-
-const tabs = [
-	{
-		id: 'jwt',
-		title: 'JWT',
-		logo: '/assets/images/logo/jwt.svg',
-		logoClass: 'h-9 p-1 bg-black rounded-lg'
-	},
-	{
-		id: 'firebase',
-		title: 'Firebase',
-		logo: '/assets/images/logo/firebase.svg',
-		logoClass: 'h-9'
-	},
-	{
-		id: 'aws',
-		title: 'AWS',
-		logo: '/assets/images/logo/aws-amplify.svg',
-		logoClass: 'h-9'
-	}
-];
+import JwtSignUpTab from '../tabs/sign-up/JwSignUpTab';
 
 /**
  * The sign up page.
  */
 function SignUpPageView() {
-	const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
+    return (
+        <Box
+            sx={{
+                backgroundColor: '#2F4F4F',
+                minHeight: '100vh',
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-around',
+                padding: { xs: 2, sm: 4, md: 6 },
+                paddingTop: { xs: 4, sm: 6, md: 10 },
+                gap: 4,
+                overflow: 'hidden',
+                '@media (max-width: 700px)': {
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 2,
+                    flexDirection: 'column',
+                    backgroundColor: '#224040'
+                },
+                '@media (min-width: 700px) and (max-width: 1210px)': {
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    paddingTop: 0,
+                    flexDirection: 'column',
+                    backgroundColor: '#224040'
+                }
+            }}
+        >
+            {/* Logo The Room phía trên - chỉ hiện ở mode vừa */}
+            <Box
+                component="img"
+                src="/assets/images/logo/ver2.jpg"
+                alt="The Room Logo"
+                sx={{
+                    display: 'none',
+                    '@media (min-width: 700px) and (max-width: 1210px)': {
+                        display: 'block',
+                        width: '400px',
+                        height: '400px',
+                        objectFit: 'contain',
+                        marginTop: '-2.5rem',
+                        marginBottom: '0',
+                        border: 'none',
+                        boxShadow: 'none',
+                        backgroundColor: 'transparent'
+                    }
+                }}
+            />
 
-	function handleSelectTab(id: string) {
-		setSelectedTabId(id);
-	}
+            {/* Sign Up dialog (floating modal) */}
+            <Box
+                sx={{
+                    backgroundColor: 'background.paper',
+                    borderRadius: 2,
+                    p: { xs: 5, sm: 6, md: 8 },
+                    py: { xs: 10, sm: 14, md: 20 },
+                    '@media (min-width: 700px) and (max-width: 1210px)': {
+                        py: 5
+                    },
+                    boxShadow: 3,
+                    width: '100%',
+                    maxWidth: 700,
+                    ml: { xs: 0 },
+                    '@media (min-width: 1211px)': {
+                        ml: 4
+                    },
+                    zIndex: 10,
+                    position: 'relative',
+                    '@media (max-width: 1210px)': {
+                        ml: 0,
+                        maxWidth: '500px'
+                    },
+                    '& .MuiTextField-root': {
+                        '& input': {
+                            fontSize: '1.25rem',
+                            padding: '16px 18px'
+                        },
+                        '& label': {
+                            fontSize: '1.125rem'
+                        }
+                    },
+                    '& .MuiButton-root': {
+                        fontSize: '1.25rem',
+                        padding: '14px 28px',
+                        minHeight: '58px'
+                    }
+                }}
+            >
+                <div className="flex w-full flex-col gap-12">
+                    <SignUpPageTitle />
+                    <div style={{ fontSize: '1.125rem' }}>
+                        <JwtSignUpTab />
+                    </div>
+                </div>
+            </Box>
 
-	return (
-		<div className="flex min-w-0 flex-auto flex-col items-center sm:flex-row sm:justify-center md:items-start md:justify-start">
-			<Paper className="h-full w-full px-4 py-2 sm:h-auto sm:w-auto sm:rounded-xl sm:p-12 sm:shadow-sm md:flex md:h-full md:w-1/2 md:items-center md:justify-end md:rounded-none md:p-16 md:shadow-none ltr:border-r-1 rtl:border-l-1">
-				<div className="mx-auto flex w-full max-w-80 flex-col gap-8 sm:mx-0 sm:w-80">
-					<SignUpPageTitle />
-					<div>
-						<Tabs
-							value={_.findIndex(tabs, { id: selectedTabId })}
-							variant="fullWidth"
-							className="mb-8 w-full"
-							classes={{
-								indicator: 'flex justify-center bg-transparent w-full h-full'
-							}}
-							TabIndicatorProps={{
-								children: (
-									<Box
-										sx={{ borderColor: (theme) => theme.vars.palette.secondary.main }}
-										className="h-full w-full rounded-lg border-1 border-solid"
-									/>
-								)
-							}}
-						>
-							{tabs.map((item) => (
-								<Tab
-									disableRipple
-									onClick={() => handleSelectTab(item.id)}
-									key={item.id}
-									icon={
-										<img
-											className={item.logoClass}
-											src={item.logo}
-											alt={item.title}
-										/>
-									}
-									className="min-w-0"
-									label={item.title}
-								/>
-							))}
-						</Tabs>
-
-						{selectedTabId === 'jwt' && <JwtSignUpTab />}
-						{selectedTabId === 'firebase' && <FirebaseSignUpTab />}
-						{selectedTabId === 'aws' && <AwsSignUpTab />}
-					</div>
-				</div>
-			</Paper>
-
-			<AuthPagesMessageSection />
-		</div>
-	);
+            {/* Welcome section chỉ hiện ở chế độ rộng */}
+            <Box sx={{ 
+                flex: 1, 
+                display: { xs: 'none', sm: 'none', md: 'flex' }, 
+                '@media (max-width: 1210px)': {
+                    display: 'none !important'
+                },
+                '@media (min-width: 1211px)': {
+                    display: 'flex',
+                    transform: 'scale(1.15)',
+                    transformOrigin: 'top center'
+                },
+                justifyContent: 'center'
+            }}>
+                <AuthPagesMessageSection />
+            </Box>
+        </Box>
+    );
 }
 
 export default SignUpPageView;

@@ -5,14 +5,23 @@ import Box from '@mui/material/Box';
 function AuthPagesMessageSection() {
 	return (
 		<Box
-			className="relative hidden h-full flex-auto items-center justify-center overflow-hidden p-16 md:flex lg:px-28"
+			className="relative hidden h-full flex-auto flex-col items-center overflow-hidden md:flex"
 			sx={{
-				backgroundColor: 'primary.dark',
-				color: 'primary.contrastText'
+				backgroundColor: '#2F4F4F', // Màu xanh đậm - giữ nguyên cho mode rộng
+				color: 'primary.contrastText',
+				borderRadius: '6px', // Border radius giống nút đăng nhập
+				padding: 0, // Reset padding
+				paddingTop: 0, // Không có padding top
+				paddingLeft: { md: 8, lg: 14 }, // Padding ngang
+				paddingRight: { md: 8, lg: 14 },
+				paddingBottom: { md: 6 },
+				justifyContent: 'flex-start' // Không căn giữa nữa
 			}}
 		>
+			{/* 2 vòng tròn với z-index thấp để nằm dưới logo */}
 			<svg
 				className="pointer-events-none absolute inset-0"
+				style={{ zIndex: 1 }}
 				viewBox="0 0 960 540"
 				width="100%"
 				height="100%"
@@ -29,12 +38,12 @@ function AuthPagesMessageSection() {
 					<circle
 						r="234"
 						cx="196"
-						cy="23"
+						cy="450"
 					/>
 					<circle
 						r="234"
 						cx="790"
-						cy="491"
+						cy="700"
 					/>
 				</Box>
 			</svg>
@@ -72,16 +81,43 @@ function AuthPagesMessageSection() {
 				/>
 			</Box>
 
-			<div className="relative z-10 w-full max-w-4xl">
-				<div className="text-7xl leading-none font-bold text-gray-100">
+			{/* Logo image ở trên */}
+			<div 
+				style={{
+					width: '550px',
+					height: '550px',
+					backgroundImage: 'url(/assets/images/logo/z6444283442925_71adb5719ed50228ca8f679571ee3c7f.jpg)',
+					backgroundSize: 'contain',
+					backgroundPosition: 'top center',
+					backgroundRepeat: 'no-repeat',
+					marginBottom: '0',
+					marginTop: '0'
+				}}
+			/>
+
+			{/* Đường kẻ ngắn giữa logo và welcome */}
+			<div 
+				style={{
+					width: '80px',
+					height: '3px',
+					backgroundColor: '#D4AF37',
+					marginTop: '-7rem',
+					marginBottom: '3rem',
+					borderRadius: '2px'
+				}}
+			/>
+
+			{/* Text welcome ở dưới logo */}
+			<div className="relative w-full max-w-4xl text-center" style={{ marginTop: '0' }}>
+				<div className="text-8xl leading-none font-bold text-gray-100">
 					<div>Welcome to</div>
-					<div>our community</div>
+					<div>THE ROOM</div>
 				</div>
-				<div className="mt-6 text-lg leading-6 tracking-tight text-gray-400">
-					Fuse helps developers to build organized and well coded dashboards full of beautiful and rich
-					modules. Join us and start building your application today.
+				<div className="mt-6 text-xl leading-7 tracking-tight text-gray-400">
+				Automated apartment management platform with personalized tools for landlords.
 				</div>
-				<div className="mt-8 flex items-center">
+				{/* Tắt chỉ phần "More than 17k people joined us" và avatars */}
+				{/* <div className="mt-8 flex items-center">
 					<AvatarGroup
 						sx={{
 							'& .MuiAvatar-root': {
@@ -98,7 +134,7 @@ function AuthPagesMessageSection() {
 					<div className="ml-4 font-medium tracking-tight text-gray-400">
 						More than 17k people joined us, it's your turn
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</Box>
 	);
