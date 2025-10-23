@@ -81,19 +81,30 @@ export const themesConfig: FuseThemesType = {
 	default: {
 		palette: {
 			mode: 'light',
-			primary: { main: '#1F232B', light: '#363B44', dark: '#0F1115', contrastText: '#FFFFFF' },
-			secondary: { main: '#1565C0', light: '#3C83D6', dark: '#0E4B90', contrastText: '#FFFFFF' },
+			// primary: { main: '#1F232B', light: '#363B44', dark: '#0F1115', contrastText: '#FFFFFF' },
+			primary: { main: '#224040', light: '#2F5A5A', dark: '#163030', contrastText: '#FFFFFF' },
+			// secondary: { main: '#1565C0', light: '#3C83D6', dark: '#0E4B90', contrastText: '#FFFFFF' },
+			secondary: { main: '#B49A67', light: '#CBB98A', dark: '#967F4A', contrastText: '#1C2424' },
 			...neutralsLightTheme,
-			text: { primary: '#1F232B', secondary: '#4B5563', disabled: '#9CA3AF' },
-			background: { default: '#F6F7F8', paper: '#FFFFFF' },
-			divider: '#E5E7EB',
+			// text: { primary: '#1F232B', secondary: '#4B5563', disabled: '#9CA3AF' },
+			text: { primary: '#1B2424', secondary: '#445452', disabled: '#94A3A3' },
+			// background: { default: '#F6F7F8', paper: '#FFFFFF' },
+			background: { default: '#F3F5F4', paper: '#FFFFFF' },
+			// divider: '#E5E7EB',
+			divider: '#E1E7E5',
 			action: {
-				active: '#4B5563',
-				hover: '#E5E7EB',
-				selected: '#D1D5DB',
-				disabled: '#BFC4CC',
-				disabledBackground: '#F6F7F8',
-				focus: '#D1D5DB'
+				// active: '#4B5563',
+				active: '#2F5A5A',
+				// hover: '#E5E7EB',
+				hover: '#E4ECEA',
+				// selected: '#D1D5DB',
+				selected: '#C7D5D3',
+				// disabled: '#BFC4CC',
+				disabled: '#B3C2C0',
+				// disabledBackground: '#F6F7F8',
+				disabledBackground: '#EEF2F1',
+				// focus: '#D1D5DB'
+				focus: '#C7D5D3'
 			}
 		}
 	},
@@ -101,35 +112,61 @@ export const themesConfig: FuseThemesType = {
 		palette: {
 			mode: 'dark',
 			primary: {
-				main: '#2B2F38',
-				light: '#414652',
-				dark: '#16191E',
+				// main: '#2B2F38',
+				// light: '#414652',
+				// dark: '#16191E',
+				main: '#1A2D2D',
+				light: '#274545',
+				dark: '#112020',
 				contrastText: '#FFFFFF'
 			},
 			secondary: {
-				main: '#3C83D6',
-				light: '#5A9AF0',
-				dark: '#1D5EB0',
-				contrastText: '#FFFFFF'
+				// main: '#3C83D6',
+				// light: '#5A9AF0',
+				// dark: '#1D5EB0',
+				main: '#C7AB7A',
+				light: '#D7C398',
+				dark: '#9E8555',
+				contrastText: '#0F1616'
 			},
 			...neutralsDarkTheme,
 			text: {
-				primary: '#E5E7EB',
-				secondary: '#A5ABB5',
-				disabled: '#6B7280'
+				// primary: '#E5E7EB',
+				// secondary: '#A5ABB5',
+				// disabled: '#6B7280'
+				primary: '#E6F0EE',
+				secondary: '#AEBFBC',
+				disabled: '#6F7F7D'
 			},
 			background: {
-				default: '#0F1115',
-				paper: '#1A1D22'
+				// default: '#0F1115',
+				// paper: '#1A1D22'
+				// default: '#0D1313',
+				// paper: '#162020'
+				// default: '#142121',
+				// paper: '#1C2C2C'
+				// default: '#192A2A',
+				// paper: '#213535'
+				// default: '#263C3C',
+				// paper: '#304848'
+				default: '#111F1F',
+				paper: '#193030'
 			},
-			divider: '#2D3139',
+			// divider: '#2D3139',
+			divider: '#273737',
 			action: {
-				active: '#CDD1D9',
-				hover: 'rgba(255,255,255,0.08)',
-				selected: 'rgba(255,255,255,0.16)',
-				disabled: 'rgba(255,255,255,0.3)',
-				disabledBackground: 'rgba(255,255,255,0.12)',
-				focus: 'rgba(255,255,255,0.12)'
+				// active: '#CDD1D9',
+				active: '#C0D5D1',
+				// hover: 'rgba(255,255,255,0.08)',
+				hover: 'rgba(198, 226, 222, 0.12)',
+				// selected: 'rgba(255,255,255,0.16)',
+				selected: 'rgba(198, 226, 222, 0.22)',
+				// disabled: 'rgba(255,255,255,0.3)',
+				disabled: 'rgba(198, 226, 222, 0.3)',
+				// disabledBackground: 'rgba(255,255,255,0.12)',
+				disabledBackground: 'rgba(198, 226, 222, 0.12)',
+				// focus: 'rgba(255,255,255,0.12)'
+				focus: 'rgba(198, 226, 222, 0.18)'
 			}
 		}
 	},
@@ -137,18 +174,38 @@ export const themesConfig: FuseThemesType = {
 		palette: {
 			mode: 'light',
 			...neutralsLightTheme,
-			primary: { main: '#1F232B', light: '#363B44', dark: '#0F1115', contrastText: '#FFFFFF' },
-			secondary: { main: '#1565C0', light: '#3C83D6', dark: '#0E4B90', contrastText: '#FFFFFF' },
-			text: { primary: '#1F232B', secondary: '#4B5563', disabled: '#9CA3AF' },
-			background: { default: '#E5E7EB', paper: '#FFFFFF' },
-			divider: '#E5E7EB',
+			// primary: { main: '#1F232B', light: '#363B44', dark: '#0F1115', contrastText: '#FFFFFF' },
+			primary: { main: '#224040', light: '#2F5A5A', dark: '#163030', contrastText: '#FFFFFF' },
+			// secondary: { main: '#1565C0', light: '#3C83D6', dark: '#0E4B90', contrastText: '#FFFFFF' },
+			secondary: { main: '#B49A67', light: '#CBB98A', dark: '#967F4A', contrastText: '#1C2424' },
+			// text: { primary: '#1F232B', secondary: '#4B5563', disabled: '#9CA3AF' },
+			// text: { primary: '#1B2424', secondary: '#445452', disabled: '#94A3A3' },
+			text: { primary: '#F2F7F6', secondary: '#CBDCD9', disabled: '#9FB3B0' },
+			// background: { default: '#E5E7EB', paper: '#FFFFFF' },
+			// background: { default: '#E4ECEA', paper: '#FFFFFF' },
+			background: { default: '#224040', paper: '#1B3232' },
+			// divider: '#E5E7EB',
+			// divider: '#D8E2E0',
+			divider: '#1B3232',
 			action: {
-				active: '#4B5563',
-				hover: '#E5E7EB',
-				selected: '#D1D5DB',
-				disabled: '#BFC4CC',
-				disabledBackground: '#F6F7F8',
-				focus: '#D1D5DB'
+				// active: '#4B5563',
+				// active: '#2F5A5A',
+				active: '#E7F2F0',
+				// hover: '#E5E7EB',
+				// hover: '#E4ECEA',
+				hover: 'rgba(231, 242, 240, 0.08)',
+				// selected: '#D1D5DB',
+				// selected: '#C7D5D3',
+				selected: 'rgba(231, 242, 240, 0.16)',
+				// disabled: '#BFC4CC',
+				// disabled: '#B3C2C0',
+				disabled: 'rgba(231, 242, 240, 0.3)',
+				// disabledBackground: '#F6F7F8',
+				// disabledBackground: '#EEF2F1',
+				disabledBackground: 'rgba(231, 242, 240, 0.12)',
+				// focus: '#D1D5DB'
+				// focus: '#C7D5D3'
+				focus: 'rgba(231, 242, 240, 0.12)'
 			}
 		}
 	},

@@ -91,7 +91,8 @@ const navigationConfig: FuseNavItemType[] = [
 				title: 'Invoice',
 				type: 'item',
 				icon: 'lucide:file-text',
-				url: '/apps/invoice'
+				// url: '/apps/invoice'
+				url: '/pages/invoice'
 			}
 		]
 	},
@@ -117,11 +118,11 @@ const navigationConfig: FuseNavItemType[] = [
 			}
 		]
 	}
-	
+
 	// ========================================
 	// CÁC PHẦN SAU ĐÂY ĐÃ BỊ TẮT - BẠN CÓ THỂ BẬT LẠI DẦN DẦN:
 	// ========================================
-	
+
 	// 📊 THÊM DASHBOARDS KHÁC:
 	// {
 	// 	id: 'dashboards.analytics',
@@ -130,7 +131,7 @@ const navigationConfig: FuseNavItemType[] = [
 	// 	icon: 'lucide:chart-pie',
 	// 	url: '/dashboards/analytics'
 	// },
-	
+
 	// 🎯 THÊM APPLICATIONS:
 	// {
 	// 	id: 'apps',
@@ -154,7 +155,7 @@ const navigationConfig: FuseNavItemType[] = [
 	// 		}
 	// 	]
 	// },
-	
+
 	// 🔐 THÊM AUTHENTICATION:
 	// {
 	// 	id: 'pages',

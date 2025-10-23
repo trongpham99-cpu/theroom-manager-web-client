@@ -1,18 +1,37 @@
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import { alpha } from '@mui/material/styles';
+import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
+
+const highlights = [
+	{
+		title: 'Smart scheduling',
+		description: 'Coordinate bookings and avoid clashes with live availability across every space.'
+	},
+	{
+		title: 'Realtime collaboration',
+		description: 'Share updates, approvals, and checklists that stay in sync on any device.'
+	},
+	{
+		title: 'Insightful analytics',
+		description: 'Monitor utilisation trends and act fast with digestible dashboards.'
+	},
+	{
+		title: 'Automated workflows',
+		description: 'Trigger reminders and handovers the moment a booking changes.'
+	}
+];
 
 function AuthPagesMessageSection() {
 	return (
 		<Box
-			className="relative hidden h-full flex-auto items-center justify-center overflow-hidden p-16 md:flex lg:px-28"
-			sx={{
-				backgroundColor: 'primary.dark',
-				color: 'primary.contrastText'
-			}}
+			className="relative z-0 mt-6 flex w-full flex-1 flex-col items-stretch justify-center overflow-hidden rounded-3xl border border-white/15 px-8 py-12 text-center shadow-[0_32px_80px_-32px_rgba(15,23,42,0.65)] backdrop-blur-md md:px-14 md:py-16 lg:col-span-7 lg:mt-0 lg:h-full lg:items-start lg:rounded-[36px] lg:border-0 lg:px-20 lg:py-24 lg:text-left"
+			sx={(theme) => ({
+				backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0.95)} 0%, ${alpha(theme.palette.primary.main, 0.92)} 45%, ${alpha(theme.palette.secondary.main, 0.9)} 100%)`,
+				color: theme.palette.primary.contrastText
+			})}
 		>
 			<svg
-				className="pointer-events-none absolute inset-0"
+				className="pointer-events-none absolute inset-0 opacity-40"
 				viewBox="0 0 960 540"
 				width="100%"
 				height="100%"
@@ -21,10 +40,10 @@ function AuthPagesMessageSection() {
 			>
 				<Box
 					component="g"
-					className="opacity-5"
+					className="opacity-30"
 					fill="none"
 					stroke="currentColor"
-					strokeWidth="100"
+					strokeWidth="120"
 				>
 					<circle
 						r="234"
@@ -38,66 +57,42 @@ function AuthPagesMessageSection() {
 					/>
 				</Box>
 			</svg>
+
 			<Box
-				component="svg"
-				className="absolute -top-16 -right-16 opacity-20"
-				sx={{ color: 'primary.light' }}
-				viewBox="0 0 220 192"
-				width="220px"
-				height="192px"
-				fill="none"
-			>
-				<defs>
-					<pattern
-						id="837c3e70-6c3a-44e6-8854-cc48c737b659"
-						x="0"
-						y="0"
-						width="20"
-						height="20"
-						patternUnits="userSpaceOnUse"
-					>
-						<rect
-							x="0"
-							y="0"
-							width="4"
-							height="4"
-							fill="currentColor"
-						/>
-					</pattern>
-				</defs>
-				<rect
-					width="220"
-					height="192"
-					fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
-				/>
-			</Box>
+				component="span"
+				className="pointer-events-none absolute -top-20 -right-24 h-72 w-72 rounded-full bg-white/20 blur-3xl"
+			/>
+			<Box
+				component="span"
+				className="pointer-events-none absolute bottom-[-6rem] -left-16 h-80 w-80 rounded-full bg-white/20 blur-3xl lg:left-10 lg:h-96 lg:w-96"
+			/>
 
-			<div className="relative z-10 w-full max-w-4xl">
-				<div className="text-7xl leading-none font-bold text-gray-100">
-					<div>Welcome to</div>
-					<div>our community</div>
-				</div>
-				<div className="mt-6 text-lg leading-6 tracking-tight text-gray-400">
-					Fuse helps developers to build organized and well coded dashboards full of beautiful and rich
-					modules. Join us and start building your application today.
-				</div>
-				<div className="mt-8 flex items-center">
-					<AvatarGroup
-						sx={{
-							'& .MuiAvatar-root': {
-								borderColor: 'primary.main'
-							}
-						}}
-					>
-						<Avatar src="/assets/images/avatars/female-18.jpg" />
-						<Avatar src="/assets/images/avatars/female-11.jpg" />
-						<Avatar src="/assets/images/avatars/male-09.jpg" />
-						<Avatar src="/assets/images/avatars/male-16.jpg" />
-					</AvatarGroup>
-
-					<div className="ml-4 font-medium tracking-tight text-gray-400">
-						More than 17k people joined us, it's your turn
+			<div className="relative z-10 flex w-full flex-col gap-10">
+				<div className="space-y-6">
+					<div className="text-4xl leading-tight font-semibold text-white sm:text-5xl md:text-6xl md:leading-[1.1]">
+						Reimagine how your team manages every room.
 					</div>
+					<div className="mx-auto max-w-2xl text-base leading-relaxed text-white/80 lg:mx-0">
+						Take the guesswork out of scheduling, track real-time availability, and keep everyone aligned
+						with a beautifully responsive workspace.
+					</div>
+				</div>
+
+				<div className="grid gap-4 text-left sm:grid-cols-2">
+					{highlights.map((item) => (
+						<div
+							key={item.title}
+							className="flex h-full items-start gap-3 rounded-2xl bg-white/10 p-5 shadow-inner shadow-black/10 backdrop-blur transition-all duration-200 hover:bg-white/15"
+						>
+							<FuseSvgIcon className="mt-1 h-5 w-5 text-emerald-200">
+								heroicons-outline:check-circle
+							</FuseSvgIcon>
+							<div className="space-y-1">
+								<div className="text-sm font-semibold text-white">{item.title}</div>
+								<div className="text-sm text-white/80">{item.description}</div>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</Box>

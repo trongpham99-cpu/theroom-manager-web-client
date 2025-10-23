@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import MainProjectSelection from '@/components/MainProjectSelection';
 import clsx from 'clsx';
 
@@ -29,21 +28,12 @@ function Logo(props: LogoProps) {
 	const { className = '' } = props;
 	return (
 		<Root className={clsx('flex flex-shrink-0 flex-grow items-center gap-3', className)}>
-			<div className="flex flex-1 items-center gap-2">
+			<div className="flex flex-1 items-center justify-between">
 				<img
-					className="logo-icon h-6 w-6"
-					src="/assets/images/logo/logo.svg"
-					alt="logo"
+					className="logo-icon h-10 w-auto"
+					src="/assets/images/logo/logo.png"
+					alt="Theroom Manager"
 				/>
-				<div className="logo-text flex flex-auto flex-col gap-0.5">
-					<Typography className="tracking-light text-lg leading-none font-semibold">FUSE</Typography>
-					<Typography
-						className="tracking-light text-[12px] leading-none font-semibold"
-						color="text.secondary"
-					>
-						React
-					</Typography>
-				</div>
 			</div>
 			<MainProjectSelection />
 		</Root>
