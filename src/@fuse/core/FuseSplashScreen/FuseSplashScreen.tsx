@@ -11,16 +11,16 @@ function FuseSplashScreen() {
 		<div id="fuse-splash-screen">
 			<div className="logo">
 				<img
-					width="128"
-					src="/assets/images/logo/logo.svg"
-					alt="logo"
+					width="140"
+					src="/assets/images/logo/logo.png"
+					alt="Theroom Manager"
 				/>
 			</div>
 			<Box
 				id="spinner"
 				sx={{
 					'& > div': {
-						backgroundColor: 'palette.secondary.main'
+						backgroundColor: 'palette.primary.light'
 					}
 				}}
 			>

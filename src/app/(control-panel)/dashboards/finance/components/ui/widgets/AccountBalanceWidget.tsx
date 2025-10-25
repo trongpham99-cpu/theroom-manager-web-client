@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { ApexOptions } from 'apexcharts';
 import FuseLoading from '@fuse/core/FuseLoading';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 import AccountBalanceWidgetType from '../../../api/types/AccountBalanceWidgetType';
 import ReactApexChart from 'react-apexcharts';
 import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
@@ -14,6 +15,7 @@ import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
  */
 function AccountBalanceWidget() {
 	const { data: widget, isLoading } = useGetWidget<AccountBalanceWidgetType>('accountBalance');
+	const { t } = useTranslation('financeDashboard');
 
 	const series = widget?.series || [];
 	const growRate = widget?.growRate;
@@ -77,13 +79,13 @@ function AccountBalanceWidget() {
 				<div className="flex items-start justify-between">
 					<div className="flex flex-col">
 						<Typography className="truncate text-lg leading-6 font-medium tracking-tight">
-							Account Balance
+							{t('ACCOUNT_BALANCE.TITLE')}
 						</Typography>
 						<Typography
 							className="font-medium"
 							color="text.secondary"
 						>
-							Monthly balance growth and avg. monthly income
+							{t('ACCOUNT_BALANCE.SUBTITLE')}
 						</Typography>
 					</div>
 
@@ -91,7 +93,7 @@ function AccountBalanceWidget() {
 						<Chip
 							size="small"
 							className="text-sm font-medium"
-							label="12 months"
+							label={t('ACCOUNT_BALANCE.PERIOD')}
 						/>
 					</div>
 				</div>
@@ -104,7 +106,7 @@ function AccountBalanceWidget() {
 							className="text-sm leading-none font-medium"
 							color="text.secondary"
 						>
-							Average Monthly Growth
+							{t('ACCOUNT_BALANCE.AVG_GROWTH')}
 						</Typography>
 					</div>
 					<div className="ml-8 flex flex-col md:ml-16">
@@ -118,7 +120,7 @@ function AccountBalanceWidget() {
 							className="text-sm leading-none font-medium"
 							color="text.secondary"
 						>
-							Average Monthly Income
+							{t('ACCOUNT_BALANCE.AVG_INCOME')}
 						</Typography>
 					</div>
 				</div>

@@ -8,12 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import FuseLoading from '@fuse/core/FuseLoading';
 import BudgetWidgetType from '../../../api/types/BudgetWidgetType';
 import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
+import { Trans, useTranslation } from 'react-i18next';
 
 /**
  * The BudgetWidget widget.
  */
 function BudgetWidget() {
 	const { data: widget, isLoading } = useGetWidget<BudgetWidgetType>('budget');
+	const { t } = useTranslation('financeDashboard');
 
 	const expenses = widget?.expenses;
 	const expensesLimit = widget?.expensesLimit;
@@ -41,13 +43,13 @@ function BudgetWidget() {
 			<div className="flex items-center justify-between">
 				<div className="flex flex-col">
 					<Typography className="mr-4 truncate text-lg leading-6 font-medium tracking-tight">
-						Budget
+						{t('BUDGET.TITLE')}
 					</Typography>
 					<Typography
 						className="font-medium"
 						color="text.secondary"
 					>
-						Monthly budget summary
+						{t('BUDGET.SUBTITLE')}
 					</Typography>
 				</div>
 				<div className="-mt-2">
@@ -58,8 +60,12 @@ function BudgetWidget() {
 			</div>
 
 			<Typography className="mt-6">
-				Last month; you had <strong>223</strong> expense transactions, <strong>12</strong> savings entries and{' '}
-				<strong>4</strong> bills.
+				<Trans
+					i18nKey="BUDGET.LAST_MONTH_SUMMARY"
+					ns="financeDashboard"
+					values={{ expensesCount: 223, savingsCount: 12, billsCount: 4 }}
+					components={{ strong: <strong /> }}
+				/>
 			</Typography>
 
 			<div className="my-8 flex flex-col gap-8">
@@ -73,7 +79,7 @@ function BudgetWidget() {
 								className="text-md font-medium"
 								color="text.secondary"
 							>
-								Expenses
+								{t('BUDGET.EXPENSES')}
 							</Typography>
 							<Typography className="text-2xl font-medium">
 								{expenses.toLocaleString('en-US', {
@@ -109,7 +115,7 @@ function BudgetWidget() {
 								className="text-md font-medium"
 								color="text.secondary"
 							>
-								Savings
+								{t('BUDGET.SAVINGS')}
 							</Typography>
 							<Typography className="text-2xl font-medium">
 								{savings.toLocaleString('en-US', {
@@ -145,7 +151,7 @@ function BudgetWidget() {
 								className="text-md font-medium"
 								color="text.secondary"
 							>
-								Bills
+								{t('BUDGET.BILLS')}
 							</Typography>
 							<Typography className="text-2xl font-medium">
 								{bills.toLocaleString('en-US', {
@@ -175,13 +181,13 @@ function BudgetWidget() {
 						className="text-md mt-3"
 						color="text.secondary"
 					>
-						Exceeded your personal limit! Be careful next month.
+						{t('BUDGET.OVER_LIMIT_NOTE')}
 					</Typography>
 				</div>
 			</div>
 
 			<div>
-				<Button variant="outlined">Download Summary</Button>
+				<Button variant="outlined">{t('BUDGET.DOWNLOAD_SUMMARY')}</Button>
 			</div>
 		</Paper>
 	);

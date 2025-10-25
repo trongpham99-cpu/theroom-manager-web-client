@@ -1,24 +1,32 @@
 import Typography from '@mui/material/Typography';
-import Link from '@fuse/core/Link';
 
 function SignUpPageTitle() {
 	return (
 		<div className="w-full">
-			<img
-				className="w-12"
-				src="/assets/images/logo/logo.svg"
-				alt="logo"
-			/>
+			<div className="flex items-center gap-4">
+				<img
+					className="h-12 w-auto"
+					src="/assets/images/logo/logo.png"
+					alt="logo"
+				/>
 
-			<Typography className="mt-8 text-4xl leading-[1.25] font-extrabold tracking-tight">Sign up</Typography>
-			<div className="mt-0.5 flex items-baseline font-medium">
-				<Typography>Already have an account?</Typography>
-				<Link
-					className="ml-1"
-					to="/sign-in"
-				>
-					Sign in
-				</Link>
+				<div className="flex flex-col">
+					<Typography className="text-primary/80 dark:text-primary/60 text-xs font-semibold tracking-[0.4em] uppercase">
+						Theroom Manager
+					</Typography>
+					<Typography className="text-sm text-slate-500 dark:text-slate-400">
+						Manage your Apartments on every device
+					</Typography>
+				</div>
+			</div>
+
+			<div className="mt-8 space-y-4">
+				<Typography className="text-4xl leading-[1.15] font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
+					Create your manager account
+				</Typography>
+				<Typography className="text-base text-slate-600 dark:text-slate-300">
+					Invite your team, coordinate rooms, and stay in sync across every location.
+				</Typography>
 			</div>
 		</div>
 	);

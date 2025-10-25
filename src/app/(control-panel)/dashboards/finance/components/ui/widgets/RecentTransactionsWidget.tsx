@@ -5,11 +5,12 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { format } from 'date-fns/format';
 import clsx from 'clsx';
 import Button from '@mui/material/Button';
 import FuseLoading from '@fuse/core/FuseLoading';
+import { useTranslation } from 'react-i18next';
 import RecentTransactionsWidgetType from '../../../api/types/RecentTransactionsWidgetType';
 import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
 
@@ -18,9 +19,12 @@ import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
  */
 function RecentTransactionsWidget() {
 	const { data: widget, isLoading } = useGetWidget<RecentTransactionsWidgetType>('recentTransactions');
+	const { t } = useTranslation('financeDashboard');
 
 	const columns = widget?.columns;
 	const rows = widget?.rows;
+	const pendingCount = useMemo(() => rows?.filter((row) => row.status === 'pending').length ?? 0, [rows]);
+	const completedCount = useMemo(() => rows?.filter((row) => row.status === 'completed').length ?? 0, [rows]);
 
 	if (isLoading) {
 		return <FuseLoading />;
@@ -34,13 +38,16 @@ function RecentTransactionsWidget() {
 		<Paper className="flex flex-auto flex-col overflow-hidden rounded-xl p-6 shadow-sm">
 			<div>
 				<Typography className="truncate text-lg leading-6 font-medium tracking-tight">
-					Recent transactions
+					{t('RECENT_TRANSACTIONS.TITLE')}
 				</Typography>
 				<Typography
 					className="font-medium"
 					color="text.secondary"
 				>
-					1 pending, 4 completed
+					{t('RECENT_TRANSACTIONS.SUBTITLE', {
+						pending: pendingCount,
+						completed: completedCount
+					})}
 				</Typography>
 			</div>
 
@@ -48,13 +55,28 @@ function RecentTransactionsWidget() {
 				<Table className="simple table w-full min-w-full">
 					<TableHead>
 						<TableRow>
-							{columns.map((column, index) => (
+							{columns?.map((column, index) => (
 								<TableCell key={index}>
 									<Typography
 										color="text.secondary"
 										className="text-md font-semibold whitespace-nowrap"
 									>
-										{column}
+										{(() => {
+											switch (column) {
+												case 'Transaction ID':
+													return t('RECENT_TRANSACTIONS.COLUMNS.TRANSACTION_ID');
+												case 'Date':
+													return t('RECENT_TRANSACTIONS.COLUMNS.DATE');
+												case 'Name':
+													return t('RECENT_TRANSACTIONS.COLUMNS.NAME');
+												case 'Amount':
+													return t('RECENT_TRANSACTIONS.COLUMNS.AMOUNT');
+												case 'Status':
+													return t('RECENT_TRANSACTIONS.COLUMNS.STATUS');
+												default:
+													return column;
+											}
+										})()}
 									</Typography>
 								</TableCell>
 							))}
@@ -62,7 +84,7 @@ function RecentTransactionsWidget() {
 					</TableHead>
 
 					<TableBody>
-						{rows.map((row, index) => (
+						{rows?.map((row, index) => (
 							<TableRow key={index}>
 								{Object.entries(row).map(([key, value]) => {
 									switch (key) {
@@ -120,7 +142,11 @@ function RecentTransactionsWidget() {
 																'bg-green-50 text-green-800 dark:bg-green-600 dark:text-green-50'
 														)}
 													>
-														{value}
+														{value === 'pending'
+															? t('RECENT_TRANSACTIONS.STATUS_PENDING')
+															: value === 'completed'
+																? t('RECENT_TRANSACTIONS.STATUS_COMPLETED')
+																: value}
 													</Typography>
 												</TableCell>
 											);
@@ -143,7 +169,7 @@ function RecentTransactionsWidget() {
 					</TableBody>
 				</Table>
 				<div className="pt-6">
-					<Button variant="outlined">See all transactions</Button>
+					<Button variant="outlined">{t('RECENT_TRANSACTIONS.SEE_ALL')}</Button>
 				</div>
 			</div>
 		</Paper>

@@ -1,27 +1,28 @@
 import { Controller, useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-// Removed terms checkbox to match simplified login form
+import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 import _ from 'lodash';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Link from '@fuse/core/Link';
 import useJwtAuth from '../useJwtAuth';
 
 /**
  * Form Validation Schema
  */
 const schema = z
-    .object({
-        displayName: z.string().nonempty('You must enter your name'),
-        email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
-        password: z
-            .string()
-            .nonempty('Please enter your password.')
-            .min(8, 'Password is too short - should be 8 chars minimum.'),
-        passwordConfirm: z.string().nonempty('Password confirmation is required')
-    })
-    .refine((data) => data.password === data.passwordConfirm, {
+	.object({
+		displayName: z.string().nonempty('You must enter your name'),
+		email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
+		password: z
+			.string()
+			.nonempty('Please enter your password.')
+			.min(8, 'Password is too short - should be 8 chars minimum.'),
+		passwordConfirm: z.string().nonempty('Password confirmation is required')
+	})
+	.refine((data) => data.password === data.passwordConfirm, {
 		message: 'Passwords must match',
 		path: ['passwordConfirm']
 	});
@@ -32,7 +33,7 @@ const defaultValues = {
 	displayName: '',
 	email: '',
 	password: '',
-    passwordConfirm: ''
+	passwordConfirm: ''
 };
 
 function JwtSignUpForm() {
@@ -72,25 +73,35 @@ function JwtSignUpForm() {
 		<form
 			name="registerForm"
 			noValidate
-			className="flex w-full flex-col justify-center"
+			className="flex w-full flex-col justify-center gap-6"
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<Controller
 				name="displayName"
 				control={control}
 				render={({ field }) => (
-					<TextField
-						{...field}
-						className="mb-6"
-						label="Display name"
-						autoFocus
-						type="name"
-						error={!!errors.displayName}
-						helperText={errors?.displayName?.message}
-						variant="outlined"
-						required
-						fullWidth
-					/>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="displayName"
+						>
+							Full name
+						</FormLabel>
+						<TextField
+							{...field}
+							autoFocus
+							type="text"
+							error={!!errors.displayName}
+							helperText={errors?.displayName?.message}
+							required
+							fullWidth
+							placeholder="Theroom Manager"
+							autoComplete="name"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
+						/>
+					</FormControl>
 				)}
 			/>
 
@@ -98,17 +109,27 @@ function JwtSignUpForm() {
 				name="email"
 				control={control}
 				render={({ field }) => (
-					<TextField
-						{...field}
-						className="mb-6"
-						label="Email"
-						type="email"
-						error={!!errors.email}
-						helperText={errors?.email?.message}
-						variant="outlined"
-						required
-						fullWidth
-					/>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="email"
+						>
+							Email address
+						</FormLabel>
+						<TextField
+							{...field}
+							type="email"
+							error={!!errors.email}
+							helperText={errors?.email?.message}
+							required
+							fullWidth
+							placeholder="name@company.com"
+							autoComplete="email"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
+						/>
+					</FormControl>
 				)}
 			/>
 
@@ -116,17 +137,27 @@ function JwtSignUpForm() {
 				name="password"
 				control={control}
 				render={({ field }) => (
-					<TextField
-						{...field}
-						className="mb-6"
-						label="Password"
-						type="password"
-						error={!!errors.password}
-						helperText={errors?.password?.message}
-						variant="outlined"
-						required
-						fullWidth
-					/>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="password"
+						>
+							Password
+						</FormLabel>
+						<TextField
+							{...field}
+							type="password"
+							error={!!errors.password}
+							helperText={errors?.password?.message}
+							required
+							fullWidth
+							placeholder="••••••••"
+							autoComplete="new-password"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
+						/>
+					</FormControl>
 				)}
 			/>
 
@@ -134,31 +165,51 @@ function JwtSignUpForm() {
 				name="passwordConfirm"
 				control={control}
 				render={({ field }) => (
-					<TextField
-						{...field}
-						className="mb-6"
-						label="Password (Confirm)"
-						type="password"
-						error={!!errors.passwordConfirm}
-						helperText={errors?.passwordConfirm?.message}
-						variant="outlined"
-						required
-						fullWidth
-					/>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="passwordConfirm"
+						>
+							Confirm password
+						</FormLabel>
+						<TextField
+							{...field}
+							type="password"
+							error={!!errors.passwordConfirm}
+							helperText={errors?.passwordConfirm?.message}
+							required
+							fullWidth
+							placeholder="••••••••"
+							autoComplete="new-password"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
+						/>
+					</FormControl>
 				)}
 			/>
 
 			<Button
 				variant="contained"
 				color="secondary"
-                className="mt-6 w-full"
-                aria-label="Register"
+				className="focus-visible:ring-primary w-full rounded-2xl py-3 text-base font-semibold shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-slate-900"
+				aria-label="Register"
 				disabled={_.isEmpty(dirtyFields) || !isValid}
 				type="submit"
 				size="large"
 			>
-                Create account
+				Create account
 			</Button>
+
+			<div className="flex flex-wrap items-center justify-between gap-2 pt-4 text-sm font-medium text-slate-600 dark:text-slate-300">
+				<span>Already have an account?</span>
+				<Link
+					className="text-primary hover:text-primary/80 transition-colors duration-200"
+					to="/sign-in"
+				>
+					Sign in
+				</Link>
+			</div>
 		</form>
 	);
 }

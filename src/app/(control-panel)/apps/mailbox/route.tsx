@@ -2,16 +2,14 @@ import i18next from 'i18next';
 import { Navigate, Outlet } from 'react-router';
 import { lazy } from 'react';
 import { FuseRouteItemType } from '@fuse/utils/FuseUtils';
-import ar from './i18n/ar';
 import en from './i18n/en';
-import tr from './i18n/tr';
+import vi from './i18n/vi';
 import MailboxMailsView from '@/app/(control-panel)/apps/mailbox/components/views/MailboxMailsView';
 
 const MailboxAppView = lazy(() => import('./components/views/MailboxAppView'));
 
 i18next.addResourceBundle('en', 'mailboxApp', en);
-i18next.addResourceBundle('tr', 'mailboxApp', tr);
-i18next.addResourceBundle('ar', 'mailboxApp', ar);
+i18next.addResourceBundle('vi', 'mailboxApp', vi);
 
 /**
  * The Mailbox App Route
