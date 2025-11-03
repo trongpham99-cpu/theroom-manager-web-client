@@ -11,9 +11,10 @@ function UserModel(data?: PartialDeep<User>): User {
 	return _.defaults(data, {
 		id: null,
 		role: null, // guest
-		displayName: null,
+		name: null,
 		photoURL: '',
 		email: '',
+		isEmailVerified: false,
 		shortcuts: [],
 		settings: {},
 		loginRedirectUrl: '/'

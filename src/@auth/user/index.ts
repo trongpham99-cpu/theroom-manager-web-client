@@ -8,9 +8,10 @@ import { PartialDeep } from 'type-fest';
 export type User = FuseAuthUser & {
 	id: string;
 	role: string[] | string | null;
-	displayName: string;
+	name: string;
 	photoURL?: string;
 	email?: string;
+	isEmailVerified?: boolean;
 	shortcuts?: string[];
 	settings?: PartialDeep<FuseSettingsConfigType>;
 	loginRedirectUrl?: string; // The URL to redirect to after login.

@@ -79,7 +79,7 @@ function FirebaseAuthProvider(props: FuseAuthProviderComponentProps) {
 						const newUserResponse = await authCreateDbUser({
 							email: userAttributes.email,
 							role: ['admin'],
-							displayName: userAttributes.displayName,
+							name: userAttributes.displayName,
 							photoURL: userAttributes.photoURL
 						});
 						userDbData = newUserResponse as User;

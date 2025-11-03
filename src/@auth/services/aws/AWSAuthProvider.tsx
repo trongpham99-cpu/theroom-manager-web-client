@@ -57,7 +57,7 @@ function AWSAuthProviderContent(props: FuseAuthProviderComponentProps) {
 				const newUserResponse = await authCreateDbUser({
 					email: userAttributes.email,
 					role: ['admin'],
-					displayName: userAttributes.displayName,
+					name: userAttributes.name,
 					photoURL: userAttributes.photoURL
 				});
 				userDbData = (await newUserResponse) as User;

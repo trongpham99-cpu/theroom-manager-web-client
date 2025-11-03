@@ -14,7 +14,7 @@ import useJwtAuth from '../useJwtAuth';
  */
 const schema = z
 	.object({
-		displayName: z.string().nonempty('You must enter your name'),
+		name: z.string().nonempty('You must enter your name'),
 		email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
 		password: z
 			.string()
@@ -30,7 +30,7 @@ const schema = z
 type FormType = z.infer<typeof schema>;
 
 const defaultValues = {
-	displayName: '',
+	name: '',
 	email: '',
 	password: '',
 	passwordConfirm: ''
@@ -48,9 +48,9 @@ function JwtSignUpForm() {
 	const { isValid, dirtyFields, errors } = formState;
 
 	function onSubmit(formData: FormType) {
-		const { displayName, email, password } = formData;
+		const { name, email, password } = formData;
 		signUp({
-			displayName,
+			name,
 			password,
 			email
 		})
@@ -77,13 +77,13 @@ function JwtSignUpForm() {
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<Controller
-				name="displayName"
+				name="name"
 				control={control}
 				render={({ field }) => (
 					<FormControl className="space-y-2">
 						<FormLabel
 							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
-							htmlFor="displayName"
+							htmlFor="name"
 						>
 							Full name
 						</FormLabel>
@@ -91,8 +91,8 @@ function JwtSignUpForm() {
 							{...field}
 							autoFocus
 							type="text"
-							error={!!errors.displayName}
-							helperText={errors?.displayName?.message}
+							error={!!errors.name}
+							helperText={errors?.name?.message}
 							required
 							fullWidth
 							placeholder="Theroom Manager"

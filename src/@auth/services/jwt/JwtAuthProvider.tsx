@@ -15,7 +15,7 @@ export type JwtSignInPayload = {
 };
 
 export type JwtSignUpPayload = {
-	displayName: string;
+	name: string;
 	email: string;
 	password: string;
 };
@@ -58,8 +58,7 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 			if (isTokenValid(accessToken)) {
 				try {
 					const response = await authSignInWithToken(accessToken);
-					const userData = (await response.json()) as User;
-					return userData;
+					return response.data;
 				} catch (error) {
 					if (error instanceof HTTPError) {
 						console.error('Auto login failed:', error.response.status);
@@ -104,11 +103,14 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 				setAuthState({
 					authStatus: 'authenticated',
 					isAuthenticated: true,
-					user: session.user
+					user: session.data.user
 				});
-				setTokenStorageValue(session.access_token);
-				setGlobalHeaders({ Authorization: `Bearer ${session.access_token}` });
-				return session;
+				setTokenStorageValue(session.data.tokens.access.token);
+				setGlobalHeaders({ Authorization: `Bearer ${session.data.tokens.access.token}` });
+				return {
+					user: session.data.user,
+					access_token: session.data.tokens.access.token
+				};
 			} catch (error) {
 				if (error instanceof HTTPError) {
 					console.error('Sign in failed:', error.response.status);
@@ -130,11 +132,14 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 				setAuthState({
 					authStatus: 'authenticated',
 					isAuthenticated: true,
-					user: session.user
+					user: session.data.user
 				});
-				setTokenStorageValue(session.access_token);
-				setGlobalHeaders({ Authorization: `Bearer ${session.access_token}` });
-				return session;
+				setTokenStorageValue(session.data.tokens.access.token);
+				setGlobalHeaders({ Authorization: `Bearer ${session.data.tokens.access.token}` });
+				return {
+					user: session.data.user,
+					access_token: session.data.tokens.access.token
+				};
 			} catch (error) {
 				if (error instanceof HTTPError) {
 					console.error('Sign up failed:', error.response.status);
