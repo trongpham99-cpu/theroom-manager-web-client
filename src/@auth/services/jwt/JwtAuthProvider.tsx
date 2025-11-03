@@ -4,6 +4,10 @@ import useLocalStorage from '@fuse/hooks/useLocalStorage';
 import { authRefreshToken, authSignIn, authSignInWithToken, authSignUp, authUpdateDbUser } from '@auth/authApi';
 import { User } from '../../user';
 import { removeGlobalHeaders, setGlobalHeaders } from '@/utils/api';
+import {
+	removeGlobalHeaders as removeGlobalHeadersProd,
+	setGlobalHeaders as setGlobalHeadersProd
+} from '@/utils/apiProd';
 import { isTokenValid } from './utils/jwtUtils';
 import JwtAuthContext from '@auth/services/jwt/JwtAuthContext';
 import { JwtAuthContextType } from '@auth/services/jwt/JwtAuthContext';
@@ -74,6 +78,9 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 		if (!authState.isAuthenticated) {
 			attemptAutoLogin().then((userData) => {
 				if (userData) {
+					const authHeader = { Authorization: `Bearer ${tokenStorageValue}` };
+					setGlobalHeaders(authHeader);
+					setGlobalHeadersProd(authHeader);
 					setAuthState({
 						authStatus: 'authenticated',
 						isAuthenticated: true,
@@ -82,6 +89,7 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 				} else {
 					removeTokenStorageValue();
 					removeGlobalHeaders(['Authorization']);
+					removeGlobalHeadersProd(['Authorization']);
 					setAuthState({
 						authStatus: 'unauthenticated',
 						isAuthenticated: false,
@@ -106,7 +114,9 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 					user: session.data.user
 				});
 				setTokenStorageValue(session.data.tokens.access.token);
-				setGlobalHeaders({ Authorization: `Bearer ${session.data.tokens.access.token}` });
+				const authHeader = { Authorization: `Bearer ${session.data.tokens.access.token}` };
+				setGlobalHeaders(authHeader);
+				setGlobalHeadersProd(authHeader);
 				return {
 					user: session.data.user,
 					access_token: session.data.tokens.access.token
@@ -135,7 +145,9 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 					user: session.data.user
 				});
 				setTokenStorageValue(session.data.tokens.access.token);
-				setGlobalHeaders({ Authorization: `Bearer ${session.data.tokens.access.token}` });
+				const authHeader = { Authorization: `Bearer ${session.data.tokens.access.token}` };
+				setGlobalHeaders(authHeader);
+				setGlobalHeadersProd(authHeader);
 				return {
 					user: session.data.user,
 					access_token: session.data.tokens.access.token
@@ -157,6 +169,7 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 	const signOut: JwtAuthContextType['signOut'] = useCallback(() => {
 		removeTokenStorageValue();
 		removeGlobalHeaders(['Authorization']);
+		removeGlobalHeadersProd(['Authorization']);
 		setAuthState({
 			authStatus: 'unauthenticated',
 			isAuthenticated: false,
@@ -233,7 +246,9 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 				const newAccessToken = response.headers.get('New-Access-Token');
 
 				if (newAccessToken) {
-					setGlobalHeaders({ Authorization: `Bearer ${newAccessToken}` });
+					const authHeader = { Authorization: `Bearer ${newAccessToken}` };
+					setGlobalHeaders(authHeader);
+					setGlobalHeadersProd(authHeader);
 					setTokenStorageValue(newAccessToken);
 				}
 

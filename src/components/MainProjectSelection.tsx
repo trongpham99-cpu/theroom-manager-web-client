@@ -1,6 +1,3 @@
-import React from 'react';
-import { MenuItem, Select, ListItemIcon, ListItemText, Typography, useTheme } from '@mui/material';
-
 type ProjectOption = {
 	value: string;
 	logo: string;
@@ -29,7 +26,7 @@ const projectOptions: ProjectOption[] = [
 function MainProjectSelection() {
 	// Tắt framework selector dropdown (Vitejs/Nextjs)
 	return null;
-	
+
 	/* const [selectedProjectValue, setSelectedProject] = React.useState<string>(projectOptions[0].value);
 	const selectedProject = projectOptions.find((project) => project.value === selectedProjectValue);
 	const theme = useTheme();

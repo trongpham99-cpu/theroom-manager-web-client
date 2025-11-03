@@ -1,6 +1,5 @@
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { darken } from '@mui/material/styles';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';

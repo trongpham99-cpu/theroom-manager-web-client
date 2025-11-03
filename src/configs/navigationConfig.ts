@@ -42,6 +42,13 @@ const navigationConfig: FuseNavItemType[] = [
 		icon: 'lucide:box',
 		children: [
 			{
+				id: 'apps.users',
+				title: 'Users',
+				type: 'item',
+				icon: 'lucide:users',
+				url: '/apps/users'
+			},
+			{
 				id: 'apps.calendar',
 				title: 'Calendar',
 				type: 'item',
