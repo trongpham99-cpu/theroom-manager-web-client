@@ -48,8 +48,9 @@ function ToolbarLayout3(props: ToolbarLayout3Props) {
 						<LanguageSwitcher />
 						<AdjustFontSize />
 						<FullScreenToggle />
-						<QuickPanelToggleButton />
-						<NotificationPanelToggleButton />
+						{/* Tắt Quick Panel và Notification Panel buttons */}
+						{/* <QuickPanelToggleButton />
+						<NotificationPanelToggleButton /> */}
 					</div>
 					{!isMobile && (
 						<UserMenu

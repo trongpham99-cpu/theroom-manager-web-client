@@ -9,7 +9,10 @@ type GoToDocBoxProps = {
 };
 
 function GoToDocBox(props: GoToDocBoxProps) {
-	const { className } = props;
+	// Tắt card "Need assistance to get started? View documentation"
+	return null;
+	
+	/* const { className } = props;
 	return (
 		<Box
 			className={clsx('documentation-hero flex flex-col gap-2 rounded-sm border-1 px-3 py-2', className)}
@@ -25,7 +28,7 @@ function GoToDocBox(props: GoToDocBoxProps) {
 				View documentation <FuseSvgIcon>lucide:arrow-right</FuseSvgIcon>
 			</Typography>
 		</Box>
-	);
+	); */
 }
 
 export default GoToDocBox;

@@ -7,7 +7,7 @@
               content='React,Redux,Material UI Next,Material,Material Design,Google Material Design,HTML,CSS,Firebase,Authentication,Material Redux Theme,Material Redux Template'>
         <meta name='author' content='Withinpixels'>
         <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no'>
-        <meta name='theme-color' content='#000000'>
+        <meta name='theme-color' content='#224040'>
         <base href='/'>
 
         <!--
@@ -15,7 +15,8 @@
           homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
         -->
         <link rel='manifest' href='/manifest.json'>
-        <link rel='shortcut icon' href='/favicon.ico'>
+        <link rel='icon' type='image/png' href='/favicon.png'>
+        <link rel='shortcut icon' type='image/png' href='/favicon.png'>
 
         <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
@@ -41,7 +42,7 @@
           work correctly both with client-side routing and a non-root public URL.
           Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Fuse React - Material Design Admin Template</title>
+        <title>The Room Manager</title>
 
         <!-- FUSE Splash Screen CSS -->
         <style>
@@ -55,8 +56,9 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background-color: #121212;
-                color: #E0E0E0;
+                background-color: #224040;
+                background-image: radial-gradient(circle at 15% 20%, rgba(65, 111, 111, 0.35) 0%, rgba(34, 64, 64, 1) 55%, rgba(18, 40, 40, 1) 100%);
+                color: #ebf4f2;
                 z-index: 999999;
                 pointer-events: none;
                 opacity: 1;
@@ -65,8 +67,9 @@
             }
 
             body #fuse-splash-screen img {
-                width: 120px;
-                max-width: 120px;
+                width: 140px;
+                max-width: 140px;
+                filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
             }
 
             #spinner {
@@ -80,7 +83,7 @@
             #spinner > div {
                 width: 12px;
                 height: 12px;
-                background-color: #00A4EF;
+                background-color: #2F5A5A;
                 border-radius: 100%;
                 display: inline-block;
                 -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
@@ -131,7 +134,7 @@
         <!-- FUSE Splash Screen -->
         <div id='fuse-splash-screen'>
             <div class='logo'>
-                <img width='128' src='assets/images/logo/logo.svg' alt='logo'>
+                <img width='140' src='assets/images/logo/logo.png' alt='Theroom Manager'>
             </div>
             <div id='spinner'>
                 <div class='bounce1'></div>

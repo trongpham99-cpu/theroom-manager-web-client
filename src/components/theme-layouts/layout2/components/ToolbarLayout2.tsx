@@ -49,8 +49,9 @@ function ToolbarLayout2(props: ToolbarLayout2Props) {
 						<AdjustFontSize />
 						<FullScreenToggle />
 						<NavigationSearch />
-						<QuickPanelToggleButton />
-						<NotificationPanelToggleButton />
+						{/* Tắt Quick Panel và Notification Panel buttons */}
+						{/* <QuickPanelToggleButton />
+						<NotificationPanelToggleButton /> */}
 					</div>
 					{!isMobile && (
 						<UserMenu

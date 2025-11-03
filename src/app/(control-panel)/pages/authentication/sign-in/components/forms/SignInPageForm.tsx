@@ -5,10 +5,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Link from '@fuse/core/Link';
 import _ from 'lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormLabel from '@mui/material/FormLabel';
@@ -50,15 +48,20 @@ function SignInPageForm() {
 		<form
 			name="loginForm"
 			noValidate
-			className="flex w-full flex-col justify-center gap-4"
+			className="flex w-full flex-col justify-center gap-6"
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<Controller
 				name="email"
 				control={control}
 				render={({ field }) => (
-					<FormControl>
-						<FormLabel htmlFor="email">Email address</FormLabel>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="email"
+						>
+							Email address
+						</FormLabel>
 						<TextField
 							{...field}
 							autoFocus
@@ -67,6 +70,11 @@ function SignInPageForm() {
 							helperText={errors?.email?.message}
 							required
 							fullWidth
+							placeholder="name@company.com"
+							autoComplete="email"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
 						/>
 					</FormControl>
 				)}
@@ -76,8 +84,13 @@ function SignInPageForm() {
 				name="password"
 				control={control}
 				render={({ field }) => (
-					<FormControl>
-						<FormLabel htmlFor="password">Password</FormLabel>
+					<FormControl className="space-y-2">
+						<FormLabel
+							className="text-sm font-semibold text-slate-600 dark:text-slate-200"
+							htmlFor="password"
+						>
+							Password
+						</FormLabel>
 						<TextField
 							{...field}
 							type="password"
@@ -85,18 +98,24 @@ function SignInPageForm() {
 							helperText={errors?.password?.message}
 							required
 							fullWidth
+							placeholder="••••••••"
+							autoComplete="current-password"
+							InputProps={{
+								className: 'rounded-2xl'
+							}}
 						/>
 					</FormControl>
 				)}
 			/>
 
-			<div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
+			<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 				<Controller
 					name="remember"
 					control={control}
 					render={({ field }) => (
 						<FormControl>
 							<FormControlLabel
+								className="text-sm font-medium text-slate-600 dark:text-slate-200"
 								label="Remember me"
 								control={
 									<Checkbox
@@ -110,7 +129,7 @@ function SignInPageForm() {
 				/>
 
 				<Link
-					className="text-md font-medium"
+					className="text-primary hover:text-primary/80 text-sm font-semibold transition-colors duration-200"
 					to="/pages/auth/forgot-password"
 				>
 					Forgot password?
@@ -120,60 +139,23 @@ function SignInPageForm() {
 			<Button
 				variant="contained"
 				color="secondary"
-				className="w-full"
+				className="focus-visible:ring-primary w-full rounded-2xl py-3 text-base font-semibold shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-slate-900"
 				aria-label="Sign in"
 				disabled={_.isEmpty(dirtyFields) || !isValid}
 				type="submit"
-				size="medium"
+				size="large"
 			>
 				Sign in
 			</Button>
 
-			<div className="flex items-center py-4">
-				<div className="mt-px flex-auto border-t" />
-				<Typography
-					className="mx-2"
-					color="text.secondary"
+			<div className="flex flex-wrap items-center justify-between gap-2 pt-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+				<span>Don't have an account?</span>
+				<Link
+					className="text-primary hover:text-primary/80 transition-colors duration-200"
+					to="/sign-up"
 				>
-					Or continue with
-				</Typography>
-				<div className="mt-px flex-auto border-t" />
-			</div>
-
-			<div className="flex items-center gap-4">
-				<Button
-					variant="outlined"
-					className="flex-auto"
-				>
-					<FuseSvgIcon
-						size={20}
-						color="action"
-					>
-						feather:facebook
-					</FuseSvgIcon>
-				</Button>
-				<Button
-					variant="outlined"
-					className="flex-auto"
-				>
-					<FuseSvgIcon
-						size={20}
-						color="action"
-					>
-						feather:twitter
-					</FuseSvgIcon>
-				</Button>
-				<Button
-					variant="outlined"
-					className="flex-auto"
-				>
-					<FuseSvgIcon
-						size={20}
-						color="action"
-					>
-						feather:github
-					</FuseSvgIcon>
-				</Button>
+					Sign up
+				</Link>
 			</div>
 		</form>
 	);

@@ -7,7 +7,10 @@ import Box from '@mui/material/Box';
  * The powered by links.
  */
 function PoweredByLinks() {
-	const container = {
+	// Tắt toàn bộ PoweredByLinks để loại bỏ nút Tanstack
+	return null;
+	
+	/* const container = {
 		show: {
 			transition: {
 				staggerChildren: 0.04
@@ -27,7 +30,7 @@ function PoweredByLinks() {
 			initial="hidden"
 			animate="show"
 			className="flex items-center gap-1 overflow-hidden"
-		>
+		> */
 			<Tooltip
 				title="React"
 				placement="top"

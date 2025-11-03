@@ -62,7 +62,7 @@ function DocumentationLayout(props: DocumentationLayoutProps) {
 							maxItems={isMobile ? 2 : 5}
 						/>
 					</div>
-					<div className="flex shrink items-center justify-end gap-2">
+					{/* <div className="flex shrink items-center justify-end gap-2">
 						<PurchaseButton size="small">Purchase</PurchaseButton>
 						<Button
 							className="whitespace-nowrap"
@@ -75,7 +75,7 @@ function DocumentationLayout(props: DocumentationLayoutProps) {
 						>
 							Back to the Dashboard
 						</Button>
-					</div>
+					</div> */}
 				</div>
 			}
 			content={

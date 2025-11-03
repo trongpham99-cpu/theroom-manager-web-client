@@ -68,8 +68,9 @@ function ToolbarLayout1(props: ToolbarLayout1Props) {
 							darkTheme={_.find(themeOptions, { id: 'Default Dark' })}
 						/>
 						<NavigationSearch />
-						<QuickPanelToggleButton />
-						<NotificationPanelToggleButton />
+						{/* Tắt Quick Panel và Notification Panel buttons */}
+						{/* <QuickPanelToggleButton />
+						<NotificationPanelToggleButton /> */}
 					</div>
 
 					{config.navbar.display && config.navbar.position === 'right' && (

@@ -112,9 +112,9 @@ function NavbarStyle2Content(props: NavbarStyle2ContentProps) {
 					className="flex h-full shrink-0 flex-col items-center"
 				>
 					<img
-						className="my-4 w-6"
-						src="/assets/images/logo/logo.svg"
-						alt="logo"
+						className="my-4 w-10"
+						src="/assets/images/logo/logo.png"
+						alt="Theroom Manager"
 					/>
 
 					<FuseScrollbars

@@ -17,7 +17,7 @@ import ProjectSelector from '../ui/ProjectSelector';
 function ProjectDashboardAppView() {
 	const { isLoading } = useGetWidgets();
 
-	const [tabValue, setTabValue] = useState('home');
+	const [tabValue, setTabValue] = useState('general');
 
 	function handleTabChange(event: React.SyntheticEvent, value: string) {
 		setTabValue(value);
@@ -36,27 +36,32 @@ function ProjectDashboardAppView() {
 						<Tabs
 							value={tabValue}
 							onChange={handleTabChange}
-							aria-label="New user tabs"
+							aria-label="Project overview tabs"
 						>
 							<Tab
-								value="home"
-								label="Home"
+								value="general"
+								label="Chung"
 							/>
 							<Tab
-								value="budget"
-								label="Budget"
+								value="electric"
+								label="Điện"
 							/>
 							<Tab
-								value="team"
-								label="Team"
+								value="water"
+								label="Nước"
+							/>
+							<Tab
+								value="others"
+								label="Dịch vụ khác"
 							/>
 						</Tabs>
 
 						<ProjectSelector />
 					</div>
-					{tabValue === 'home' && <HomeTab />}
-					{tabValue === 'budget' && <BudgetTab />}
-					{tabValue === 'team' && <TeamTab />}
+					{tabValue === 'general' && <HomeTab />}
+					{tabValue === 'electric' && <BudgetTab />}
+					{tabValue === 'water' && <TeamTab />}
+					{tabValue === 'others' && <BudgetTab />}
 				</div>
 			}
 		/>

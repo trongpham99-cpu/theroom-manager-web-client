@@ -4,9 +4,6 @@ import { useEffect } from 'react';
 import { z } from 'zod';
 import _ from 'lodash';
 import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@fuse/core/Link';
 import Button from '@mui/material/Button';
 import useJwtAuth from '../useJwtAuth';
@@ -112,7 +109,8 @@ function JwtSignInForm() {
 				)}
 			/>
 
-			<div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
+			{/* Tắt Remember me và Forgot password */}
+			{/* <div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
 				<Controller
 					name="remember"
 					control={control}
@@ -137,7 +135,7 @@ function JwtSignInForm() {
 				>
 					Forgot password?
 				</Link>
-			</div>
+			</div> */}
 
 			<Button
 				variant="contained"
@@ -150,6 +148,16 @@ function JwtSignInForm() {
 			>
 				Sign in
 			</Button>
+
+			<div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+				<span>Don't have an account?</span>
+				<Link
+					className="text-primary hover:text-primary/80 transition-colors duration-200"
+					to="/sign-up"
+				>
+					Sign up
+				</Link>
+			</div>
 		</form>
 	);
 }

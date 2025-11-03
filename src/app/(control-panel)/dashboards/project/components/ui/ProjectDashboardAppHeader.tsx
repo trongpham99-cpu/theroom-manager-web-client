@@ -45,7 +45,8 @@ function ProjectDashboardAppHeader() {
 					</div>
 				</div>
 
-				<div className="flex items-center gap-2">
+				{/* Tắt nút Messages và Settings trong Project Dashboard Header */}
+				{/* <div className="flex items-center gap-2">
 					<Button
 						className="whitespace-nowrap"
 						variant="contained"
@@ -62,7 +63,7 @@ function ProjectDashboardAppHeader() {
 					>
 						Settings
 					</Button>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

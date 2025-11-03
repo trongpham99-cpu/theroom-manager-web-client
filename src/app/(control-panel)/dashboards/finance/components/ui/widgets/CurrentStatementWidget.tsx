@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { memo } from 'react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import FuseLoading from '@fuse/core/FuseLoading';
+import { useTranslation } from 'react-i18next';
 import CurrentStatementWidgetType from '../../../api/types/CurrentStatementWidgetType';
 import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
 
@@ -12,6 +13,7 @@ import { useGetWidget } from '../../../api/hooks/widgets/useGetWidget';
  */
 function CurrentStatementWidget() {
 	const { data: widget, isLoading } = useGetWidget<CurrentStatementWidgetType>('currentStatement');
+	const { t } = useTranslation('financeDashboard');
 
 	const status = widget?.status;
 	const date = widget?.date;
@@ -32,13 +34,17 @@ function CurrentStatementWidget() {
 			<div className="flex items-center justify-between px-2 pt-2">
 				<div className="flex flex-col px-2">
 					<Typography className="truncate text-lg leading-6 font-medium tracking-tight">
-						Current Statement
+						{t('CURRENT_STATEMENT.TITLE')}
 					</Typography>
 					{status === 'paid' && (
-						<Typography className="text-sm font-medium text-green-600">Paid on {date}</Typography>
+						<Typography className="text-sm font-medium text-green-600">
+							{t('CURRENT_STATEMENT.STATUS_PAID', { date })}
+						</Typography>
 					)}
 					{status === 'pending' && (
-						<Typography className="text-sm font-medium text-red-600">Must be paid before {date}</Typography>
+						<Typography className="text-sm font-medium text-red-600">
+							{t('CURRENT_STATEMENT.STATUS_PENDING', { date })}
+						</Typography>
 					)}
 				</div>
 				<div className="">
@@ -53,7 +59,7 @@ function CurrentStatementWidget() {
 						color="text.secondary"
 						className="text-sm leading-none font-medium"
 					>
-						Card Limit
+						{t('CURRENT_STATEMENT.CARD_LIMIT')}
 					</Typography>
 					<Typography className="mt-2 text-2xl leading-none font-medium md:text-3xl">
 						{limit.toLocaleString('en-US', {
@@ -67,7 +73,7 @@ function CurrentStatementWidget() {
 						color="text.secondary"
 						className="text-sm leading-none font-medium"
 					>
-						Spent
+						{t('CURRENT_STATEMENT.SPENT')}
 					</Typography>
 					<Typography className="mt-2 text-2xl leading-none font-medium md:text-3xl">
 						{spent.toLocaleString('en-US', {
@@ -81,7 +87,7 @@ function CurrentStatementWidget() {
 						color="text.secondary"
 						className="text-sm leading-none font-medium"
 					>
-						Minimum
+						{t('CURRENT_STATEMENT.MINIMUM')}
 					</Typography>
 					<Typography className="mt-2 text-2xl leading-none font-medium md:text-3xl">
 						{minimum.toLocaleString('en-US', {

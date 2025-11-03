@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { FuseRouteItemType } from '@fuse/utils/FuseUtils';
+import './i18n';
 
 const FinanceDashboardAppView = lazy(() => import('./components/views/FinanceDashboardAppView'));
 

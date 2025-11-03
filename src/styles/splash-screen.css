@@ -8,8 +8,9 @@ body #fuse-splash-screen {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #121212;
-    color: #E0E0E0;
+    background-color: #224040;
+    background-image: radial-gradient(circle at 15% 20%, rgba(65, 111, 111, 0.35) 0%, rgba(34, 64, 64, 1) 55%, rgba(18, 40, 40, 1) 100%);
+    color: #ebf4f2;
     z-index: 999999;
     pointer-events: none;
     opacity: 1;
@@ -18,8 +19,9 @@ body #fuse-splash-screen {
 }
 
 body #fuse-splash-screen img {
-    width: 120px;
-    max-width: 120px;
+    width: 140px;
+    max-width: 140px;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
 }
 
 #spinner {
@@ -33,7 +35,7 @@ body #fuse-splash-screen img {
 #spinner > div {
     width: 12px;
     height: 12px;
-    background-color: #00A4EF;
+    background-color: #2F5A5A;
     border-radius: 100%;
     display: inline-block;
     -webkit-animation: fuse-bouncedelay 1s infinite ease-in-out both;
@@ -69,4 +71,3 @@ body #fuse-splash-screen img {
         transform: scale(1.0);
     }
 }
-
