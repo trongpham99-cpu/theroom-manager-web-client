@@ -14,8 +14,8 @@ import { useDeleteRoom } from '../../api/hooks/useDeleteRoom';
 import EditRoomDialog from '../dialogs/EditRoomDialog';
 
 function RoomsTable() {
-	const { data: roomsData, isLoading: roomsLoading } = useRooms();
-	const { data: apartmentsData, isLoading: apartmentsLoading } = useApartments();
+	const { data: roomsData, isLoading: roomsLoading, isError: roomsError, error: roomsErrorObj } = useRooms();
+	const { data: apartmentsData, isLoading: apartmentsLoading, isError: apartmentsError, error: apartmentsErrorObj } = useApartments();
 	const deleteRoom = useDeleteRoom();
 	const { enqueueSnackbar } = useSnackbar();
 	const { openDialog } = useFuseDialogContext();
@@ -62,9 +62,10 @@ function RoomsTable() {
 									await deleteRoom.mutateAsync(room._id);
 									enqueueSnackbar('Room deleted successfully!', { variant: 'success' });
 									handleClose();
-								} catch (error) {
-									enqueueSnackbar('API chưa sẵn sàng. Backend chưa implement DELETE /rooms/:id', {
-										variant: 'warning'
+								} catch (error: any) {
+									const errorMessage = error?.message || 'Failed to delete room. Please try again.';
+									enqueueSnackbar(errorMessage, {
+										variant: 'error'
 									});
 									console.error('Error deleting room:', error);
 									handleClose();
@@ -135,6 +136,72 @@ function RoomsTable() {
 		return <FuseLoading />;
 	}
 
+	// Issue 1: Error state UI
+	if (roomsError || apartmentsError) {
+		const error = roomsError || apartmentsError;
+		const errorObj = roomsErrorObj || apartmentsErrorObj;
+		return (
+			<Paper
+				className="shadow-1 flex h-full w-full flex-auto flex-col items-center justify-center overflow-hidden rounded-t-lg rounded-b-none p-8"
+				elevation={0}
+			>
+				<FuseSvgIcon
+					size={64}
+					color="error"
+					className="mb-4"
+				>
+					lucide:alert-circle
+				</FuseSvgIcon>
+				<Typography
+					variant="h6"
+					color="error"
+					className="mb-2"
+				>
+					Failed to load data
+				</Typography>
+				<Typography
+					variant="body2"
+					color="text.secondary"
+					className="text-center"
+				>
+					{errorObj instanceof Error ? errorObj.message : 'Please check your connection and try again.'}
+				</Typography>
+			</Paper>
+		);
+	}
+
+	// Issue 1: Empty state UI
+	if (!roomsData?.rows || roomsData.rows.length === 0) {
+		return (
+			<Paper
+				className="shadow-1 flex h-full w-full flex-auto flex-col items-center justify-center overflow-hidden rounded-t-lg rounded-b-none p-8"
+				elevation={0}
+			>
+				<FuseSvgIcon
+					size={64}
+					color="disabled"
+					className="mb-4"
+				>
+					lucide:door-open
+				</FuseSvgIcon>
+				<Typography
+					variant="h6"
+					color="text.secondary"
+					className="mb-2"
+				>
+					No rooms found
+				</Typography>
+				<Typography
+					variant="body2"
+					color="text.secondary"
+					className="text-center"
+				>
+					Get started by creating your first room.
+				</Typography>
+			</Paper>
+		);
+	}
+
 	return (
 		<>
 			<Paper
@@ -142,7 +209,7 @@ function RoomsTable() {
 				elevation={0}
 			>
 			<DataTable
-				data={roomsData?.rows || []}
+				data={roomsData.rows}
 				columns={columns}
 				renderRowActions={({ row }) => (
 					<div className="flex items-center gap-1">

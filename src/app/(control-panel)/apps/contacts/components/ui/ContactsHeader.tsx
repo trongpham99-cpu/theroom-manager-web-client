@@ -28,7 +28,7 @@ function ContactsHeader() {
 						animate={{ x: 0, transition: { delay: 0.2 } }}
 					>
 						<Typography className="text-4xl leading-none font-extrabold tracking-tight">
-							Contacts
+							Customer
 						</Typography>
 					</motion.span>
 					<motion.span
@@ -40,7 +40,7 @@ function ContactsHeader() {
 							className="ml-0.5 text-base font-medium"
 							color="text.secondary"
 						>
-							{`${filteredData?.length} contacts`}
+							{`${filteredData?.length} customers`}
 						</Typography>
 					</motion.span>
 				</div>
@@ -54,7 +54,7 @@ function ContactsHeader() {
 						<FuseSvgIcon color="action">lucide:search</FuseSvgIcon>
 
 						<Input
-							placeholder="Search contacts"
+							placeholder="Search customers"
 							className="flex flex-1"
 							disableUnderline
 							fullWidth

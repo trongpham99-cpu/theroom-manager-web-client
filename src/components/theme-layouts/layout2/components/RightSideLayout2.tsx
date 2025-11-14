@@ -14,7 +14,7 @@ function RightSideLayout2() {
 		<Suspense>
 			<QuickPanel />
 
-			<MessengerPanel />
+			{/* <MessengerPanel /> */}
 
 			<NotificationPanel />
 		</Suspense>
