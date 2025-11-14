@@ -34,7 +34,14 @@ export default defineConfig({
 		host: '0.0.0.0',
 		open: false,
 		strictPort: false,
-		port: 3000
+		port: 3000,
+		proxy: {
+			'/api': {
+				target: 'http://localhost:3321',
+				changeOrigin: true,
+				secure: false
+			}
+		}
 	},
 	define: {
 		'import.meta.env.VITE_PORT': JSON.stringify(process.env.PORT || 3000),
