@@ -41,7 +41,7 @@ function DevelopmentServerDoc() {
 				component="p"
 			>
 				You can check your console application for further information about the server. By default, it will be
-				running on <b>http://localhost:3000</b> although it could change depending on your setup.
+				running on <b>http://localhost:3321</b> although it could change depending on your setup.
 			</Typography>
 
 			<div className="my-6 rounded-xl border-1 border-red-500 px-6 py-4">

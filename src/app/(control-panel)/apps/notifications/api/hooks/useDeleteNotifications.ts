@@ -1,16 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { notificationsApiService } from '../services/notificationsApiService';
+import { useSnackbar } from 'notistack';
+import api from 'src/utils/api';
 
-import { notificationsQueryKey } from './useGetAllNotifications';
-export const useDeleteNotifications = () => {
+export function useDeleteNotifications() {
 	const queryClient = useQueryClient();
+	const { enqueueSnackbar } = useSnackbar();
 
 	return useMutation({
-		mutationFn: notificationsApiService.deleteMany,
+		mutationFn: async (ids: string[]) => {
+			// Delete all notifications in parallel
+			await Promise.all(ids.map((id) => api.delete(`notifications/${id}`)));
+			return { success: true };
+		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: notificationsQueryKey
-			});
+			queryClient.invalidateQueries({ queryKey: ['notifications'] });
+			enqueueSnackbar('Notification(s) deleted successfully', { variant: 'success' });
+		},
+		onError: () => {
+			enqueueSnackbar('Failed to delete notification(s)', { variant: 'error' });
 		}
 	});
-};
+}

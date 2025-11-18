@@ -25,7 +25,7 @@ function ContactsList() {
 					color="text.secondary"
 					variant="h5"
 				>
-					There are no contacts!
+					There are no customers!
 				</Typography>
 			</div>
 		);

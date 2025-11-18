@@ -63,18 +63,18 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/messenger'
 			},
 			{
-				id: 'apps.contacts',
-				title: 'Contacts',
+				id: 'apps.customers',
+				title: 'Customers',
 				type: 'item',
 				icon: 'lucide:users',
-				url: '/apps/contacts'
+				url: '/apps/customers'
 			},
 			{
-				id: 'apps.e-commerce',
-				title: 'E-commerce',
+				id: 'apps.room-management',
+				title: 'Management',
 				type: 'item',
-				icon: 'lucide:shopping-cart',
-				url: '/apps/e-commerce'
+				icon: 'lucide:building-2',
+				url: '/apps/room-management'
 			},
 			{
 				id: 'apps.file-manager',
@@ -82,6 +82,20 @@ const navigationConfig: FuseNavItemType[] = [
 				type: 'item',
 				icon: 'lucide:folder',
 				url: '/apps/file-manager'
+			},
+			{
+				id: 'apps.invoices',
+				title: 'Invoices',
+				type: 'item',
+				icon: 'lucide:file-text',
+				url: '/apps/invoices'
+			},
+			{
+				id: 'apps.notifications',
+				title: 'Notifications',
+				type: 'item',
+				icon: 'lucide:bell',
+				url: '/apps/notifications'
 			},
 			// Help Center moved to Pages group
 			{
