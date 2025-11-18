@@ -63,11 +63,11 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/messenger'
 			},
 			{
-				id: 'apps.contacts',
-				title: 'Customer',
+				id: 'apps.customers',
+				title: 'Customers',
 				type: 'item',
 				icon: 'lucide:users',
-				url: '/apps/contacts'
+				url: '/apps/customers'
 			},
 			{
 				id: 'apps.room-management',
@@ -82,6 +82,13 @@ const navigationConfig: FuseNavItemType[] = [
 				type: 'item',
 				icon: 'lucide:folder',
 				url: '/apps/file-manager'
+			},
+			{
+				id: 'apps.invoices',
+				title: 'Invoices',
+				type: 'item',
+				icon: 'lucide:file-text',
+				url: '/apps/invoices'
 			},
 			{
 				id: 'apps.notifications',
