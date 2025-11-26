@@ -12,15 +12,27 @@ import { useFuseDialogContext } from '@fuse/core/FuseDialog/contexts/FuseDialogC
 import { DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import useNavigate from '@fuse/hooks/useNavigate';
+import { useTranslation } from 'react-i18next';
 
-const getStatusLabel = (status: number) => {
-	const labels: Record<number, { label: string; color: 'default' | 'primary' | 'success' | 'error' | 'warning' }> = {
-		1: { label: 'Pending', color: 'default' },
-		2: { label: 'Sent', color: 'success' },
-		3: { label: 'Paid', color: 'primary' },
-		4: { label: 'Failed', color: 'error' }
+const getStatusConfig = (status: number) => {
+	const configs: Record<number, { key: string; color: 'default' | 'primary' | 'success' | 'error' | 'warning' | 'info' | 'secondary'; sx?: object }> = {
+		1: { key: 'STATUS_PENDING', color: 'default' },
+		2: { key: 'STATUS_SENT', color: 'secondary' },
+		3: { key: 'STATUS_PAID', color: 'success' },
+		4: {
+			key: 'STATUS_FAILED',
+			color: 'error',
+			sx: {
+				backgroundColor: '#d32f2f',
+				color: '#fff',
+				fontWeight: 600,
+				'&:hover': {
+					backgroundColor: '#b71c1c'
+				}
+			}
+		}
 	};
-	return labels[status] || { label: 'Unknown', color: 'default' };
+	return configs[status] || { key: 'STATUS_UNKNOWN', color: 'default' };
 };
 
 type InvoicesTableProps = {
@@ -28,6 +40,7 @@ type InvoicesTableProps = {
 };
 
 function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
+	const { t } = useTranslation('invoicesApp');
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(15);
 	const [sortBy, setSortBy] = useState('createdAt');
@@ -66,12 +79,12 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			id: `send-invoice-${invoice._id}`,
 			content: ({ handleClose }) => (
 				<>
-					<DialogTitle>Send Invoice?</DialogTitle>
+					<DialogTitle>{t('SEND_INVOICE_TITLE')}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Send invoice to <strong>{invoice.customer_name}</strong> ({invoice.room_code})?
+							{t('SEND_INVOICE_MESSAGE')} <strong>{invoice.customer_name}</strong> ({invoice.room_code})?
 							<br />
-							This will send the invoice via Zalo ZNS.
+							{t('SEND_VIA_ZALO')}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
@@ -79,7 +92,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 							onClick={handleClose}
 							color="inherit"
 						>
-							Cancel
+							{t('CANCEL')}
 						</Button>
 						<Button
 							onClick={async () => {
@@ -96,7 +109,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 							autoFocus
 							disabled={sendInvoice.isPending}
 						>
-							{sendInvoice.isPending ? 'Sending...' : 'Send'}
+							{sendInvoice.isPending ? t('SENDING') : t('SEND')}
 						</Button>
 					</DialogActions>
 				</>
@@ -108,7 +121,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 		() => [
 			{
 				accessorKey: 'room_code',
-				header: 'Room Code',
+				header: t('ROOM_CODE'),
 				size: 120,
 				Cell: ({ row }) => (
 					<Typography
@@ -121,7 +134,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			},
 			{
 				accessorKey: 'customer_name',
-				header: 'Customer',
+				header: t('CUSTOMER'),
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -131,7 +144,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			},
 			{
 				accessorKey: 'phone',
-				header: 'Phone',
+				header: t('PHONE'),
 				size: 130,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -141,7 +154,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			},
 			{
 				accessorKey: 'total_amount',
-				header: 'Total Amount',
+				header: t('TOTAL_AMOUNT'),
 				size: 150,
 				Cell: ({ row }) => (
 					<Typography
@@ -155,22 +168,23 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			},
 			{
 				accessorKey: 'invoice_status',
-				header: 'Status',
+				header: t('STATUS'),
 				size: 120,
 				Cell: ({ row }) => {
-					const statusInfo = getStatusLabel(row.original.invoice_status);
+					const statusConfig = getStatusConfig(row.original.invoice_status);
 					return (
 						<Chip
-							label={statusInfo.label}
-							color={statusInfo.color}
+							label={t(statusConfig.key)}
+							color={statusConfig.color}
 							size="small"
+							sx={statusConfig.sx}
 						/>
 					);
 				}
 			},
 			{
 				id: 'period',
-				header: 'Period',
+				header: t('PERIOD'),
 				size: 100,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -182,7 +196,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 			},
 			{
 				accessorKey: 'createdAt',
-				header: 'Created At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -191,7 +205,7 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 				)
 			}
 		],
-		[]
+		[t]
 	);
 
 	if (isLoading) {
@@ -216,14 +230,14 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 					color="error"
 					className="mb-2"
 				>
-					Failed to load invoices
+					{t('FAILED_TO_LOAD')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					{error instanceof Error ? error.message : 'Please check your connection and try again.'}
+					{error instanceof Error ? error.message : t('CHECK_CONNECTION')}
 				</Typography>
 			</Paper>
 		);
@@ -247,14 +261,14 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 					color="text.secondary"
 					className="mb-2"
 				>
-					No invoices found
+					{t('NO_INVOICES')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					Get started by creating your first invoice.
+					{t('NO_INVOICES_DESC')}
 				</Typography>
 			</Paper>
 		);

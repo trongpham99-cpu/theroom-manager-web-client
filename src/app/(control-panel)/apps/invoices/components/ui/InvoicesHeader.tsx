@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
 import { useState } from 'react';
 import { useInvoices } from '../../api/hooks/useInvoices';
+import { useTranslation } from 'react-i18next';
 
 type InvoicesHeaderProps = {
 	onAddClick: () => void;
@@ -14,6 +15,7 @@ type InvoicesHeaderProps = {
 };
 
 function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: InvoicesHeaderProps) {
+	const { t } = useTranslation('invoicesApp');
 	const { data } = useInvoices({ page: 1, limit: 1 });
 
 	return (
@@ -27,7 +29,7 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: Inv
 						animate={{ x: 0, transition: { delay: 0.2 } }}
 					>
 						<Typography className="text-4xl leading-none font-extrabold tracking-tight">
-							Invoices
+							{t('APP_TITLE')}
 						</Typography>
 					</motion.span>
 					<motion.span
@@ -39,7 +41,7 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: Inv
 							className="ml-0.5 text-base font-medium"
 							color="text.secondary"
 						>
-							{data?.total || 0} invoices
+							{data?.total || 0} {t('INVOICES').toLowerCase()}
 						</Typography>
 					</motion.span>
 				</div>
@@ -51,7 +53,7 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: Inv
 							onClick={() => onSendManyClick(selectedInvoiceIds)}
 							startIcon={<FuseSvgIcon>lucide:send</FuseSvgIcon>}
 						>
-							Send {selectedInvoiceIds.length} Invoice{selectedInvoiceIds.length > 1 ? 's' : ''}
+							{t('SEND')} {selectedInvoiceIds.length} {t('INVOICES')}
 						</Button>
 					)}
 					<Button
@@ -60,7 +62,7 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: Inv
 						onClick={onAddClick}
 						startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 					>
-						Add Invoice
+						{t('ADD_INVOICE')}
 					</Button>
 				</div>
 			</div>
