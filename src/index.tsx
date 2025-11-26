@@ -3,17 +3,17 @@ import './styles/index.css';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import routes from 'src/configs/routesConfig';
-import { worker } from '@mock-utils/mswMockAdapter';
-import { API_BASE_URL } from '@/utils/api';
+// import { worker } from '@mock-utils/mswMockAdapter';
+// import { API_BASE_URL } from '@/utils/api';
 
-async function mockSetup() {
-	return worker.start({
-		onUnhandledRequest: 'bypass',
-		serviceWorker: {
-			url: `${API_BASE_URL}/mockServiceWorker.js`
-		}
-	});
-}
+// async function mockSetup() {
+// 	return worker.start({
+// 		onUnhandledRequest: 'bypass',
+// 		serviceWorker: {
+// 			url: `${API_BASE_URL}/mockServiceWorker.js`
+// 		}
+// 	});
+// }
 
 /**
  * The root element of the application.
@@ -24,7 +24,8 @@ if (!container) {
 	throw new Error('Failed to find the root element');
 }
 
-mockSetup().then(() => {
+// MSW DISABLED - Using real backend API
+// mockSetup().then(() => {
 	/**
 	 * The root component of the application.
 	 */
@@ -40,4 +41,4 @@ mockSetup().then(() => {
 	const router = createBrowserRouter(routes);
 
 	root.render(<RouterProvider router={router} />);
-});
+// });

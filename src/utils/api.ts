@@ -1,16 +1,15 @@
 import ky, { KyInstance } from 'ky';
 
-const apiUrl = new URL((import.meta?.env?.VITE_API_BASE_URL as string) || 'http://localhost:3000');
-const devApiBaseHost = apiUrl.hostname;
-const PORT = Number(import.meta.env.VITE_PORT) || 3000;
-const devApiBaseUrl = `${apiUrl.protocol}//${devApiBaseHost}:${PORT}`;
-
-export const API_BASE_URL = import.meta.env.DEV ? devApiBaseUrl : (import.meta.env.VITE_API_BASE_URL as string) || '/';
+// In dev mode, use relative URL to go through Vite proxy
+// In production, use the actual API URL
+export const API_BASE_URL = import.meta.env.DEV 
+	? '' 
+	: (import.meta.env.VITE_API_BASE_URL as string) || '/';
 
 let globalHeaders: Record<string, string> = {};
 
 export const api: KyInstance = ky.create({
-	prefixUrl: `${API_BASE_URL}/api`,
+	prefixUrl: import.meta.env.DEV ? '/api/v1' : `${API_BASE_URL}/api/v1`,
 	hooks: {
 		beforeRequest: [
 			(request) => {
