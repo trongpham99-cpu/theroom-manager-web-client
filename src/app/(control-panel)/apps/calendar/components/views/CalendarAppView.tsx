@@ -27,6 +27,11 @@ import { useUpdateEvent } from '../../api/hooks/events/useUpdateEvent';
 import { CalendarAppProvider } from '../../contexts/CalendarAppContext/CalendarAppProvider';
 import Paper from '@mui/material/Paper';
 import { useCalendarAppContext } from '../../contexts/CalendarAppContext/useCalendarAppContext';
+import i18n from '@i18n';
+import calendarI18n from '../../i18n';
+
+i18n.addResourceBundle('en', 'calendarApp', calendarI18n.en);
+i18n.addResourceBundle('vi', 'calendarApp', calendarI18n.vi);
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
 	'& .container': {

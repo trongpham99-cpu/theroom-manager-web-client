@@ -23,14 +23,14 @@ const resources = {
  * The interpolation option is set to false because we do not use interpolation in form messages.welcome.
  */
 
-// Get saved language from localStorage or default to Vietnamese
-const savedLanguage = localStorage.getItem('i18nextLng') || 'vi';
+// Get saved language from localStorage or default to English
+const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
 
 i18n.use(initReactI18next) // passes i18n down to react-i18next
 	.init({
 		resources,
 		lng: savedLanguage,
-		fallbackLng: 'vi',
+		fallbackLng: 'en',
 
 		keySeparator: false, // we do not use keys in form messages.welcome
 

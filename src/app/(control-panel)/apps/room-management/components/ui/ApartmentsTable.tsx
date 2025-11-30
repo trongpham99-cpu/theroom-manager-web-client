@@ -7,12 +7,14 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { useSnackbar } from 'notistack';
 import { useFuseDialogContext } from '@fuse/core/FuseDialog/contexts/FuseDialogContext/useFuseDialogContext';
+import { useTranslation } from 'react-i18next';
 import { Apartment } from '../../api/types';
 import { useApartments } from '../../api/hooks/useApartments';
 import { useDeleteApartment } from '../../api/hooks/useDeleteApartment';
 import EditApartmentDialog from '../dialogs/EditApartmentDialog';
 
 function ApartmentsTable() {
+	const { t } = useTranslation('roomManagementApp');
 	const { data, isLoading, isError, error } = useApartments();
 	const deleteApartment = useDeleteApartment();
 	const { enqueueSnackbar } = useSnackbar();
@@ -30,12 +32,12 @@ function ApartmentsTable() {
 			id: `confirm-delete-apartment-${apartment._id}`,
 			content: ({ handleClose }) => (
 				<>
-					<DialogTitle>Delete Apartment?</DialogTitle>
+					<DialogTitle>{t('DELETE_APARTMENT_TITLE')}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Are you sure you want to delete <strong>{apartment.code}</strong>?
+							{t('DELETE_APARTMENT_MESSAGE')} <strong>{apartment.code}</strong>?
 							<br />
-							This action cannot be undone.
+							{t('DELETE_APARTMENT_WARNING')}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
@@ -43,7 +45,7 @@ function ApartmentsTable() {
 							onClick={handleClose}
 							color="inherit"
 						>
-							Cancel
+							{t('CANCEL')}
 						</Button>
 						<Button
 							onClick={async () => {
@@ -64,7 +66,7 @@ function ApartmentsTable() {
 							color="error"
 							autoFocus
 						>
-							Delete
+							{deleteApartment.isPending ? t('DELETING') : t('DELETE')}
 						</Button>
 					</DialogActions>
 				</>
@@ -76,7 +78,7 @@ function ApartmentsTable() {
 		() => [
 			{
 				accessorKey: 'code',
-				header: 'Apartment Code',
+				header: t('APARTMENT_CODE'),
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography
@@ -89,7 +91,7 @@ function ApartmentsTable() {
 			},
 			{
 				accessorKey: 'createdAt',
-				header: 'Created At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -99,7 +101,7 @@ function ApartmentsTable() {
 			},
 			{
 				accessorKey: 'updatedAt',
-				header: 'Updated At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -108,7 +110,7 @@ function ApartmentsTable() {
 				)
 			}
 		],
-		[]
+		[t]
 	);
 
 	if (isLoading) {
@@ -134,14 +136,14 @@ function ApartmentsTable() {
 					color="error"
 					className="mb-2"
 				>
-					Failed to load apartments
+					{t('FAILED_TO_LOAD')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					{error instanceof Error ? error.message : 'Please check your connection and try again.'}
+					{error instanceof Error ? error.message : t('CHECK_CONNECTION')}
 				</Typography>
 			</Paper>
 		);
@@ -166,14 +168,14 @@ function ApartmentsTable() {
 					color="text.secondary"
 					className="mb-2"
 				>
-					No apartments found
+					{t('NO_APARTMENTS_FOUND')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					Get started by creating your first apartment.
+					{t('NO_APARTMENTS_MESSAGE')}
 				</Typography>
 			</Paper>
 		);

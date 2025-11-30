@@ -45,6 +45,10 @@ function InvoicesAppView(props: InvoicesAppProps) {
 	const { openDialog } = useFuseDialogContext();
 	const { enqueueSnackbar } = useSnackbar();
 
+	// Period filter state (default to current month)
+	const now = new Date();
+	const [selectedPeriod, setSelectedPeriod] = useState(`${now.getFullYear()}-${now.getMonth() + 1}`);
+
 	useEffect(() => {
 		setRightSidebarOpen(!!routeParams.invoiceId);
 	}, [routeParams]);
@@ -52,6 +56,24 @@ function InvoicesAppView(props: InvoicesAppProps) {
 	const handleAddClick = () => {
 		setCreateDialogOpen(true);
 	};
+
+	const handlePeriodChange = (period: string) => {
+		setSelectedPeriod(period);
+	};
+
+	// Parse selected period to get month and year
+	let month: number | undefined;
+	let year: number | undefined;
+	let excludeRecent = false;
+
+	if (selectedPeriod === 'older') {
+		// For "Older Months", exclude current and last month
+		excludeRecent = true;
+	} else {
+		const [y, m] = selectedPeriod.split('-').map(Number);
+		year = y;
+		month = m;
+	}
 
 	const handleSendManyClick = (invoiceIds: string[]) => {
 		if (invoiceIds.length === 0) {
@@ -110,9 +132,11 @@ function InvoicesAppView(props: InvoicesAppProps) {
 						onAddClick={handleAddClick}
 						onSendManyClick={handleSendManyClick}
 						selectedInvoiceIds={selectedInvoiceIds}
+						selectedPeriod={selectedPeriod}
+						onPeriodChange={handlePeriodChange}
 					/>
 				}
-				content={<InvoicesTable onSelectionChange={setSelectedInvoiceIds} />}
+				content={<InvoicesTable onSelectionChange={setSelectedInvoiceIds} month={month} year={year} excludeRecent={excludeRecent} />}
 				ref={pageLayout}
 				rightSidebarProps={{
 					content: (

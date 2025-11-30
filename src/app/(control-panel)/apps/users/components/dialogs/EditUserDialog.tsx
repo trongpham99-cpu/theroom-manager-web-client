@@ -5,6 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 import {
 	Dialog,
 	DialogTitle,
@@ -41,6 +42,7 @@ type EditUserDialogProps = {
 
 function EditUserDialog(props: EditUserDialogProps) {
 	const { open, onClose, user } = props;
+	const { t } = useTranslation('usersApp');
 	const queryClient = useQueryClient();
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -72,11 +74,11 @@ function EditUserDialog(props: EditUserDialogProps) {
 		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['users'] });
 			queryClient.invalidateQueries({ queryKey: ['user', user?.id] });
-			enqueueSnackbar(response.message || 'User updated successfully', { variant: 'success' });
+			enqueueSnackbar(response.message || t('MESSAGES.UPDATE_SUCCESS'), { variant: 'success' });
 			onClose();
 		},
 		onError: (error: Error) => {
-			enqueueSnackbar(error?.message || 'Failed to update user', { variant: 'error' });
+			enqueueSnackbar(error?.message || t('MESSAGES.UPDATE_ERROR'), { variant: 'error' });
 		}
 	});
 
@@ -111,7 +113,7 @@ function EditUserDialog(props: EditUserDialogProps) {
 				}
 			}}
 		>
-			<DialogTitle className="text-2xl font-bold">Edit User</DialogTitle>
+			<DialogTitle className="text-2xl font-bold">{t('DIALOGS.EDIT.TITLE')}</DialogTitle>
 			<DialogContent>
 				<div className="flex flex-col gap-6 pt-4">
 					{/* Name */}
@@ -120,11 +122,11 @@ function EditUserDialog(props: EditUserDialogProps) {
 						name="name"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="name-edit">Name</FormLabel>
+								<FormLabel htmlFor="name-edit">{t('DIALOGS.EDIT.NAME_LABEL')}</FormLabel>
 								<TextField
 									{...field}
 									id="name-edit"
-									placeholder="Full name"
+									placeholder={t('DIALOGS.EDIT.NAME_PLACEHOLDER')}
 									error={!!errors.name}
 									helperText={errors?.name?.message}
 									variant="outlined"
@@ -146,11 +148,11 @@ function EditUserDialog(props: EditUserDialogProps) {
 						name="email"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="email-edit">Email</FormLabel>
+								<FormLabel htmlFor="email-edit">{t('DIALOGS.EDIT.EMAIL_LABEL')}</FormLabel>
 								<TextField
 									{...field}
 									id="email-edit"
-									placeholder="email@example.com"
+									placeholder={t('DIALOGS.EDIT.EMAIL_PLACEHOLDER')}
 									type="email"
 									error={!!errors.email}
 									helperText={errors?.email?.message}
@@ -190,14 +192,14 @@ function EditUserDialog(props: EditUserDialogProps) {
 				</div>
 			</DialogContent>
 			<DialogActions className="px-6 pb-6">
-				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleClose}>{t('DIALOGS.EDIT.CANCEL')}</Button>
 				<Button
 					variant="contained"
 					color="secondary"
 					disabled={_.isEmpty(dirtyFields) || !isValid || updateMutation.isPending}
 					onClick={handleSubmit(onSubmit)}
 				>
-					{updateMutation.isPending ? 'Updating...' : 'Update User'}
+					{updateMutation.isPending ? t('DIALOGS.EDIT.UPDATING') : t('DIALOGS.EDIT.UPDATE')}
 				</Button>
 			</DialogActions>
 		</Dialog>

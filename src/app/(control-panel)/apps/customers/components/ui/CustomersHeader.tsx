@@ -7,14 +7,28 @@ import { useCustomers } from '../../api/hooks/useCustomers';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import { useSearch } from '../../hooks/useSearch';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import { useApartments } from '../../../room-management/api/hooks/useApartments';
+import { useTranslation } from 'react-i18next';
+import i18n from '@i18n';
+import customersI18n from '../../i18n';
+
+i18n.addResourceBundle('en', 'customersApp', customersI18n.en);
+i18n.addResourceBundle('vi', 'customersApp', customersI18n.vi);
 
 type CustomersHeaderProps = {
 	onAddClick: () => void;
+	selectedApartment: string;
+	onApartmentChange: (apartmentId: string) => void;
 };
 
-function CustomersHeader({ onAddClick }: CustomersHeaderProps) {
+function CustomersHeader({ onAddClick, selectedApartment, onApartmentChange }: CustomersHeaderProps) {
+	const { t } = useTranslation('customersApp');
 	const { data } = useCustomers({ page: 1, limit: 1 });
 	const { searchText, setSearchText } = useSearch();
+	const { data: apartments } = useApartments();
 
 	return (
 		<div className="w-full px-4 py-4 md:px-6">
@@ -27,7 +41,7 @@ function CustomersHeader({ onAddClick }: CustomersHeaderProps) {
 						animate={{ x: 0, transition: { delay: 0.2 } }}
 					>
 						<Typography className="text-4xl leading-none font-extrabold tracking-tight">
-							Customers
+							{t('APP_TITLE')}
 						</Typography>
 					</motion.span>
 					<motion.span
@@ -39,7 +53,7 @@ function CustomersHeader({ onAddClick }: CustomersHeaderProps) {
 							className="ml-0.5 text-base font-medium"
 							color="text.secondary"
 						>
-							{data?.total || 0} customers
+							{data?.total || 0} {t('CUSTOMERS')}
 						</Typography>
 					</motion.span>
 				</div>
@@ -53,7 +67,7 @@ function CustomersHeader({ onAddClick }: CustomersHeaderProps) {
 						<FuseSvgIcon color="action">lucide:search</FuseSvgIcon>
 
 						<Input
-							placeholder="Search customers"
+							placeholder={t('SEARCH_PLACEHOLDER')}
 							className="flex flex-1"
 							disableUnderline
 							fullWidth
@@ -72,9 +86,27 @@ function CustomersHeader({ onAddClick }: CustomersHeaderProps) {
 						onClick={onAddClick}
 						startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 					>
-						Add Customer
+						{t('ADD_CUSTOMER')}
 					</Button>
 				</div>
+			</div>
+
+			<div className="mt-4 flex w-full overflow-x-auto">
+				<FormControl size="small" className="min-w-48">
+					<Select
+						value={selectedApartment}
+						onChange={(e) => onApartmentChange(e.target.value)}
+						displayEmpty
+						startAdornment={<FuseSvgIcon className="mr-2" size={20}>lucide:building-2</FuseSvgIcon>}
+					>
+						<MenuItem value="all">{t('ALL_APARTMENTS')}</MenuItem>
+						{apartments?.rows?.map((apartment) => (
+							<MenuItem key={apartment._id} value={apartment._id}>
+								{apartment.code}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
 			</div>
 		</div>
 	);

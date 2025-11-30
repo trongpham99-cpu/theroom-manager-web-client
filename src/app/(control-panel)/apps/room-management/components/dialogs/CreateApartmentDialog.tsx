@@ -9,13 +9,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
 import { useCreateApartment } from '../../api/hooks/useCreateApartment';
 
-const schema = z.object({
-	code: z.string().min(1, 'Code is required')
-});
-
-type FormType = z.infer<typeof schema>;
+type FormType = {
+	code: string;
+};
 
 type CreateApartmentDialogProps = {
 	open: boolean;
@@ -24,8 +23,13 @@ type CreateApartmentDialogProps = {
 
 function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 	console.log('🎬 CreateApartmentDialog render - open:', open);
+	const { t } = useTranslation('roomManagementApp');
 	const { enqueueSnackbar } = useSnackbar();
 	const createApartment = useCreateApartment();
+
+	const schema = z.object({
+		code: z.string().min(1, t('CODE_REQUIRED'))
+	});
 
 	const {
 		control,
@@ -74,7 +78,7 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 			fullWidth
 		>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<DialogTitle>Create New Apartment</DialogTitle>
+				<DialogTitle>{t('CREATE_APARTMENT')}</DialogTitle>
 
 				<DialogContent>
 					<div className="mt-4">
@@ -84,7 +88,7 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 							render={({ field }) => (
 								<TextField
 									{...field}
-									label="Apartment Code"
+									label={t('CODE')}
 									placeholder="e.g., Building A, Tòa A"
 									fullWidth
 									error={!!errors.code}
@@ -104,7 +108,7 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 						color="inherit"
 						disabled={createApartment.isPending}
 					>
-						Cancel
+						{t('CANCEL')}
 					</Button>
 					<Button
 						type="submit"
@@ -112,7 +116,7 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 						color="secondary"
 						disabled={createApartment.isPending}
 					>
-						{createApartment.isPending ? 'Creating...' : 'Create'}
+						{createApartment.isPending ? t('CREATING') : t('CREATE')}
 					</Button>
 				</DialogActions>
 			</form>

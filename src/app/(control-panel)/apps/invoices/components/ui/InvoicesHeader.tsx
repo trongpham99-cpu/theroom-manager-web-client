@@ -7,16 +7,62 @@ import PageBreadcrumb from 'src/components/PageBreadcrumb';
 import { useState } from 'react';
 import { useInvoices } from '../../api/hooks/useInvoices';
 import { useTranslation } from 'react-i18next';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { SyntheticEvent } from 'react';
 
 type InvoicesHeaderProps = {
 	onAddClick: () => void;
 	onSendManyClick: (invoiceIds: string[]) => void;
 	selectedInvoiceIds: string[];
+	selectedPeriod: string;
+	onPeriodChange: (period: string) => void;
 };
 
-function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: InvoicesHeaderProps) {
+function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds, selectedPeriod, onPeriodChange }: InvoicesHeaderProps) {
 	const { t } = useTranslation('invoicesApp');
 	const { data } = useInvoices({ page: 1, limit: 1 });
+
+	// Generate 3 tabs: This Month, Last Month, Older Months
+	const getPeriodTabs = () => {
+		const now = new Date();
+		const currentMonth = now.getMonth() + 1;
+		const currentYear = now.getFullYear();
+
+		// Calculate last month
+		const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+		const lastMonth = lastMonthDate.getMonth() + 1;
+		const lastYear = lastMonthDate.getFullYear();
+
+		const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+		return [
+			{
+				value: `${currentYear}-${currentMonth}`,
+				label: 'This Month',
+				month: currentMonth,
+				year: currentYear
+			},
+			{
+				value: `${lastYear}-${lastMonth}`,
+				label: `Last Month (${monthNames[lastMonthDate.getMonth()]})`,
+				month: lastMonth,
+				year: lastYear
+			},
+			{
+				value: 'older',
+				label: 'Older Months',
+				month: undefined,
+				year: undefined
+			}
+		];
+	};
+
+	const periodTabs = getPeriodTabs();
+
+	const handleTabChange = (event: SyntheticEvent, value: string) => {
+		onPeriodChange(value);
+	};
 
 	return (
 		<div className="w-full px-4 py-4 md:px-6">
@@ -65,6 +111,27 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds }: Inv
 						{t('ADD_INVOICE')}
 					</Button>
 				</div>
+			</div>
+
+			<div className="mt-4 flex w-full overflow-x-auto">
+				<Tabs
+					value={selectedPeriod}
+					onChange={handleTabChange}
+					indicatorColor="secondary"
+					textColor="inherit"
+					variant="scrollable"
+					scrollButtons="auto"
+					className="min-h-10"
+				>
+					{periodTabs.map((tab) => (
+						<Tab
+							key={tab.value}
+							className="min-h-10 text-base"
+							label={tab.label}
+							value={tab.value}
+						/>
+					))}
+				</Tabs>
 			</div>
 		</div>
 	);

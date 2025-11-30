@@ -10,10 +10,16 @@ import Button from '@mui/material/Button';
 import { motion } from 'motion/react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
+import { useTranslation } from 'react-i18next';
+import i18n from '@i18n';
+import roomManagementI18n from '../../i18n';
 import ApartmentsTable from '../ui/ApartmentsTable';
 import RoomsTable from '../ui/RoomsTable';
 import CreateApartmentDialog from '../dialogs/CreateApartmentDialog';
 import CreateRoomDialog from '../dialogs/CreateRoomDialog';
+
+i18n.addResourceBundle('en', 'roomManagementApp', roomManagementI18n.en);
+i18n.addResourceBundle('vi', 'roomManagementApp', roomManagementI18n.vi);
 
 const Root = styled(FusePageCarded)(() => ({
 	'& .container': {
@@ -25,6 +31,7 @@ const Root = styled(FusePageCarded)(() => ({
  * The Room Management page.
  */
 function RoomManagementView() {
+	const { t } = useTranslation('roomManagementApp');
 	const [selectedTab, setSelectedTab] = useState('apartments');
 	const [openApartmentDialog, setOpenApartmentDialog] = useState(false);
 	const [openRoomDialog, setOpenRoomDialog] = useState(false);
@@ -64,7 +71,7 @@ function RoomManagementView() {
 									}}
 								>
 									<Typography className="flex text-4xl leading-none font-extrabold tracking-tight">
-										Room Management
+										{t('APP_TITLE')}
 									</Typography>
 								</motion.span>
 							</div>
@@ -79,7 +86,7 @@ function RoomManagementView() {
 									startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 									onClick={handleAddClick}
 								>
-									Add {selectedTab === 'apartments' ? 'Apartment' : 'Room'}
+									{selectedTab === 'apartments' ? t('ADD_APARTMENT') : t('ADD_ROOM')}
 								</Button>
 								</motion.div>
 							</div>
@@ -97,12 +104,12 @@ function RoomManagementView() {
 						>
 							<Tab
 								className="min-h-10 text-base"
-								label="Apartments"
+								label={t('APARTMENTS')}
 								value="apartments"
 							/>
 							<Tab
 								className="min-h-10 text-base"
-								label="Rooms"
+								label={t('ROOMS')}
 								value="rooms"
 							/>
 							</Tabs>

@@ -1,6 +1,7 @@
 const locale = {
 	APPLICATIONS: 'Ứng dụng',
 	DASHBOARDS: 'Bảng điều khiển',
+	PROJECT_OVERVIEW: 'Tổng quan',
 	CALENDAR: 'Lịch',
 	ECOMMERCE: 'Thương mại điện tử',
 	ACADEMY: 'Học viện',

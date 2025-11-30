@@ -37,9 +37,12 @@ const getStatusConfig = (status: number) => {
 
 type InvoicesTableProps = {
 	onSelectionChange?: (selectedIds: string[]) => void;
+	month?: number;
+	year?: number;
+	excludeRecent?: boolean;
 };
 
-function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
+function InvoicesTable({ onSelectionChange, month, year, excludeRecent }: InvoicesTableProps) {
 	const { t } = useTranslation('invoicesApp');
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(15);
@@ -48,12 +51,21 @@ function InvoicesTable({ onSelectionChange }: InvoicesTableProps) {
 	const [search, setSearch] = useState('');
 	const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
+	// Reset page to 1 when period changes (independent state for each tab)
+	useEffect(() => {
+		setPage(1);
+		setRowSelection({});
+	}, [month, year, excludeRecent]);
+
 	const { data, isLoading, isError, error } = useInvoices({
 		page,
 		limit,
 		sortBy,
 		sortOrder,
-		search: search || undefined
+		search: search || undefined,
+		month,
+		year,
+		excludeRecent
 	});
 
 	const sendInvoice = useSendInvoice();

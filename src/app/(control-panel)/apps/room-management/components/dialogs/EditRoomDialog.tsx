@@ -10,16 +10,15 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
 import { useApartments } from '../../api/hooks/useApartments';
 import { useUpdateRoom } from '../../api/hooks/useUpdateRoom';
 import { Room } from '../../api/types';
 
-const schema = z.object({
-	code: z.string().min(1, 'Code is required'),
-	apartment_id: z.string().min(1, 'Apartment is required')
-});
-
-type FormType = z.infer<typeof schema>;
+type FormType = {
+	code: string;
+	apartment_id: string;
+};
 
 type EditRoomDialogProps = {
 	open: boolean;
@@ -28,10 +27,16 @@ type EditRoomDialogProps = {
 };
 
 function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
+	const { t } = useTranslation('roomManagementApp');
 	const { enqueueSnackbar } = useSnackbar();
 	const { data: apartmentsData } = useApartments();
 	const apartments = apartmentsData?.rows || [];
 	const updateRoom = useUpdateRoom();
+
+	const schema = z.object({
+		code: z.string().min(1, t('CODE_REQUIRED')),
+		apartment_id: z.string().min(1, t('APARTMENT_REQUIRED'))
+	});
 
 	const {
 		control,
@@ -96,7 +101,7 @@ function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
 			fullWidth
 		>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<DialogTitle>Edit Room</DialogTitle>
+				<DialogTitle>{t('EDIT_ROOM_TITLE')}</DialogTitle>
 
 				<DialogContent>
 					<div className="mt-4 space-y-4">
@@ -106,7 +111,7 @@ function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
 							render={({ field }) => (
 								<TextField
 									{...field}
-									label="Room Code"
+									label={t('CODE')}
 									placeholder="e.g., A101, B203"
 									fullWidth
 									error={!!errors.code}
@@ -134,8 +139,8 @@ function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
 									renderInput={(params) => (
 										<TextField
 											{...params}
-											label="Apartment"
-											placeholder="Select apartment"
+											label={t('APARTMENT')}
+											placeholder={t('SELECT_APARTMENT')}
 											variant="outlined"
 											error={!!errors.apartment_id}
 											helperText={errors.apartment_id?.message}
@@ -153,7 +158,7 @@ function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
 						color="inherit"
 						disabled={updateRoom.isPending}
 					>
-						Cancel
+						{t('CANCEL')}
 					</Button>
 					<Button
 						type="submit"
@@ -161,7 +166,7 @@ function EditRoomDialog({ open, onClose, room }: EditRoomDialogProps) {
 						color="secondary"
 						disabled={updateRoom.isPending}
 					>
-						{updateRoom.isPending ? 'Updating...' : 'Update'}
+						{updateRoom.isPending ? t('SAVING') : t('SAVE')}
 					</Button>
 				</DialogActions>
 			</form>

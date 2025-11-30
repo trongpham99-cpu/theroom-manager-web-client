@@ -6,6 +6,11 @@ import DetailSidebarContent from '../ui/DetailSidebarContent';
 import FileManagerHeader from '../ui/FileManagerHeader';
 import { FileManagerAppProvider } from '../../contexts/FileManagerAppContext/FileManagerAppProvider';
 import { useFileManagerAppContext } from '../../contexts/FileManagerAppContext/useFileManagerAppContext';
+import i18n from '@i18n';
+import fileManagerI18n from '../../i18n';
+
+i18n.addResourceBundle('en', 'fileManagerApp', fileManagerI18n.en);
+i18n.addResourceBundle('vi', 'fileManagerApp', fileManagerI18n.vi);
 
 type FileManagerAppViewProps = {
 	children?: React.ReactNode;

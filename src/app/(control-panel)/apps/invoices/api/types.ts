@@ -79,6 +79,9 @@ export type InvoiceListParams = {
 	sortBy?: string;
 	sortOrder?: 'asc' | 'desc';
 	search?: string;
+	month?: number;
+	year?: number;
+	excludeRecent?: boolean; // Exclude current and last month
 };
 
 export type InvoiceListResponse = {

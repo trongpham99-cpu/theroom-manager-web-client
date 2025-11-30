@@ -21,7 +21,8 @@ const navigationConfig: FuseNavItemType[] = [
 		children: [
 			{
 				id: 'dashboards.project',
-				title: 'Tổng quan',
+				title: 'Overview',
+				translate: 'PROJECT_OVERVIEW',
 				type: 'item',
 				icon: 'lucide:clipboard-check',
 				url: '/dashboards/project'
@@ -42,13 +43,6 @@ const navigationConfig: FuseNavItemType[] = [
 		icon: 'lucide:box',
 		children: [
 			{
-				id: 'apps.users',
-				title: 'Users',
-				type: 'item',
-				icon: 'lucide:users',
-				url: '/apps/users'
-			},
-			{
 				id: 'apps.calendar',
 				title: 'Calendar',
 				type: 'item',
@@ -57,17 +51,17 @@ const navigationConfig: FuseNavItemType[] = [
 			},
 			{
 				id: 'apps.messenger',
-				title: 'Messenger',
+				title: 'Messages',
 				type: 'item',
 				icon: 'lucide:message-circle',
 				url: '/apps/messenger'
 			},
 			{
-				id: 'apps.customers',
-				title: 'Customers',
+				id: 'apps.notifications',
+				title: 'Notifications',
 				type: 'item',
-				icon: 'lucide:users',
-				url: '/apps/customers'
+				icon: 'lucide:bell',
+				url: '/apps/notifications'
 			},
 			{
 				id: 'apps.room-management',
@@ -77,11 +71,11 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/room-management'
 			},
 			{
-				id: 'apps.file-manager',
-				title: 'File Manager',
+				id: 'apps.customers',
+				title: 'Customers',
 				type: 'item',
-				icon: 'lucide:folder',
-				url: '/apps/file-manager'
+				icon: 'lucide:users',
+				url: '/apps/customers'
 			},
 			{
 				id: 'apps.invoices',
@@ -91,27 +85,32 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/invoices'
 			},
 			{
-				id: 'apps.notifications',
-				title: 'Notifications',
+				id: 'apps.invoice',
+				title: 'Invoice',
 				type: 'item',
-				icon: 'lucide:bell',
-				url: '/apps/notifications'
+				icon: 'lucide:file-text',
+				url: '/pages/invoice'
 			},
-			// Help Center moved to Pages group
+			{
+				id: 'apps.file-manager',
+				title: 'File Manager',
+				type: 'item',
+				icon: 'lucide:folder',
+				url: '/apps/file-manager'
+			},
+			{
+				id: 'apps.users',
+				title: 'Users',
+				type: 'item',
+				icon: 'lucide:users',
+				url: '/apps/users'
+			},
 			{
 				id: 'apps.settings',
 				title: 'Settings',
 				type: 'item',
 				icon: 'lucide:settings',
 				url: '/apps/settings'
-			},
-			{
-				id: 'apps.invoice',
-				title: 'Invoice',
-				type: 'item',
-				icon: 'lucide:file-text',
-				// url: '/apps/invoice'
-				url: '/pages/invoice'
 			}
 		]
 	},

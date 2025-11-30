@@ -10,15 +10,14 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
 import { useApartments } from '../../api/hooks/useApartments';
 import { useCreateRoom } from '../../api/hooks/useCreateRoom';
 
-const schema = z.object({
-	code: z.string().min(1, 'Code is required'),
-	apartment_id: z.string().min(1, 'Apartment is required')
-});
-
-type FormType = z.infer<typeof schema>;
+type FormType = {
+	code: string;
+	apartment_id: string;
+};
 
 type CreateRoomDialogProps = {
 	open: boolean;
@@ -26,10 +25,16 @@ type CreateRoomDialogProps = {
 };
 
 function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
+	const { t } = useTranslation('roomManagementApp');
 	const { enqueueSnackbar } = useSnackbar();
 	const { data: apartmentsData } = useApartments();
 	const apartments = apartmentsData?.rows || [];
 	const createRoom = useCreateRoom();
+
+	const schema = z.object({
+		code: z.string().min(1, t('CODE_REQUIRED')),
+		apartment_id: z.string().min(1, t('APARTMENT_REQUIRED'))
+	});
 
 	const {
 		control,
@@ -79,7 +84,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 			fullWidth
 		>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<DialogTitle>Create New Room</DialogTitle>
+				<DialogTitle>{t('CREATE_ROOM')}</DialogTitle>
 
 				<DialogContent>
 					<div className="mt-4 space-y-4">
@@ -89,7 +94,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 							render={({ field }) => (
 								<TextField
 									{...field}
-									label="Room Code"
+									label={t('CODE')}
 									placeholder="e.g., A101, B203"
 									fullWidth
 									error={!!errors.code}
@@ -117,8 +122,8 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 									renderInput={(params) => (
 										<TextField
 											{...params}
-											label="Apartment"
-											placeholder="Select apartment"
+											label={t('APARTMENT')}
+											placeholder={t('SELECT_APARTMENT')}
 											variant="outlined"
 											error={!!errors.apartment_id}
 											helperText={errors.apartment_id?.message}
@@ -136,7 +141,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 						color="inherit"
 						disabled={createRoom.isPending}
 					>
-						Cancel
+						{t('CANCEL')}
 					</Button>
 					<Button
 						type="submit"
@@ -144,7 +149,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 						color="secondary"
 						disabled={createRoom.isPending}
 					>
-						{createRoom.isPending ? 'Creating...' : 'Create'}
+						{createRoom.isPending ? t('CREATING') : t('CREATE')}
 					</Button>
 				</DialogActions>
 			</form>

@@ -38,6 +38,7 @@ function CustomersAppView(props: CustomersAppProps) {
 
 	const [createDialogOpen, setCreateDialogOpen] = useState(false);
 	const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+	const [selectedApartment, setSelectedApartment] = useState('all');
 
 	useEffect(() => {
 		setRightSidebarOpen(!!routeParams.customerId);
@@ -47,12 +48,22 @@ function CustomersAppView(props: CustomersAppProps) {
 		setCreateDialogOpen(true);
 	};
 
+	const handleApartmentChange = (apartmentId: string) => {
+		setSelectedApartment(apartmentId);
+	};
+
 	return (
 		<CustomersAppProvider>
 			<>
 				<Root
-					header={<CustomersHeader onAddClick={handleAddClick} />}
-					content={<CustomersTable />}
+					header={
+						<CustomersHeader
+							onAddClick={handleAddClick}
+							selectedApartment={selectedApartment}
+							onApartmentChange={handleApartmentChange}
+						/>
+					}
+					content={<CustomersTable apartmentId={selectedApartment !== 'all' ? selectedApartment : undefined} />}
 					ref={pageLayout}
 					rightSidebarProps={{
 						content: (

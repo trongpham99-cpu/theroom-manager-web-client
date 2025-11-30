@@ -6,6 +6,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Box from '@mui/material/Box';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearch } from '../../hooks/useSearch';
 import { useFilteredUsers } from '../../hooks/useFilteredUsers';
 import CreateUserDialog from '../dialogs/CreateUserDialog';
@@ -14,6 +15,7 @@ import CreateUserDialog from '../dialogs/CreateUserDialog';
  * The users header.
  */
 function UsersHeader() {
+	const { t } = useTranslation('usersApp');
 	const { searchText, setSearchText } = useSearch();
 	const { data: filteredData } = useFilteredUsers();
 	const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -30,7 +32,7 @@ function UsersHeader() {
 							animate={{ x: 0, transition: { delay: 0.2 } }}
 						>
 							<Typography className="text-4xl leading-none font-extrabold tracking-tight">
-								Users
+								{t('HEADER.TITLE')}
 							</Typography>
 						</motion.span>
 						<motion.span
@@ -42,7 +44,7 @@ function UsersHeader() {
 								className="ml-0.5 text-base font-medium"
 								color="text.secondary"
 							>
-								{`${filteredData?.length || 0} users`}
+								{t('HEADER.SUBTITLE', { count: filteredData?.length || 0 })}
 							</Typography>
 						</motion.span>
 					</div>
@@ -56,7 +58,7 @@ function UsersHeader() {
 							<FuseSvgIcon color="action">lucide:search</FuseSvgIcon>
 
 							<Input
-								placeholder="Search users"
+								placeholder={t('HEADER.SEARCH_PLACEHOLDER')}
 								className="flex flex-1"
 								disableUnderline
 								fullWidth
@@ -75,7 +77,7 @@ function UsersHeader() {
 							onClick={() => setOpenCreateDialog(true)}
 							startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 						>
-							Add
+							{t('HEADER.ADD_BUTTON')}
 						</Button>
 					</div>
 				</div>

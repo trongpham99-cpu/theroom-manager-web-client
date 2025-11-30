@@ -13,12 +13,15 @@ import { DialogTitle, DialogContent, DialogContentText, DialogActions, Button } 
 import { useSnackbar } from 'notistack';
 import useNavigate from '@fuse/hooks/useNavigate';
 import { useSearch } from '../../hooks/useSearch';
+import { useTranslation } from 'react-i18next';
 
 type CustomersTableProps = {
 	onSelectionChange?: (selectedIds: string[]) => void;
+	apartmentId?: string;
 };
 
-function CustomersTable({ onSelectionChange }: CustomersTableProps) {
+function CustomersTable({ onSelectionChange, apartmentId }: CustomersTableProps) {
+	const { t } = useTranslation('customersApp');
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(15);
 	const [sortBy, setSortBy] = useState('createdAt');
@@ -36,12 +39,19 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 		return () => clearTimeout(timer);
 	}, [searchText]);
 
+	// Reset page when apartment changes
+	useEffect(() => {
+		setPage(1);
+		setRowSelection({});
+	}, [apartmentId]);
+
 	const { data, isLoading, isError, error } = useCustomers({
 		page,
 		limit,
 		sortBy,
 		sortOrder,
-		search: debouncedSearch || undefined
+		search: debouncedSearch || undefined,
+		apartment_id: apartmentId
 	});
 
 	const deleteCustomer = useDeleteCustomer();
@@ -67,12 +77,12 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 			id: `delete-customer-${customer._id}`,
 			content: ({ handleClose }) => (
 				<>
-					<DialogTitle>Delete Customer?</DialogTitle>
+					<DialogTitle>{t('DELETE_TITLE')}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Are you sure you want to delete <strong>{customer.name}</strong>?
+							{t('DELETE_MESSAGE')} <strong>{customer.name}</strong>?
 							<br />
-							This action cannot be undone.
+							{t('DELETE_WARNING')}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
@@ -80,7 +90,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 							onClick={handleClose}
 							color="inherit"
 						>
-							Cancel
+							{t('CANCEL')}
 						</Button>
 						<Button
 							onClick={async () => {
@@ -97,7 +107,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 							autoFocus
 							disabled={deleteCustomer.isPending}
 						>
-							{deleteCustomer.isPending ? 'Deleting...' : 'Delete'}
+							{deleteCustomer.isPending ? t('DELETING') : t('DELETE')}
 						</Button>
 					</DialogActions>
 				</>
@@ -109,7 +119,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 		() => [
 			{
 				accessorKey: 'name',
-				header: 'Name',
+				header: t('NAME'),
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography
@@ -122,7 +132,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 			},
 			{
 				accessorKey: 'phone',
-				header: 'Phone',
+				header: t('PHONE'),
 				size: 130,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -131,23 +141,9 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 				)
 			},
 			{
-				accessorKey: 'uuid',
-				header: 'UUID',
-				size: 200,
-				Cell: ({ row }) => (
-					<Typography
-						variant="body2"
-						color="text.secondary"
-						className="font-mono text-xs"
-					>
-						{row.original.uuid}
-					</Typography>
-				)
-			},
-			{
 				id: 'room',
-				header: 'Room',
-				size: 120,
+				header: t('ROOM'),
+				size: 150,
 				Cell: ({ row }) => {
 					const room = row.original.room_id;
 					return room ? (
@@ -158,7 +154,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 						/>
 					) : (
 						<Chip
-							label="No Room"
+							label={t('NO_ROOM')}
 							size="small"
 							color="default"
 							variant="outlined"
@@ -168,7 +164,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 			},
 			{
 				id: 'apartment',
-				header: 'Apartment',
+				header: t('APARTMENT'),
 				size: 150,
 				Cell: ({ row }) => {
 					const apartment = row.original.apartment_id;
@@ -181,7 +177,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 			},
 			{
 				accessorKey: 'createdAt',
-				header: 'Created At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -190,7 +186,7 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 				)
 			}
 		],
-		[]
+		[t]
 	);
 
 	if (isLoading) {
@@ -215,14 +211,14 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 					color="error"
 					className="mb-2"
 				>
-					Failed to load customers
+					{t('FAILED_TO_LOAD')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					{error instanceof Error ? error.message : 'Please check your connection and try again.'}
+					{error instanceof Error ? error.message : t('CHECK_CONNECTION')}
 				</Typography>
 			</Paper>
 		);
@@ -246,14 +242,14 @@ function CustomersTable({ onSelectionChange }: CustomersTableProps) {
 					color="text.secondary"
 					className="mb-2"
 				>
-					No customers found
+					{t('NO_CUSTOMERS_FOUND')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					Get started by creating your first customer.
+					{t('NO_CUSTOMERS_MESSAGE')}
 				</Typography>
 			</Paper>
 		);

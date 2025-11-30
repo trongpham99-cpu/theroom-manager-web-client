@@ -7,6 +7,7 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { useSnackbar } from 'notistack';
 import { useFuseDialogContext } from '@fuse/core/FuseDialog/contexts/FuseDialogContext/useFuseDialogContext';
+import { useTranslation } from 'react-i18next';
 import { Room } from '../../api/types';
 import { useRooms } from '../../api/hooks/useRooms';
 import { useApartments } from '../../api/hooks/useApartments';
@@ -14,6 +15,7 @@ import { useDeleteRoom } from '../../api/hooks/useDeleteRoom';
 import EditRoomDialog from '../dialogs/EditRoomDialog';
 
 function RoomsTable() {
+	const { t } = useTranslation('roomManagementApp');
 	const { data: roomsData, isLoading: roomsLoading, isError: roomsError, error: roomsErrorObj } = useRooms();
 	const { data: apartmentsData, isLoading: apartmentsLoading, isError: apartmentsError, error: apartmentsErrorObj } = useApartments();
 	const deleteRoom = useDeleteRoom();
@@ -41,12 +43,12 @@ function RoomsTable() {
 			id: `confirm-delete-room-${room._id}`,
 			content: ({ handleClose }) => (
 				<>
-					<DialogTitle>Delete Room?</DialogTitle>
+					<DialogTitle>{t('DELETE_ROOM_TITLE')}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Are you sure you want to delete room <strong>{room.code}</strong>?
+							{t('DELETE_ROOM_MESSAGE')} <strong>{room.code}</strong>?
 							<br />
-							This action cannot be undone.
+							{t('DELETE_ROOM_WARNING')}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
@@ -54,7 +56,7 @@ function RoomsTable() {
 							onClick={handleClose}
 							color="inherit"
 						>
-							Cancel
+							{t('CANCEL')}
 						</Button>
 						<Button
 							onClick={async () => {
@@ -75,7 +77,7 @@ function RoomsTable() {
 							color="error"
 							autoFocus
 						>
-							Delete
+							{deleteRoom.isPending ? t('DELETING') : t('DELETE')}
 						</Button>
 					</DialogActions>
 				</>
@@ -87,7 +89,7 @@ function RoomsTable() {
 		() => [
 			{
 				accessorKey: 'code',
-				header: 'Room Code',
+				header: t('ROOM_CODE'),
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography
@@ -100,7 +102,7 @@ function RoomsTable() {
 			},
 			{
 				accessorKey: 'apartment_id',
-				header: 'Apartment',
+				header: t('APARTMENT'),
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -110,7 +112,7 @@ function RoomsTable() {
 			},
 			{
 				accessorKey: 'createdAt',
-				header: 'Created At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -120,7 +122,7 @@ function RoomsTable() {
 			},
 			{
 				accessorKey: 'updatedAt',
-				header: 'Updated At',
+				header: t('CREATED_AT'),
 				size: 180,
 				Cell: ({ row }) => (
 					<Typography variant="body2">
@@ -129,7 +131,7 @@ function RoomsTable() {
 				)
 			}
 		],
-		[apartmentsMap]
+		[apartmentsMap, t]
 	);
 
 	if (roomsLoading || apartmentsLoading) {
@@ -157,14 +159,14 @@ function RoomsTable() {
 					color="error"
 					className="mb-2"
 				>
-					Failed to load data
+					{t('FAILED_TO_LOAD')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					{errorObj instanceof Error ? errorObj.message : 'Please check your connection and try again.'}
+					{errorObj instanceof Error ? errorObj.message : t('CHECK_CONNECTION')}
 				</Typography>
 			</Paper>
 		);
@@ -189,14 +191,14 @@ function RoomsTable() {
 					color="text.secondary"
 					className="mb-2"
 				>
-					No rooms found
+					{t('NO_ROOMS_FOUND')}
 				</Typography>
 				<Typography
 					variant="body2"
 					color="text.secondary"
 					className="text-center"
 				>
-					Get started by creating your first room.
+					{t('NO_ROOMS_MESSAGE')}
 				</Typography>
 			</Paper>
 		);

@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import _ from 'lodash';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSecuritySettings } from '../../api/hooks/security/useSecuritySettings';
 import { useUpdateSecuritySettings } from '../../api/hooks/security/useUpdateSecuritySettings';
 import FormControl from '@mui/material/FormControl';
@@ -38,6 +39,7 @@ const schema = z.object({
 type FormType = z.infer<typeof schema>;
 
 function SecurityTabView() {
+	const { t } = useTranslation('settingsApp');
 	const { data: securitySettings } = useSecuritySettings();
 	const { mutate: updateSecuritySettings, isSuccess, error: updateError } = useUpdateSecuritySettings();
 
@@ -79,9 +81,9 @@ function SecurityTabView() {
 			>
 				<div className="flex flex-col gap-4">
 					<div className="w-full">
-						<Typography className="text-xl font-medium">Change your password</Typography>
+						<Typography className="text-xl font-medium">{t('SECURITY.PASSWORD_TITLE')}</Typography>
 						<Typography color="text.secondary">
-							You can only change your password twice within 24 hours!
+							{t('SECURITY.PASSWORD_SUBTITLE')}
 						</Typography>
 					</div>
 					<div className="grid w-full gap-4 sm:grid-cols-4">
@@ -92,7 +94,7 @@ function SecurityTabView() {
 								render={({ field }) => (
 									<FormControl className="w-full">
 										<FormLabel htmlFor="currentPassword">
-											Current password (default:changeme)
+											{t('SECURITY.CURRENT_PASSWORD')}
 										</FormLabel>
 										<TextField
 											{...field}
@@ -118,7 +120,7 @@ function SecurityTabView() {
 								control={control}
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="newPassword">New password</FormLabel>
+										<FormLabel htmlFor="newPassword">{t('SECURITY.NEW_PASSWORD')}</FormLabel>
 										<TextField
 											{...field}
 											id="newPassword"
@@ -141,9 +143,9 @@ function SecurityTabView() {
 				</div>
 				<div className="flex flex-col gap-4">
 					<div className="w-full">
-						<Typography className="text-xl font-medium">Security preferences</Typography>
+						<Typography className="text-xl font-medium">{t('SECURITY.SECURITY_PREF_TITLE')}</Typography>
 						<Typography color="text.secondary">
-							Keep your account more secure with following preferences.
+							{t('SECURITY.SECURITY_PREF_SUBTITLE')}
 						</Typography>
 					</div>
 					<div className="grid w-full gap-4 sm:grid-cols-4">
@@ -156,7 +158,7 @@ function SecurityTabView() {
 										<FormControlLabel
 											classes={{ root: 'm-0', label: 'flex flex-1' }}
 											labelPlacement="start"
-											label="Enable 2-step authentication"
+											label={t('SECURITY.TWO_STEP_VERIFICATION')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -168,8 +170,7 @@ function SecurityTabView() {
 											}
 										/>
 										<FormHelperText>
-											Protects you against password theft by requesting an authentication code via
-											SMS on every login.
+											{t('SECURITY.TWO_STEP_HELPER')}
 										</FormHelperText>
 									</div>
 								)}
@@ -187,7 +188,7 @@ function SecurityTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Ask to change password on every 6 months"
+											label={t('SECURITY.ASK_PASSWORD_CHANGE')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -199,8 +200,7 @@ function SecurityTabView() {
 											}
 										/>
 										<FormHelperText>
-											A simple but an effective way to be protected against data leaks and
-											password theft.
+											{t('SECURITY.ASK_PASSWORD_HELPER')}
 										</FormHelperText>
 									</div>
 								)}
@@ -215,7 +215,7 @@ function SecurityTabView() {
 						disabled={_.isEmpty(dirtyFields)}
 						onClick={() => reset(securitySettings)}
 					>
-						Cancel
+						{t('SECURITY.CANCEL')}
 					</Button>
 					<Button
 						variant="contained"
@@ -223,7 +223,7 @@ function SecurityTabView() {
 						disabled={_.isEmpty(dirtyFields) || !isValid}
 						type="submit"
 					>
-						Save
+						{t('SECURITY.SAVE')}
 					</Button>
 				</div>
 			</form>

@@ -23,11 +23,12 @@ export const useLabels = () => {
 		}
 	}, [labels, setSelectedLabels]);
 
-	if (query.isError) {
-		enqueueSnackbar('Error loading Labels!', {
-			variant: 'error'
-		});
-	}
+	// Disable error notification to avoid spam
+	// if (query.isError) {
+	// 	enqueueSnackbar('Error loading Labels!', {
+	// 		variant: 'error'
+	// 	});
+	// }
 
 	return query;
 };

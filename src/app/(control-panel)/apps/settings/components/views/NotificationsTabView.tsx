@@ -9,6 +9,7 @@ import Switch from '@mui/material/Switch';
 import FormHelperText from '@mui/material/FormHelperText';
 import _ from 'lodash';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNotificationSettings } from '../../api/hooks/notifications/useNotificationSettings';
 import { useUpdateNotificationSettings } from '../../api/hooks/notifications/useUpdateNotificationSettings';
 
@@ -40,6 +41,7 @@ const schema = z.object({
 type FormType = z.infer<typeof schema>;
 
 function NotificationsTabView() {
+	const { t } = useTranslation('settingsApp');
 	const { data: notificationSettings } = useNotificationSettings();
 	const { mutate: updateNotificationSettings } = useUpdateNotificationSettings();
 
@@ -69,7 +71,7 @@ function NotificationsTabView() {
 				className="flex w-full flex-col gap-12"
 			>
 				<div>
-					<Typography className="w-full text-xl font-medium">Alerts</Typography>
+					<Typography className="w-full text-xl font-medium">{t('NOTIFICATIONS.ALERTS_TITLE')}</Typography>
 					<div className="grid w-full grid-cols-1 gap-1.5">
 						<div className="flex items-center justify-between divide-y">
 							<Controller
@@ -83,7 +85,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Communication"
+											label={t('NOTIFICATIONS.COMMUNICATION')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -94,7 +96,7 @@ function NotificationsTabView() {
 												/>
 											}
 										/>
-										<FormHelperText>Get news, announcements, and product updates.</FormHelperText>
+										<FormHelperText>{t('NOTIFICATIONS.COMMUNICATION_HELPER')}</FormHelperText>
 									</div>
 								)}
 							/>
@@ -111,7 +113,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Security"
+											label={t('NOTIFICATIONS.SECURITY')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -123,7 +125,7 @@ function NotificationsTabView() {
 											}
 										/>
 										<FormHelperText>
-											Get important notifications about your account security.
+											{t('NOTIFICATIONS.SECURITY_HELPER')}
 										</FormHelperText>
 									</div>
 								)}
@@ -141,7 +143,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Meetups"
+											label={t('NOTIFICATIONS.MEETUPS')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -153,7 +155,7 @@ function NotificationsTabView() {
 											}
 										/>
 										<FormHelperText>
-											Get an email when a Meetup is posted close to my location.
+											{t('NOTIFICATIONS.MEETUPS_HELPER')}
 										</FormHelperText>
 									</div>
 								)}
@@ -162,8 +164,8 @@ function NotificationsTabView() {
 					</div>
 				</div>
 				<div>
-					<Typography className="w-full text-xl font-medium">Account Activity</Typography>
-					<Typography className="mt-6 w-full font-medium">Email me when:</Typography>
+					<Typography className="w-full text-xl font-medium">{t('NOTIFICATIONS.ACCOUNT_ACTIVITY_TITLE')}</Typography>
+					<Typography className="mt-6 w-full font-medium">{t('NOTIFICATIONS.EMAIL_ME_WHEN')}</Typography>
 					<div className="mt-3 grid w-full grid-cols-1 gap-1">
 						<div className="flex items-center justify-between">
 							<Controller
@@ -177,7 +179,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Someone comments on one of my items"
+											label={t('NOTIFICATIONS.COMMENTS')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -204,7 +206,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Someone mentions me"
+											label={t('NOTIFICATIONS.MENTION')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -231,7 +233,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Someone follows me"
+											label={t('NOTIFICATIONS.FOLLOW')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -258,7 +260,7 @@ function NotificationsTabView() {
 												label: 'flex flex-1'
 											}}
 											labelPlacement="start"
-											label="Someone replies to my job posting"
+											label={t('NOTIFICATIONS.INQUIRY')}
 											control={
 												<Switch
 													onChange={(ev) => {
@@ -281,7 +283,7 @@ function NotificationsTabView() {
 						disabled={_.isEmpty(dirtyFields)}
 						onClick={() => reset(notificationSettings)}
 					>
-						Cancel
+						{t('NOTIFICATIONS.CANCEL')}
 					</Button>
 					<Button
 						variant="contained"
@@ -289,7 +291,7 @@ function NotificationsTabView() {
 						disabled={_.isEmpty(dirtyFields) || !isValid}
 						type="submit"
 					>
-						Save
+						{t('NOTIFICATIONS.SAVE')}
 					</Button>
 				</div>
 			</form>
