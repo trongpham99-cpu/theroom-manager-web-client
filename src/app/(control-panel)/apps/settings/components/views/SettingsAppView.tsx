@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import usePathname from '@fuse/hooks/usePathname';
-import i18n from '@i18n';
 import SettingsAppSidebarContent from '../ui/SettingsAppSidebarContent';
 import SettingsAppHeader from '../ui/SettingsAppHeader';
 import { styled } from '@mui/material/styles';
-import settingsAppNamespace from '../../i18n';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
 	'& .FusePageSimple-contentWrapper': {

@@ -10,11 +10,11 @@ export const useDeleteLabel = () => {
 		mutationFn: calendarApi.deleteLabel,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: labelsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error deleting label!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error deleting label!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

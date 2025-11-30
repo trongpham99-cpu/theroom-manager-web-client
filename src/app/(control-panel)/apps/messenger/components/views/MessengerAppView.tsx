@@ -10,11 +10,6 @@ import UserSidebar from '../sidebars/user/UserSidebar';
 import { MessengerAppContextProvider } from '../../contexts/MessengerAppContext/MessengerAppContextProvider';
 import { useMessengerAppContext } from '../../contexts/MessengerAppContext/useMessengerAppContext';
 import Paper from '@mui/material/Paper';
-import i18n from '@i18n';
-import messengerI18n from '../../i18n';
-
-i18n.addResourceBundle('en', 'messengerApp', messengerI18n.en);
-i18n.addResourceBundle('vi', 'messengerApp', messengerI18n.vi);
 
 const drawerWidth = 400;
 

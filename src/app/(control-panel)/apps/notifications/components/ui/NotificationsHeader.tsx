@@ -2,13 +2,16 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { motion } from 'motion/react';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import NavLinkAdapter from '@fuse/core/NavLinkAdapter';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
+
+type NotificationsHeaderProps = {
+	onAddClick: () => void;
+};
 
 /**
  * The notifications header.
  */
-function NotificationsHeader() {
+function NotificationsHeader({ onAddClick }: NotificationsHeaderProps) {
 	return (
 		<div className="flex flex-auto flex-col py-4">
 			<PageBreadcrumb className="mb-2" />
@@ -32,8 +35,7 @@ function NotificationsHeader() {
 							<Button
 								variant="contained"
 								color="secondary"
-								component={NavLinkAdapter}
-								to="/apps/notifications/new"
+								onClick={onAddClick}
 								startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 							>
 								Add
@@ -47,4 +49,3 @@ function NotificationsHeader() {
 }
 
 export default NotificationsHeader;
-

@@ -9,7 +9,6 @@ import {
 	Typography,
 	DialogContentText
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
@@ -24,7 +23,6 @@ type DeleteUserDialogProps = {
 
 function DeleteUserDialog(props: DeleteUserDialogProps) {
 	const { open, onClose, onSuccess, user } = props;
-	const { t } = useTranslation('usersApp');
 	const queryClient = useQueryClient();
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -32,14 +30,14 @@ function DeleteUserDialog(props: DeleteUserDialogProps) {
 		mutationFn: deleteUser,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['users'] });
-			enqueueSnackbar(t('MESSAGES.DELETE_SUCCESS'), { variant: 'success' });
+			enqueueSnackbar('User deleted successfully', { variant: 'success' });
 			onClose();
 			if (onSuccess) {
 				onSuccess();
 			}
 		},
 		onError: (error: Error) => {
-			enqueueSnackbar(error?.message || t('MESSAGES.DELETE_ERROR'), { variant: 'error' });
+			enqueueSnackbar(error?.message || 'Failed to delete user', { variant: 'error' });
 		}
 	});
 
@@ -71,18 +69,18 @@ function DeleteUserDialog(props: DeleteUserDialogProps) {
 				>
 					lucide:alert-triangle
 				</FuseSvgIcon>
-				{t('DIALOGS.DELETE.TITLE')}
+				Delete User
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					{t('DIALOGS.DELETE.MESSAGE')}{' '}
+					Are you sure you want to delete user{' '}
 					<Typography
 						component="span"
 						className="font-bold"
 					>
 						{user.name}
 					</Typography>
-					? {t('DIALOGS.DELETE.WARNING')}
+					? This action cannot be undone.
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions className="px-6 pb-6">
@@ -90,7 +88,7 @@ function DeleteUserDialog(props: DeleteUserDialogProps) {
 					onClick={onClose}
 					disabled={deleteMutation.isPending}
 				>
-					{t('DIALOGS.DELETE.CANCEL')}
+					Cancel
 				</Button>
 				<Button
 					variant="contained"
@@ -99,7 +97,7 @@ function DeleteUserDialog(props: DeleteUserDialogProps) {
 					disabled={deleteMutation.isPending}
 					startIcon={<FuseSvgIcon>lucide:trash-2</FuseSvgIcon>}
 				>
-					{deleteMutation.isPending ? t('DIALOGS.DELETE.DELETING') : t('DIALOGS.DELETE.DELETE')}
+					{deleteMutation.isPending ? 'Deleting...' : 'Delete'}
 				</Button>
 			</DialogActions>
 		</Dialog>

@@ -11,11 +11,11 @@ export const useCreateEvent = () => {
 		mutationFn: calendarApi.createEvent,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: eventsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error creating event!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error creating event!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

@@ -36,11 +36,8 @@ type CreateNotificationDialogProps = {
 
 function CreateNotificationDialog({ open, onClose }: CreateNotificationDialogProps) {
 	const { mutate: createNotification, isPending } = useCreateNotification();
-	const { data: apartmentsData } = useApartments();
-	const { data: roomsData } = useRooms();
-
-	const apartments = apartmentsData?.rows || [];
-	const rooms = roomsData?.rows || [];
+	const { data: apartments = [] } = useApartments();
+	const { data: rooms = [] } = useRooms();
 
 	const {
 		control,

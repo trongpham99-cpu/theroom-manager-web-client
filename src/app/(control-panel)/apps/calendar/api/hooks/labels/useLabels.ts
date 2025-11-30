@@ -23,7 +23,7 @@ export const useLabels = () => {
 		}
 	}, [labels, setSelectedLabels]);
 
-	// Disable error notification to avoid spam
+	// Commented out error notification to prevent spam
 	// if (query.isError) {
 	// 	enqueueSnackbar('Error loading Labels!', {
 	// 		variant: 'error'

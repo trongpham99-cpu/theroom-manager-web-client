@@ -11,11 +11,11 @@ export const useCreateLabel = () => {
 		mutationFn: calendarApi.createLabel,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: labelsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error creating label!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error creating label!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

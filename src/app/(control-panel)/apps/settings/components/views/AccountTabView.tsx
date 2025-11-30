@@ -9,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import _ from 'lodash';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useAccountSettings } from '../../api/hooks/account/useAccountSettings';
 import { useUpdateAccountSettings } from '../../api/hooks/account/useUpdateAccountSettings';
 import FormControl from '@mui/material/FormControl';
@@ -47,7 +46,6 @@ const schema = z.object({
 type FormType = z.infer<typeof schema>;
 
 function AccountTabView() {
-	const { t } = useTranslation('settingsApp');
 	const { data: accountSettings } = useAccountSettings();
 	const { mutate: updateAccountSettings } = useUpdateAccountSettings();
 
@@ -78,9 +76,9 @@ function AccountTabView() {
 			>
 				<div className="flex flex-col gap-4">
 					<div className="w-full">
-						<Typography className="text-xl font-medium">{t('ACCOUNT.PROFILE_TITLE')}</Typography>
+						<Typography className="text-xl font-medium">Profile</Typography>
 						<Typography color="text.secondary">
-							{t('ACCOUNT.PROFILE_SUBTITLE')}
+							Following information is publicly displayed, be careful!
 						</Typography>
 					</div>
 
@@ -91,10 +89,10 @@ function AccountTabView() {
 								name="name"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="name">{t('ACCOUNT.NAME')}</FormLabel>
+										<FormLabel htmlFor="name">Name</FormLabel>
 										<TextField
 											{...field}
-											placeholder={t('ACCOUNT.NAME')}
+											placeholder="Name"
 											id="name"
 											error={!!errors.name}
 											helperText={errors?.name?.message}
@@ -118,10 +116,10 @@ function AccountTabView() {
 								name="username"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="username">{t('ACCOUNT.USERNAME')}</FormLabel>
+										<FormLabel htmlFor="username">Username</FormLabel>
 										<TextField
 											{...field}
-											placeholder={t('ACCOUNT.USERNAME')}
+											placeholder="Username"
 											id="username"
 											error={!!errors.username}
 											helperText={errors?.username?.message}
@@ -151,11 +149,11 @@ function AccountTabView() {
 								name="title"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="title">{t('ACCOUNT.TITLE')}</FormLabel>
+										<FormLabel htmlFor="title">Title</FormLabel>
 										<TextField
 											className=""
 											{...field}
-											placeholder={t('ACCOUNT.JOB_TITLE')}
+											placeholder="Job title"
 											id="title"
 											error={!!errors.title}
 											helperText={errors?.title?.message}
@@ -179,10 +177,10 @@ function AccountTabView() {
 								name="company"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="company">{t('ACCOUNT.COMPANY')}</FormLabel>
+										<FormLabel htmlFor="company">Company</FormLabel>
 										<TextField
 											{...field}
-											placeholder={t('ACCOUNT.COMPANY')}
+											placeholder="Company"
 											id="company"
 											error={!!errors.company}
 											helperText={errors?.company?.message}
@@ -206,11 +204,11 @@ function AccountTabView() {
 								name="about"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="about">{t('ACCOUNT.NOTES')}</FormLabel>
+										<FormLabel htmlFor="about">Notes</FormLabel>
 										<TextField
 											className=""
 											{...field}
-											placeholder={t('ACCOUNT.NOTES')}
+											placeholder="Notes"
 											id="about"
 											error={!!errors.about}
 											variant="outlined"
@@ -234,7 +232,8 @@ function AccountTabView() {
 											helperText={
 												<span className="flex flex-col">
 													<span>
-														{t('ACCOUNT.NOTES_HELPER')}
+														Brief description for your profile. Basic HTML and Emoji are
+														allowed.
 													</span>
 													<span>{errors?.about?.message}</span>
 												</span>
@@ -249,9 +248,9 @@ function AccountTabView() {
 
 				<div className="flex w-full flex-col gap-4">
 					<div className="w-full">
-						<Typography className="text-xl font-medium">{t('ACCOUNT.PERSONAL_INFO_TITLE')}</Typography>
+						<Typography className="text-xl font-medium">Personal Information</Typography>
 						<Typography color="text.secondary">
-							{t('ACCOUNT.PERSONAL_INFO_SUBTITLE')}
+							Communication details in case we want to connect with you. These will be kept private.
 						</Typography>
 					</div>
 					<div className="grid w-full gap-4 sm:grid-cols-4">
@@ -261,11 +260,11 @@ function AccountTabView() {
 								name="email"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="email">{t('ACCOUNT.EMAIL')}</FormLabel>
+										<FormLabel htmlFor="email">Email</FormLabel>
 										<TextField
 											{...field}
 											id="email"
-											placeholder={t('ACCOUNT.EMAIL')}
+											placeholder="Email"
 											variant="outlined"
 											fullWidth
 											error={!!errors.email}
@@ -288,11 +287,11 @@ function AccountTabView() {
 								name="phone"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="phone">{t('ACCOUNT.PHONE')}</FormLabel>
+										<FormLabel htmlFor="phone">Phone Number</FormLabel>
 										<TextField
 											{...field}
 											id="phone"
-											placeholder={t('ACCOUNT.PHONE')}
+											placeholder="Phone Number"
 											variant="outlined"
 											fullWidth
 											error={!!errors.phone}
@@ -315,11 +314,11 @@ function AccountTabView() {
 								name="country"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="country">{t('ACCOUNT.COUNTRY')}</FormLabel>
+										<FormLabel htmlFor="country">Country</FormLabel>
 										<TextField
 											{...field}
 											id="country"
-											placeholder={t('ACCOUNT.COUNTY')}
+											placeholder="County"
 											variant="outlined"
 											fullWidth
 											error={!!errors.country}
@@ -342,11 +341,11 @@ function AccountTabView() {
 								name="language"
 								render={({ field }) => (
 									<FormControl className="w-full">
-										<FormLabel htmlFor="language">{t('ACCOUNT.LANGUAGE')}</FormLabel>
+										<FormLabel htmlFor="language">Language</FormLabel>
 										<TextField
 											{...field}
 											id="language"
-											placeholder={t('ACCOUNT.LANGUAGE')}
+											placeholder="Language"
 											variant="outlined"
 											fullWidth
 											error={!!errors.language}
@@ -372,7 +371,7 @@ function AccountTabView() {
 						disabled={_.isEmpty(dirtyFields)}
 						onClick={() => reset(accountSettings)}
 					>
-						{t('ACCOUNT.CANCEL')}
+						Cancel
 					</Button>
 					<Button
 						variant="contained"
@@ -380,7 +379,7 @@ function AccountTabView() {
 						disabled={_.isEmpty(dirtyFields) || !isValid}
 						type="submit"
 					>
-						{t('ACCOUNT.SAVE')}
+						Save
 					</Button>
 				</div>
 			</form>

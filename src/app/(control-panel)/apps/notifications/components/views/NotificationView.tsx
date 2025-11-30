@@ -32,11 +32,8 @@ type FormType = z.infer<typeof schema>;
  */
 function NotificationView() {
 	const { mutate: createNotification } = useCreateNotification();
-	const { data: apartmentsData } = useApartments();
-	const { data: roomsData } = useRooms();
-
-	const apartments = apartmentsData?.rows || [];
-	const rooms = roomsData?.rows || [];
+	const { data: apartments = [] } = useApartments();
+	const { data: rooms = [] } = useRooms();
 
 	const methods = useForm<FormType>({
 		mode: 'onChange',

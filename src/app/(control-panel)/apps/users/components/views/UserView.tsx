@@ -12,7 +12,6 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Box from '@mui/system/Box';
 import useNavigate from '@fuse/hooks/useNavigate';
 import { useSnackbar } from 'notistack';
-import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import { getUserById } from '../../UsersApi';
 import UserForm from '../forms/UserForm';
@@ -23,7 +22,6 @@ import DeleteUserDialog from '../dialogs/DeleteUserDialog';
  * The User Detail View.
  */
 function UserView() {
-	const { t } = useTranslation('usersApp');
 	const routeParams = useParams<{ userId: string }>();
 	const isNew = routeParams.userId === 'new';
 	const { userId } = routeParams;
@@ -34,7 +32,7 @@ function UserView() {
 	});
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
-
+	
 	const [openEditDialog, setOpenEditDialog] = useState(false);
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -49,7 +47,7 @@ function UserView() {
 	if (isError) {
 		setTimeout(() => {
 			navigate('/apps/users');
-			enqueueSnackbar(t('MESSAGES.NOT_FOUND'), {
+			enqueueSnackbar('User not found', {
 				variant: 'error'
 			});
 		}, 0);
@@ -104,7 +102,7 @@ function UserView() {
 								onClick={() => setOpenDeleteDialog(true)}
 								startIcon={<FuseSvgIcon size={20}>lucide:trash-2</FuseSvgIcon>}
 							>
-								{t('VIEW.DELETE')}
+								Delete
 							</Button>
 							<Button
 								variant="contained"
@@ -112,7 +110,7 @@ function UserView() {
 								onClick={() => setOpenEditDialog(true)}
 								startIcon={<FuseSvgIcon size={20}>lucide:square-pen</FuseSvgIcon>}
 							>
-								{t('VIEW.EDIT')}
+								Edit
 							</Button>
 						</div>
 					</div>
@@ -140,7 +138,7 @@ function UserView() {
 										{user.isEmailVerified ? 'lucide:check-circle' : 'lucide:x-circle'}
 									</FuseSvgIcon>
 								}
-								label={user.isEmailVerified ? t('VIEW.EMAIL_VERIFIED') : t('VIEW.EMAIL_NOT_VERIFIED')}
+								label={user.isEmailVerified ? 'Email Verified' : 'Email Not Verified'}
 								className="mr-3 mb-3"
 								size="small"
 								color={user.isEmailVerified ? 'success' : 'warning'}
@@ -192,7 +190,7 @@ function UserView() {
 										variant="subtitle2"
 										className="mb-2 font-medium"
 									>
-										{t('VIEW.USER_SETTINGS')}
+										User Settings
 									</Typography>
 									<pre className="overflow-auto rounded bg-gray-100 p-4 text-xs dark:bg-gray-800">
 										{JSON.stringify(user.settings, null, 2)}

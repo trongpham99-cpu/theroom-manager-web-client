@@ -11,11 +11,11 @@ export const useUpdateLabel = () => {
 		mutationFn: calendarApi.updateLabel,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: labelsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error updating label!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error updating label!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import clsx from 'clsx';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import { useTranslation } from 'react-i18next';
 import SettingsAppNavigation from '../../lib/constants/SettingsAppNavigation';
 
 type SettingsAppSidebarContentProps = {
@@ -15,12 +14,11 @@ type SettingsAppSidebarContentProps = {
 function SettingsAppSidebarContent(props: SettingsAppSidebarContentProps) {
 	const { className, onSetSidebarOpen } = props;
 	const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
-	const { t } = useTranslation('settingsApp');
 
 	return (
 		<div>
 			<div className={clsx('flex items-center justify-between p-4', className)}>
-				<Typography className="text-4xl leading-none font-extrabold tracking-tight">{t('TITLE')}</Typography>
+				<Typography className="text-4xl leading-none font-extrabold tracking-tight"> Settings</Typography>
 				{isMobile && (
 					<IconButton
 						onClick={() => onSetSidebarOpen(false)}

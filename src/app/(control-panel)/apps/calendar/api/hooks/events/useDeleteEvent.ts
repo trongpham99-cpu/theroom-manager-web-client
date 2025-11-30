@@ -11,11 +11,11 @@ export const useDeleteEvent = () => {
 		mutationFn: calendarApi.deleteEvent,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: eventsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error deleting event!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error deleting event!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

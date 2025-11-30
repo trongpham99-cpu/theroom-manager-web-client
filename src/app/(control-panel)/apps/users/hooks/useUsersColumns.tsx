@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { type MRT_ColumnDef } from 'material-react-table';
 import { Chip, Avatar, Box, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { UserType } from '../UsersApi';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 
@@ -9,13 +8,11 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
  * Hook to get user table columns
  */
 export const useUsersColumns = () => {
-	const { t } = useTranslation('usersApp');
-
 	const columns = useMemo<MRT_ColumnDef<UserType>[]>(
 		() => [
 			{
 				accessorKey: 'photoURL',
-				header: t('COLUMNS.AVATAR'),
+				header: 'Avatar',
 				size: 80,
 				enableSorting: false,
 				Cell: ({ row }) => (
@@ -28,7 +25,7 @@ export const useUsersColumns = () => {
 			},
 			{
 				accessorKey: 'name',
-				header: t('COLUMNS.NAME'),
+				header: 'Name',
 				size: 200,
 				Cell: ({ row }) => (
 					<Box>
@@ -44,16 +41,16 @@ export const useUsersColumns = () => {
 			},
 			{
 				accessorKey: 'email',
-				header: t('COLUMNS.EMAIL'),
+				header: 'Email',
 				size: 250
 			},
 			{
 				accessorKey: 'role',
-				header: t('COLUMNS.ROLE'),
+				header: 'Role',
 				size: 120,
 				Cell: ({ row }) => (
 					<Chip
-						label={t(`ROLES.${row.original.role.toUpperCase()}`)}
+						label={row.original.role}
 						size="small"
 						color={row.original.role === 'admin' ? 'primary' : 'default'}
 						variant="outlined"
@@ -62,7 +59,7 @@ export const useUsersColumns = () => {
 			},
 			{
 				accessorKey: 'isEmailVerified',
-				header: t('COLUMNS.EMAIL_VERIFIED'),
+				header: 'Email Verified',
 				size: 120,
 				Cell: ({ row }) => (
 					<Chip
@@ -74,7 +71,7 @@ export const useUsersColumns = () => {
 								{row.original.isEmailVerified ? 'lucide:check-circle' : 'lucide:x-circle'}
 							</FuseSvgIcon>
 						}
-						label={row.original.isEmailVerified ? t('COLUMNS.VERIFIED') : t('COLUMNS.NOT_VERIFIED')}
+						label={row.original.isEmailVerified ? 'Verified' : 'Not Verified'}
 						size="small"
 						color={row.original.isEmailVerified ? 'success' : 'warning'}
 						variant="outlined"
@@ -83,7 +80,7 @@ export const useUsersColumns = () => {
 			},
 			{
 				accessorKey: 'id',
-				header: t('COLUMNS.ID'),
+				header: 'ID',
 				size: 200,
 				Cell: ({ row }) => (
 					<Typography
@@ -98,7 +95,7 @@ export const useUsersColumns = () => {
 				)
 			}
 		],
-		[t]
+		[]
 	);
 
 	return columns;

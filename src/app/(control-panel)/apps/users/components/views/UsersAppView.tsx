@@ -6,12 +6,10 @@ import useParams from '@fuse/hooks/useParams';
 import { styled } from '@mui/material/styles';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import useNavigate from '@fuse/hooks/useNavigate';
-import i18n from '@i18n';
 import UsersHeader from '../ui/UsersHeader';
 import UsersList from '../ui/user-list/UsersList';
 import UsersSidebarContent from '../ui/UsersSidebarContent';
 import { UsersAppProvider } from '../../contexts/UsersAppContext/UsersAppProvider';
-import usersAppNamespace from '../../i18n';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
 	'& .container': {

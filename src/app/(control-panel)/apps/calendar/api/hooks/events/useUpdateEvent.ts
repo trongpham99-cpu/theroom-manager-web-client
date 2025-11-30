@@ -10,11 +10,11 @@ export const useUpdateEvent = () => {
 		mutationFn: calendarApi.updateEvent,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: eventsQueryKey });
-		},
-		onError: () => {
-			enqueueSnackbar('Error updating event!', {
-				variant: 'error'
-			});
 		}
+		// onError: () => {
+		// 	enqueueSnackbar('Error updating event!', {
+		// 		variant: 'error'
+		// 	});
+		// }
 	});
 };

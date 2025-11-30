@@ -5,7 +5,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import _ from 'lodash';
-import { useTranslation } from 'react-i18next';
 import {
 	Dialog,
 	DialogTitle,
@@ -46,7 +45,6 @@ type CreateUserDialogProps = {
 
 function CreateUserDialog(props: CreateUserDialogProps) {
 	const { open, onClose } = props;
-	const { t } = useTranslation('usersApp');
 	const queryClient = useQueryClient();
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -70,12 +68,12 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 		mutationFn: createUser,
 		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['users'] });
-			enqueueSnackbar(response.message || t('MESSAGES.CREATE_SUCCESS'), { variant: 'success' });
+			enqueueSnackbar(response.message || 'User created successfully', { variant: 'success' });
 			reset();
 			onClose();
 		},
 		onError: (error: Error) => {
-			enqueueSnackbar(error?.message || t('MESSAGES.CREATE_ERROR'), { variant: 'error' });
+			enqueueSnackbar(error?.message || 'Failed to create user', { variant: 'error' });
 		}
 	});
 
@@ -105,7 +103,7 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 				}
 			}}
 		>
-			<DialogTitle className="text-2xl font-bold">{t('DIALOGS.CREATE.TITLE')}</DialogTitle>
+			<DialogTitle className="text-2xl font-bold">Create New User</DialogTitle>
 			<DialogContent>
 				<div className="flex flex-col gap-6 pt-4">
 					{/* Avatar Upload - Temporarily Disabled */}
@@ -200,11 +198,11 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 						name="name"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="name-create">{t('DIALOGS.CREATE.NAME_LABEL')}</FormLabel>
+								<FormLabel htmlFor="name-create">Name</FormLabel>
 								<TextField
 									{...field}
 									id="name-create"
-									placeholder={t('DIALOGS.CREATE.NAME_PLACEHOLDER')}
+									placeholder="Full name"
 									error={!!errors.name}
 									helperText={errors?.name?.message}
 									variant="outlined"
@@ -226,11 +224,11 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 						name="email"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="email-create">{t('DIALOGS.CREATE.EMAIL_LABEL')}</FormLabel>
+								<FormLabel htmlFor="email-create">Email</FormLabel>
 								<TextField
 									{...field}
 									id="email-create"
-									placeholder={t('DIALOGS.CREATE.EMAIL_PLACEHOLDER')}
+									placeholder="email@example.com"
 									type="email"
 									error={!!errors.email}
 									helperText={errors?.email?.message}
@@ -253,7 +251,7 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 						name="role"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="role-create">{t('DIALOGS.CREATE.ROLE_LABEL')}</FormLabel>
+								<FormLabel htmlFor="role-create">Role</FormLabel>
 								<Select
 									{...field}
 									id="role-create"
@@ -261,8 +259,8 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 									fullWidth
 									startAdornment={<FuseSvgIcon color="action">lucide:shield</FuseSvgIcon>}
 								>
-									<MenuItem value="user">{t('ROLES.USER')}</MenuItem>
-									<MenuItem value="admin">{t('ROLES.ADMIN')}</MenuItem>
+									<MenuItem value="user">User</MenuItem>
+									<MenuItem value="admin">Admin</MenuItem>
 								</Select>
 							</FormControl>
 						)}
@@ -274,14 +272,14 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 						name="password"
 						render={({ field }) => (
 							<FormControl className="w-full">
-								<FormLabel htmlFor="password-create">{t('DIALOGS.CREATE.PASSWORD_LABEL')}</FormLabel>
+								<FormLabel htmlFor="password-create">Password</FormLabel>
 								<TextField
 									{...field}
 									id="password-create"
-									placeholder={t('DIALOGS.CREATE.PASSWORD_PLACEHOLDER')}
+									placeholder="Password"
 									type="password"
 									error={!!errors.password}
-									helperText={errors?.password?.message || t('DIALOGS.CREATE.PASSWORD_HELPER')}
+									helperText={errors?.password?.message || 'Leave empty to auto-generate'}
 									variant="outlined"
 									fullWidth
 									slotProps={{
@@ -296,14 +294,14 @@ function CreateUserDialog(props: CreateUserDialogProps) {
 				</div>
 			</DialogContent>
 			<DialogActions className="px-6 pb-6">
-				<Button onClick={handleClose}>{t('DIALOGS.CREATE.CANCEL')}</Button>
+				<Button onClick={handleClose}>Cancel</Button>
 				<Button
 					variant="contained"
 					color="secondary"
 					disabled={_.isEmpty(dirtyFields) || !isValid || createMutation.isPending}
 					onClick={handleSubmit(onSubmit)}
 				>
-					{createMutation.isPending ? t('DIALOGS.CREATE.CREATING') : t('DIALOGS.CREATE.CREATE')}
+					{createMutation.isPending ? 'Creating...' : 'Create User'}
 				</Button>
 			</DialogActions>
 		</Dialog>
