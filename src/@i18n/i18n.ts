@@ -22,10 +22,15 @@ const resources = {
  * The keySeparator option is set to false because we do not use keys in form messages.welcome.
  * The interpolation option is set to false because we do not use interpolation in form messages.welcome.
  */
+
+// Get saved language from localStorage or default to English
+const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
+
 i18n.use(initReactI18next) // passes i18n down to react-i18next
 	.init({
 		resources,
-		lng: 'en',
+		lng: savedLanguage,
+		fallbackLng: 'en',
 
 		keySeparator: false, // we do not use keys in form messages.welcome
 
@@ -33,5 +38,10 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
 			escapeValue: false // react already safes from xss
 		}
 	});
+
+// Save language preference to localStorage whenever it changes
+i18n.on('languageChanged', (lng) => {
+	localStorage.setItem('i18nextLng', lng);
+});
 
 export default i18n;

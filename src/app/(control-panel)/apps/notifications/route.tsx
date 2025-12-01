@@ -1,20 +1,14 @@
 import { lazy } from 'react';
 import { FuseRouteItemType } from '@fuse/utils/FuseUtils';
 
-const NotificationsAppView = lazy(() => import('./components/views/NotificationsAppView'));
+const NotificationsView = lazy(() => import('./components/views/NotificationsView'));
 
 /**
- * The Notifications App Route.
+ * The Notifications app Route.
  */
-const route: FuseRouteItemType = {
+const Route: FuseRouteItemType = {
 	path: 'apps/notifications',
-	children: [
-		{
-			path: '',
-			element: <NotificationsAppView />,
-			exact: true
-		}
-	]
+	element: <NotificationsView />
 };
 
-export default route;
+export default Route;

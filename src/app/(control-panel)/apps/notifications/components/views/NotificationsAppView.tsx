@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FusePageSimple from '@fuse/core/FusePageSimple/FusePageSimple';
 import Typography from '@mui/material/Typography';
@@ -8,8 +9,15 @@ import { useDeleteNotification } from '../../api/hooks/useDeleteNotification';
 import { useGetAllNotifications } from '../../api/hooks/useGetAllNotifications';
 import NotificationCard from '../ui/NotificationCard';
 import NotificationsAppHeader from '../ui/NotificationsAppHeader';
+import CreateNotificationDialog from '../dialogs/CreateNotificationDialog';
+import i18n from '@i18n';
+import notificationsI18n from '../../i18n';
+
+i18n.addResourceBundle('en', 'notificationsApp', notificationsI18n.en);
+i18n.addResourceBundle('vi', 'notificationsApp', notificationsI18n.vi);
 
 function NotificationsAppView() {
+	const [openDialog, setOpenDialog] = useState(false);
 	const { mutate: deleteNotification } = useDeleteNotification();
 
 	const { data: notifications, isLoading } = useGetAllNotifications();
@@ -23,8 +31,9 @@ function NotificationsAppView() {
 	}
 
 	return (
-		<FusePageSimple
-			header={<NotificationsAppHeader />}
+		<>
+			<FusePageSimple
+				header={<NotificationsAppHeader onAddClick={() => setOpenDialog(true)} />}
 			content={
 				<div className="mt-0 flex w-full flex-wrap p-4 sm:mt-2">
 					<Masonry
@@ -62,6 +71,12 @@ function NotificationsAppView() {
 				</div>
 			}
 		/>
+
+		<CreateNotificationDialog
+			open={openDialog}
+			onClose={() => setOpenDialog(false)}
+		/>
+		</>
 	);
 }
 

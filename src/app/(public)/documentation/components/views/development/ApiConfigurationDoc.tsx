@@ -100,7 +100,7 @@ mockSetup().then(() => {
 // src/utils/api.ts
 import ky, { KyInstance } from 'ky';
 
-const apiUrl = new URL((import.meta?.env?.VITE_API_BASE_URL as string) || 'http://localhost:3000');
+const apiUrl = new URL((import.meta?.env?.VITE_API_BASE_URL as string) || 'http://localhost:3321');
 const devApiBaseHost = apiUrl.hostname;
 const PORT = Number(import.meta.env.VITE_PORT) || 3000;
 const devApiBaseUrl = \`\${apiUrl.protocol}//\${devApiBaseHost}:\${PORT}\`;

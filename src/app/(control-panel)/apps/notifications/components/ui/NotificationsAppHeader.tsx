@@ -1,45 +1,23 @@
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { useSnackbar } from 'notistack';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
-import { useCreateNotification } from '../../api/hooks/useCreateNotification';
 import { useDeleteNotifications } from '../../api/hooks/useDeleteNotifications';
 import { useGetAllNotifications } from '../../api/hooks/useGetAllNotifications';
-import NotificationModel from '../../api/models/NotificationModel';
-import NotificationTemplate from './NotificationTemplate';
+
+type NotificationsAppHeaderProps = {
+	onAddClick: () => void;
+};
 
 /**
  * The Notifications app header.
  */
-function NotificationsAppHeader() {
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+function NotificationsAppHeader({ onAddClick }: NotificationsAppHeaderProps) {
 	const { data: notifications } = useGetAllNotifications();
-
-	const { mutate: addNotification } = useCreateNotification();
 	const { mutate: deleteNotifications } = useDeleteNotifications();
 
 	function handleDismissAll() {
 		deleteNotifications(notifications.map((notification) => notification.id));
-	}
-
-	function demoNotification() {
-		const item = NotificationModel({ title: 'Great Job! this is awesome.' });
-
-		enqueueSnackbar(item.title, {
-			key: item.id,
-			content: (
-				<NotificationTemplate
-					item={item}
-					onClose={() => {
-						closeSnackbar(item.id);
-					}}
-				/>
-			)
-		});
-
-		addNotification(item);
 	}
 
 	return (
@@ -61,21 +39,22 @@ function NotificationsAppHeader() {
 				<div className="mt-3 flex items-center gap-2 sm:mx-2 sm:mt-0">
 					<Button
 						className="whitespace-nowrap"
-						onClick={demoNotification}
+						onClick={onAddClick}
 						variant="contained"
-						color="primary"
+						color="secondary"
+						startIcon={<FuseSvgIcon>lucide:plus</FuseSvgIcon>}
 					>
-						Example notification
+						New Notification
 					</Button>
 
 					<Button
 						className="whitespace-nowrap"
-						variant="contained"
-						color="secondary"
+						variant="outlined"
+						color="inherit"
 						onClick={handleDismissAll}
-						startIcon={<FuseSvgIcon>lucide:bell</FuseSvgIcon>}
+						startIcon={<FuseSvgIcon>lucide:bell-off</FuseSvgIcon>}
 					>
-						Dissmiss All
+						Dismiss All
 					</Button>
 				</div>
 			</div>

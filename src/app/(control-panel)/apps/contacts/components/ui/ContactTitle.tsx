@@ -8,7 +8,7 @@ function ContactTitle(props: ContactTitleProps) {
 	const { contactId } = props;
 	const { data: contact } = useContact(contactId);
 
-	return contact?.name || 'Contact';
+	return contact?.name || 'Customer';
 }
 
 export default ContactTitle;
