@@ -113,30 +113,7 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/settings'
 			}
 		]
-	},
-	{
-		id: 'pages',
-		title: 'Pages',
-		type: 'group',
-		icon: 'lucide:file-text',
-		children: [
-			{
-				id: 'pages.help-center',
-				title: 'Help Center',
-				type: 'item',
-				icon: 'lucide:help-circle',
-				url: '/apps/help-center'
-			},
-			{
-				id: 'pages.error',
-				title: 'Error',
-				type: 'item',
-				icon: 'lucide:alert-triangle',
-				url: '/pages/error'
-			}
-		]
 	}
-
 	// ========================================
 	// CÁC PHẦN SAU ĐÂY ĐÃ BỊ TẮT - BẠN CÓ THỂ BẬT LẠI DẦN DẦN:
 	// ========================================
