@@ -5,11 +5,35 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'motion/react';
 import Box from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
+import { useInvoice } from 'src/app/(control-panel)/apps/invoices/api/hooks/useInvoice';
+import FuseLoading from '@fuse/core/FuseLoading';
+import { format } from 'date-fns/format';
+import { useMemo } from 'react';
 
 /**
  * The compact invoice page.
  */
 function CompactInvoicePageView() {
+	const invoiceId = useMemo(() => {
+		const params = new URLSearchParams(window.location.search);
+		return params.get('id') || '';
+	}, []);
+
+	const { data: invoice, isLoading, isError } = useInvoice(invoiceId);
+
+	if (isLoading) {
+		return <FuseLoading className="min-h-screen" />;
+	}
+
+	if (isError || !invoice) {
+		return (
+			<Box className="flex h-full items-center justify-center p-8">
+				<Typography variant="h6" color="error">
+					Invoice not found
+				</Typography>
+			</Box>
+		);
+	}
 	return (
 		<div className="inline-block w-full overflow-auto p-6 text-left sm:p-10 print:p-0">
 			<motion.div
@@ -22,33 +46,39 @@ function CompactInvoicePageView() {
 						<div className="flex items-start justify-between">
 							<div className="grid grid-cols-2 gap-x-4 gap-y-0.25">
 								<Typography
-									className="text-4xl tracking-tight"
+									className="text-4xl tracking-tight mb-4"
 									color="text.secondary"
 								>
-									INVOICE
+									HÓA ĐƠN
 								</Typography>
-								<Typography className="text-4xl">#9-0004</Typography>
+								<Typography className="text-4xl mb-4"></Typography>
 								<Typography
 									className="font-medium tracking-tight"
 									color="text.secondary"
 								>
-									INVOICE DATE
+									KỲ THÁNG
 								</Typography>
-								<Typography className="font-medium">Jul 19, 2022</Typography>
+								<Typography className="font-medium">
+									{invoice.month}/{invoice.year}
+								</Typography>
 								<Typography
 									className="font-medium tracking-tight"
 									color="text.secondary"
 								>
-									DUE DATE
+									NGÀY TẠO
 								</Typography>
-								<Typography className="font-medium">Aug 19, 2022</Typography>
+								<Typography className="font-medium">
+									{format(new Date(invoice.createdAt), 'dd/MM/yyyy')}
+								</Typography>
 								<Typography
 									className="font-medium tracking-tight"
 									color="text.secondary"
 								>
-									TOTAL DUE
+									TỔNG TIỀN
 								</Typography>
-								<Typography className="font-medium">$235,000.00</Typography>
+								<Typography className="font-medium">
+									{invoice.total_amount?.toLocaleString('vi-VN')} VNĐ
+								</Typography>
 							</div>
 
 							<Box
@@ -61,7 +91,7 @@ function CompactInvoicePageView() {
 								<div className="w-24 place-self-center">
 									<img
 										className="w-24"
-										src="/assets/images/logo/logo.svg"
+										src="/assets/images/logo/logo.png"
 										alt="logo"
 									/>
 								</div>
@@ -72,164 +102,146 @@ function CompactInvoicePageView() {
 											alpha(theme.palette.getContrastText(theme.palette.primary.dark), 0.25)
 									}}
 								>
-									<Typography className="font-medium">Fuse Inc.</Typography>
-									<Typography>2810 Country Club Road</Typography>
-									<Typography>Cranford, NJ 07016</Typography>
-									<Typography>+66 123 455 87</Typography>
-									<Typography>hello@fuseinc.com</Typography>
-									<Typography>www.fuseinc.com</Typography>
+									<Typography className="font-medium">The Room Manager</Typography>
+									<Typography>Quản lý phòng trọ</Typography>
+									<Typography>Hà Nội, Việt Nam</Typography>
+									<Typography>+84 123 456 789</Typography>
+									<Typography>contact@theroom.vn</Typography>
+									<Typography>www.theroom.vn</Typography>
 								</Box>
 							</Box>
 						</div>
 
 						<div className="text-md">
-							<Typography className="text-xl font-medium">Brian Hughes</Typography>
-							<Typography>9301 Wood Street Philadelphia, PA 19111</Typography>
-							<Typography>hughes.brian@company.com</Typography>
-							<Typography>+55 552 455 87</Typography>
+							<Typography className="text-xl font-medium mb-4">Thông tin khách hàng</Typography>
+							<div className="grid grid-cols-12 gap-x-1">
+								<Typography
+									className="col-span-10 font-medium tracking-tight"
+									color="text.secondary"
+								>
+									TÊN KHÁCH HÀNG
+								</Typography>
+								<Typography className="col-span-2 text-right font-medium">
+									{invoice.customer_name || '-'}
+								</Typography>
+								<Typography
+									className="col-span-10 font-medium tracking-tight"
+									color="text.secondary"
+								>
+									SỐ ĐIỆN THOẠI
+								</Typography>
+								<Typography className="col-span-2 text-right font-medium">
+									{invoice.phone || '-'}
+								</Typography>
+								<Typography
+									className="col-span-10 font-medium tracking-tight"
+									color="text.secondary"
+								>
+									MÃ PHÒNG
+								</Typography>
+								<Typography className="col-span-2 text-right font-medium">
+									{invoice.room_code || '-'}
+								</Typography>
+							</div>
 						</div>
 
 						<div className="mt-12 grid grid-cols-12 gap-x-1">
 							<div
-								className="text-md col-span-8 font-medium"
+								className="text-md col-span-10 font-medium"
 								color="text.secondary"
 							>
-								SERVICE
-							</div>
-							<div
-								className="text-md text-right font-medium"
-								color="text.secondary"
-							>
-								RATE
-							</div>
-							<div
-								className="text-md text-right font-medium"
-								color="text.secondary"
-							>
-								QTY
+								DỊCH VỤ
 							</div>
 							<div
 								className="text-md col-span-2 text-right font-medium"
 								color="text.secondary"
 							>
-								TOTAL
+								THÀNH TIỀN
 							</div>
 
 							<div className="col-span-12 my-4 border-b" />
 
-							<Typography className="col-span-8 text-lg font-medium">Prototype & Design</Typography>
-							<Typography className="self-center text-right">$75.00</Typography>
-							<Typography className="self-center text-right">240</Typography>
-							<Typography className="col-span-2 self-center text-right">$18,000.00</Typography>
+							{/* Tiền phòng */}
+							{invoice.actual_room_fee > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium">
+										Tiền phòng
+									</Typography>
+									<Typography className="col-span-2 self-center text-right">
+										{invoice.actual_room_fee?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<div className="col-span-12 my-4 border-b" />
+							{/* Tiền điện */}
+							{invoice.electricity?.price > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium">
+										Tiền điện
+									</Typography>
+									<Typography className="col-span-2 self-center text-right">
+										{invoice.electricity.price?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<Typography className="col-span-8 text-lg font-medium">Development</Typography>
-							<Typography className="self-center text-right">$60.50</Typography>
-							<Typography className="self-center text-right">350</Typography>
-							<Typography className="col-span-2 self-center text-right">$21,175.00</Typography>
+							{/* Tiền nước */}
+							{invoice.water_fee > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium">
+										Tiền nước
+									</Typography>
+									<Typography className="col-span-2 self-center text-right">
+										{invoice.water_fee?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<div className="col-span-12 my-4 border-b" />
+							{/* Phí quản lý */}
+							{invoice.management_fee > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium">Phí quản lý</Typography>
+									<Typography className="col-span-2 self-center text-right">
+										{invoice.management_fee?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<Typography className="col-span-8 text-lg font-medium">Testing</Typography>
-							<Typography className="self-center text-right">$25.00</Typography>
-							<Typography className="self-center text-right">50</Typography>
-							<Typography className="col-span-2 self-center text-right">$1,250.00</Typography>
+							{/* Nợ cũ */}
+							{invoice.old_debt > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium">Nợ cũ</Typography>
+									<Typography className="col-span-2 self-center text-right">
+										{invoice.old_debt?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<div className="col-span-12 my-4 border-b" />
+							{/* Giảm trừ */}
+							{invoice.deduction > 0 && (
+								<>
+									<Typography className="col-span-10 text-lg font-medium text-error">Giảm trừ</Typography>
+									<Typography className="col-span-2 self-center text-right text-error">
+										-{invoice.deduction?.toLocaleString('vi-VN')} VNĐ
+									</Typography>
+									<div className="col-span-12 my-2 border-b border-dashed" />
+								</>
+							)}
 
-							<Typography className="col-span-8 text-lg font-medium">Documentation & Training</Typography>
-							<Typography className="self-center text-right">$26.50</Typography>
-							<Typography className="self-center text-right">260</Typography>
-							<Typography className="col-span-2 self-center text-right">$6,890.00</Typography>
-
-							<div className="col-span-12 my-4 border-b" />
-
-							<div className="col-span-8 text-lg font-medium">Critical bug fixes for a year</div>
-							<div className="self-center text-right">$25,000</div>
-							<div className="self-center text-right">2</div>
-							<div className="col-span-2 self-center text-right">$50,000.00</div>
-
-							<div className="col-span-12 my-4 border-b" />
-
-							<Typography className="col-span-8 text-lg font-medium">
-								Extended security updates for a year
-							</Typography>
-							<Typography className="self-center text-right">$15.000</Typography>
-							<Typography className="self-center text-right">2</Typography>
-							<Typography className="col-span-2 self-center text-right">$30,000.00</Typography>
-
-							<div className="col-span-12 my-4 border-b" />
-
-							<Typography className="col-span-8 text-lg font-medium">
-								Extended updates for a year
-							</Typography>
-							<Typography className="self-center text-right">$50.000</Typography>
-							<Typography className="self-center text-right">2</Typography>
-							<Typography className="col-span-2 self-center text-right">$100,000.00</Typography>
-
-							<div className="col-span-12 mt-16" />
-
-							<Typography
-								className="col-span-10 self-center font-medium tracking-tight"
-								color="text.secondary"
-							>
-								SUBTOTAL
-							</Typography>
-							<Typography className="col-span-2 text-right text-lg">$227,315.00</Typography>
-
-							<div className="col-span-12 my-3 border-b" />
-
-							<Typography
-								className="col-span-10 self-center font-medium tracking-tight"
-								color="text.secondary"
-							>
-								TAX
-							</Typography>
-							<Typography className="col-span-2 text-right text-lg">$11,365.75</Typography>
-
-							<div className="col-span-12 my-3 border-b" />
-
-							<Typography
-								className="col-span-10 self-center font-medium tracking-tight"
-								color="text.secondary"
-							>
-								DISCOUNT
-							</Typography>
-							<Typography className="col-span-2 text-right text-lg">$3,680.75</Typography>
-
-							<div className="col-span-12 my-3 border-b" />
+							<div className="col-span-12 mt-8" />
 
 							<Typography
 								className="col-span-10 self-center text-2xl font-medium tracking-tight"
 								color="text.secondary"
 							>
-								TOTAL
+								TỔNG CỘNG
 							</Typography>
-							<div className="col-span-2 text-right text-2xl font-medium">$235,000.00</div>
-						</div>
-
-						<div className="mt-16">
-							<Typography className="font-medium">
-								Please pay within 15 days. Thank you for your business.
-							</Typography>
-							<div className="mt-4 flex items-start">
-								<img
-									className="mt-2 w-9 shrink-0"
-									src="/assets/images/logo/logo.svg"
-									alt="logo"
-								/>
-								<Typography
-									className="ml-6 text-sm"
-									color="text.secondary"
-								>
-									In condimentum malesuada efficitur. Mauris volutpat placerat auctor. Ut ac congue
-									dolor. Quisque scelerisque lacus sed feugiat fermentum. Cras aliquet facilisis
-									pellentesque. Nunc hendrerit quam at leo commodo, a suscipit tellus dapibus. Etiam
-									at felis volutpat est mollis lacinia. Mauris placerat sem sit amet velit mollis, in
-									porttitor ex finibus. Proin eu nibh id libero tincidunt lacinia et eget.
-								</Typography>
-							</div>
+							<div className="col-span-2 text-right text-2xl font-medium">{invoice.total_amount?.toLocaleString('vi-VN')} VNĐ</div>
 						</div>
 					</CardContent>
 				</Card>

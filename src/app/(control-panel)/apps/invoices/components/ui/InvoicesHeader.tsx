@@ -10,6 +10,10 @@ import { useTranslation } from 'react-i18next';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { SyntheticEvent } from 'react';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useApartments } from 'src/app/(control-panel)/apps/room-management/api/hooks/useApartments';
 
 type InvoicesHeaderProps = {
 	onAddClick: () => void;
@@ -17,11 +21,14 @@ type InvoicesHeaderProps = {
 	selectedInvoiceIds: string[];
 	selectedPeriod: string;
 	onPeriodChange: (period: string) => void;
+	selectedApartment: string;
+	onApartmentChange: (apartmentId: string) => void;
 };
 
-function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds, selectedPeriod, onPeriodChange }: InvoicesHeaderProps) {
+function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds, selectedPeriod, onPeriodChange, selectedApartment, onApartmentChange }: InvoicesHeaderProps) {
 	const { t } = useTranslation('invoicesApp');
 	const { data } = useInvoices({ page: 1, limit: 1 });
+	const { data: apartmentsData } = useApartments({ page: 1, limit: 100 });
 
 	// Generate 3 tabs: This Month, Last Month, Older Months
 	const getPeriodTabs = () => {
@@ -102,6 +109,20 @@ function InvoicesHeader({ onAddClick, onSendManyClick, selectedInvoiceIds, selec
 							{t('SEND')} {selectedInvoiceIds.length} {t('INVOICES')}
 						</Button>
 					)}
+					<FormControl size="small" className="min-w-48">
+						<Select
+							value={selectedApartment}
+							onChange={(e) => onApartmentChange(e.target.value)}
+							displayEmpty
+						>
+							<MenuItem value="all">Tất cả toà nhà</MenuItem>
+							{apartmentsData?.rows?.map((apartment) => (
+								<MenuItem key={apartment._id} value={apartment._id}>
+									{apartment.name || apartment.code}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
 					<Button
 						variant="contained"
 						color="secondary"

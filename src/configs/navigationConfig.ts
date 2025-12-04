@@ -85,13 +85,6 @@ const navigationConfig: FuseNavItemType[] = [
 				url: '/apps/invoices'
 			},
 			{
-				id: 'apps.invoice',
-				title: 'Invoice',
-				type: 'item',
-				icon: 'lucide:file-text',
-				url: '/pages/invoice'
-			},
-			{
 				id: 'apps.file-manager',
 				title: 'File Manager',
 				type: 'item',
@@ -120,6 +113,13 @@ const navigationConfig: FuseNavItemType[] = [
 		type: 'group',
 		icon: 'lucide:file-text',
 		children: [
+			{
+				id: 'pages.invoice',
+				title: 'Invoice',
+				type: 'item',
+				icon: 'lucide:file-text',
+				url: '/pages/invoice'
+			},
 			{
 				id: 'pages.help-center',
 				title: 'Help Center',

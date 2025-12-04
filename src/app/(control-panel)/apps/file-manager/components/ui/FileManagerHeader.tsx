@@ -7,14 +7,22 @@ import Link from '@fuse/core/Link';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import PageBreadcrumb from 'src/components/PageBreadcrumb';
 import useFileManagerData from '../../hooks/useFileManagerData';
+import { useState } from 'react';
+import CreateFolderDialog from '../dialogs/CreateFolderDialog';
 
 /**
  * The file manager header.
  */
 function FileManagerHeader() {
 	const { folders, files, path } = useFileManagerData();
+	const [createFolderOpen, setCreateFolderOpen] = useState(false);
 
 	return (
+		<>
+		<CreateFolderDialog
+			open={createFolderOpen}
+			onClose={() => setCreateFolderOpen(false)}
+		/>
 		<div className="container flex w-full py-4">
 			<div className="flex flex-auto flex-col">
 				<PageBreadcrumb className="mb-2" />
@@ -68,7 +76,16 @@ function FileManagerHeader() {
 						</motion.span>
 					</div>
 
-					<div className="flex items-center">
+					<div className="flex items-center gap-2">
+						<Button
+							className="whitespace-nowrap"
+							variant="outlined"
+							color="secondary"
+							startIcon={<FuseSvgIcon>lucide:folder-plus</FuseSvgIcon>}
+							onClick={() => setCreateFolderOpen(true)}
+						>
+							Tạo folder
+						</Button>
 						<Button
 							className="whitespace-nowrap"
 							variant="contained"
@@ -81,6 +98,7 @@ function FileManagerHeader() {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }
 

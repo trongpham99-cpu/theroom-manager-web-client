@@ -22,6 +22,7 @@ export function useInvoices(params?: InvoiceListParams) {
 			if (params?.month) searchParams.append('month', params.month.toString());
 			if (params?.year) searchParams.append('year', params.year.toString());
 			if (params?.excludeRecent) searchParams.append('excludeRecent', 'true');
+			if (params?.apartmentId) searchParams.append('apartmentId', params.apartmentId);
 
 			const queryString = searchParams.toString();
 			const url = queryString ? `invoices?${queryString}` : 'invoices';

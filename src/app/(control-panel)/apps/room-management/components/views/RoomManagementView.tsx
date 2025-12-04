@@ -2,7 +2,7 @@
 
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import { styled } from '@mui/material/styles';
-import { useState, SyntheticEvent } from 'react';
+import { useState, SyntheticEvent, useEffect, useRef } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
@@ -17,24 +17,47 @@ import ApartmentsTable from '../ui/ApartmentsTable';
 import RoomsTable from '../ui/RoomsTable';
 import CreateApartmentDialog from '../dialogs/CreateApartmentDialog';
 import CreateRoomDialog from '../dialogs/CreateRoomDialog';
+import useParams from '@fuse/hooks/useParams';
+import useNavigate from '@fuse/hooks/useNavigate';
+import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
+import { Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { useApartments } from '../../api/hooks/useApartments';
 
 i18n.addResourceBundle('en', 'roomManagementApp', roomManagementI18n.en);
 i18n.addResourceBundle('vi', 'roomManagementApp', roomManagementI18n.vi);
 
-const Root = styled(FusePageCarded)(() => ({
+const Root = styled(FusePageCarded)(({ theme }) => ({
 	'& .container': {
 		maxWidth: '100%!important'
 	}
 }));
 
+type RoomManagementViewProps = {
+	children?: React.ReactNode;
+};
+
 /**
  * The Room Management page.
  */
-function RoomManagementView() {
+function RoomManagementView(props: RoomManagementViewProps) {
+	const { children } = props;
 	const { t } = useTranslation('roomManagementApp');
+	const navigate = useNavigate();
+	const routeParams = useParams();
+	const pageLayout = useRef(null);
+	const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
+
 	const [selectedTab, setSelectedTab] = useState('apartments');
 	const [openApartmentDialog, setOpenApartmentDialog] = useState(false);
 	const [openRoomDialog, setOpenRoomDialog] = useState(false);
+	const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+	const [selectedApartmentId, setSelectedApartmentId] = useState<string>('all');
+
+	const { data: apartmentsData } = useApartments();
+
+	useEffect(() => {
+		setRightSidebarOpen(!!routeParams.apartmentId || !!routeParams.roomId);
+	}, [routeParams]);
 
 	function handleTabChange(event: SyntheticEvent, value: string) {
 		setSelectedTab(value);
@@ -76,6 +99,28 @@ function RoomManagementView() {
 								</motion.span>
 							</div>
 							<div className="flex items-center gap-2">
+								{selectedTab === 'rooms' && (
+									<motion.div
+										initial={{ opacity: 0, x: 20 }}
+										animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+									>
+										<FormControl size="small" sx={{ minWidth: 200 }}>
+											<InputLabel>Toà nhà</InputLabel>
+											<Select
+												value={selectedApartmentId}
+												label="Toà nhà"
+												onChange={(e) => setSelectedApartmentId(e.target.value)}
+											>
+												<MenuItem value="all">Tất cả</MenuItem>
+												{apartmentsData?.rows?.map((apt) => (
+													<MenuItem key={apt._id} value={apt._id}>
+														{apt.name || apt.code}
+													</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+									</motion.div>
+								)}
 								<motion.div
 									initial={{ opacity: 0, x: 20 }}
 									animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
@@ -119,9 +164,22 @@ function RoomManagementView() {
 				content={
 					<div className="w-full">
 						{selectedTab === 'apartments' && <ApartmentsTable />}
-						{selectedTab === 'rooms' && <RoomsTable />}
+						{selectedTab === 'rooms' && <RoomsTable apartmentId={selectedApartmentId === 'all' ? undefined : selectedApartmentId} />}
 					</div>
 				}
+				ref={pageLayout}
+				rightSidebarProps={{
+					content: (
+						<Box className="flex h-full flex-col">
+							{children}
+						</Box>
+					),
+					open: rightSidebarOpen,
+					onClose: () => navigate('/apps/room-management'),
+					width: 800,
+					variant: 'temporary'
+				}}
+				scroll={isMobile ? 'page' : 'content'}
 			/>
 			
 			<CreateApartmentDialog

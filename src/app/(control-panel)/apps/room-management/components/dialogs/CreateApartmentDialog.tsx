@@ -13,7 +13,10 @@ import { useTranslation } from 'react-i18next';
 import { useCreateApartment } from '../../api/hooks/useCreateApartment';
 
 type FormType = {
+	name: string;
 	code: string;
+	address: string;
+	description: string;
 };
 
 type CreateApartmentDialogProps = {
@@ -22,13 +25,15 @@ type CreateApartmentDialogProps = {
 };
 
 function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
-	console.log('🎬 CreateApartmentDialog render - open:', open);
 	const { t } = useTranslation('roomManagementApp');
 	const { enqueueSnackbar } = useSnackbar();
 	const createApartment = useCreateApartment();
 
 	const schema = z.object({
-		code: z.string().min(1, t('CODE_REQUIRED'))
+		name: z.string().optional(),
+		code: z.string().optional(),
+		address: z.string().optional(),
+		description: z.string().optional()
 	});
 
 	const {
@@ -39,7 +44,10 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 	} = useForm<FormType>({
 		mode: 'onChange',
 		defaultValues: {
-			code: ''
+			name: '',
+			code: '',
+			address: '',
+			description: ''
 		},
 		resolver: zodResolver(schema)
 	});
@@ -64,8 +72,6 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 		onClose();
 	};
 
-	console.log('📦 CreateApartmentDialog JSX render - open:', open);
-
 	if (!open) {
 		return null;
 	}
@@ -81,7 +87,24 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 				<DialogTitle>{t('CREATE_APARTMENT')}</DialogTitle>
 
 				<DialogContent>
-					<div className="mt-4">
+					<div className="mt-4 flex flex-col gap-4">
+						<Controller
+							name="name"
+							control={control}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									label="Tên toà nhà"
+									placeholder="VD: Toà nhà A"
+									fullWidth
+									error={!!errors.name}
+									helperText={errors.name?.message}
+									variant="outlined"
+									autoFocus
+									disabled={createApartment.isPending}
+								/>
+							)}
+						/>
 						<Controller
 							name="code"
 							control={control}
@@ -89,12 +112,45 @@ function CreateApartmentDialog({ open, onClose }: CreateApartmentDialogProps) {
 								<TextField
 									{...field}
 									label={t('CODE')}
-									placeholder="e.g., Building A, Tòa A"
+									placeholder="VD: A1, BLD-A"
 									fullWidth
 									error={!!errors.code}
 									helperText={errors.code?.message}
 									variant="outlined"
-									autoFocus
+									disabled={createApartment.isPending}
+								/>
+							)}
+						/>
+						<Controller
+							name="address"
+							control={control}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									label="Địa chỉ"
+									placeholder="VD: 123 Đường ABC, Quận 1"
+									fullWidth
+									error={!!errors.address}
+									helperText={errors.address?.message}
+									variant="outlined"
+									disabled={createApartment.isPending}
+								/>
+							)}
+						/>
+						<Controller
+							name="description"
+							control={control}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									label="Mô tả / Ghi chú"
+									placeholder="Thông tin bổ sung..."
+									fullWidth
+									multiline
+									rows={3}
+									error={!!errors.description}
+									helperText={errors.description?.message}
+									variant="outlined"
 									disabled={createApartment.isPending}
 								/>
 							)}
