@@ -82,6 +82,7 @@ export type InvoiceListParams = {
 	month?: number;
 	year?: number;
 	excludeRecent?: boolean; // Exclude current and last month
+	apartmentId?: string;
 };
 
 export type InvoiceListResponse = {

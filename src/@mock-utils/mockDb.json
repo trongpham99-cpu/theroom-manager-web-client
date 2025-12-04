@@ -13355,40 +13355,28 @@
   ],
   "file_manager_items": [
     {
-      "id": "cd6897cb-acfd-4016-8b53-3f66a5b5fc68",
+      "id": "thong-tin-khach-thue",
       "folderId": "root",
-      "name": "Personal",
-      "createdBy": "Brian Hughes",
-      "createdAt": "April 24, 2018",
-      "modifiedAt": "April 24, 2018",
-      "size": "87 MB",
+      "name": "Thông tin khách thuê",
+      "createdBy": "System",
+      "createdAt": "December 04, 2025",
+      "modifiedAt": "December 04, 2025",
+      "size": "0 MB",
       "type": "folder",
-      "contents": "57 files",
-      "description": "Personal documents such as insurance policies, tax papers and etc."
+      "contents": "0 files",
+      "description": "Lưu trữ thông tin và tài liệu của khách thuê"
     },
     {
-      "id": "6da8747f-b474-4c9a-9eba-5ef212285500",
+      "id": "thong-tin-phong",
       "folderId": "root",
-      "name": "Photos",
-      "createdBy": "Brian Hughes",
-      "createdAt": "November 01, 2021",
-      "modifiedAt": "November 01, 2021",
-      "size": "3015 MB",
+      "name": "Thông tin phòng",
+      "createdBy": "System",
+      "createdAt": "December 04, 2025",
+      "modifiedAt": "December 04, 2025",
+      "size": "0 MB",
       "type": "folder",
-      "contents": "907 files",
-      "description": "Personal photos; selfies, family, vacation and etc."
-    },
-    {
-      "id": "ed58add1-45a7-41db-887d-3ca7ee7f2719",
-      "folderId": "root",
-      "name": "Work",
-      "createdBy": "Brian Hughes",
-      "createdAt": "May 8, 2020",
-      "modifiedAt": "May 8, 2020",
-      "size": "14 MB",
-      "type": "folder",
-      "contents": "24 files",
-      "description": "Work related files, mainly documents and paychecks."
+      "contents": "0 files",
+      "description": "Lưu trữ thông tin và tài liệu của phòng"
     },
     {
       "id": "5cb66e32-d1ac-4b9a-8c34-5991ce25add2",

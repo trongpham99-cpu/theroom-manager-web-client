@@ -7,7 +7,9 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
+import Button from '@mui/material/Button';
 import { format } from 'date-fns/format';
+import useNavigate from '@fuse/hooks/useNavigate';
 
 const getStatusLabel = (status: number) => {
 	const labels: Record<number, { label: string; color: 'default' | 'primary' | 'success' | 'error' | 'warning' }> = {
@@ -23,6 +25,7 @@ function InvoiceView() {
 	const routeParams = useParams<{ invoiceId: string }>();
 	const { invoiceId } = routeParams;
 	const { data: invoice, isLoading, isError } = useInvoice(invoiceId);
+	const navigate = useNavigate();
 
 	if (isLoading) {
 		return <FuseLoading className="min-h-screen" />;
@@ -63,11 +66,21 @@ function InvoiceView() {
 							ID: {invoice._id}
 						</Typography>
 					</Box>
-					<Chip
-						label={statusInfo.label}
-						color={statusInfo.color}
-						size="medium"
-					/>
+					<div className="flex items-center gap-2">
+						<Chip
+							label={statusInfo.label}
+							color={statusInfo.color}
+							size="medium"
+						/>
+						<Button
+							variant="contained"
+							color="secondary"
+							startIcon={<FuseSvgIcon>lucide:file-text</FuseSvgIcon>}
+							onClick={() => navigate(`/pages/invoice/compact?id=${invoice._id}`)}
+						>
+							Xem hoá đơn
+						</Button>
+					</div>
 				</div>
 			</Box>
 

@@ -40,9 +40,10 @@ type InvoicesTableProps = {
 	month?: number;
 	year?: number;
 	excludeRecent?: boolean;
+	apartmentId?: string;
 };
 
-function InvoicesTable({ onSelectionChange, month, year, excludeRecent }: InvoicesTableProps) {
+function InvoicesTable({ onSelectionChange, month, year, excludeRecent, apartmentId }: InvoicesTableProps) {
 	const { t } = useTranslation('invoicesApp');
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(15);
@@ -51,11 +52,11 @@ function InvoicesTable({ onSelectionChange, month, year, excludeRecent }: Invoic
 	const [search, setSearch] = useState('');
 	const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
-	// Reset page to 1 when period changes (independent state for each tab)
+	// Reset page to 1 when period or apartment changes
 	useEffect(() => {
 		setPage(1);
 		setRowSelection({});
-	}, [month, year, excludeRecent]);
+	}, [month, year, excludeRecent, apartmentId]);
 
 	const { data, isLoading, isError, error } = useInvoices({
 		page,
@@ -65,7 +66,8 @@ function InvoicesTable({ onSelectionChange, month, year, excludeRecent }: Invoic
 		search: search || undefined,
 		month,
 		year,
-		excludeRecent
+		excludeRecent,
+		apartmentId
 	});
 
 	const sendInvoice = useSendInvoice();

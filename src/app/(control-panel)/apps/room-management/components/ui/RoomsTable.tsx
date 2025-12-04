@@ -1,28 +1,32 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { type MRT_ColumnDef } from 'material-react-table';
 import DataTable from 'src/components/data-table/DataTable';
-import { Paper, IconButton, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Paper } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import { useSnackbar } from 'notistack';
-import { useFuseDialogContext } from '@fuse/core/FuseDialog/contexts/FuseDialogContext/useFuseDialogContext';
 import { useTranslation } from 'react-i18next';
 import { Room } from '../../api/types';
 import { useRooms } from '../../api/hooks/useRooms';
 import { useApartments } from '../../api/hooks/useApartments';
-import { useDeleteRoom } from '../../api/hooks/useDeleteRoom';
-import EditRoomDialog from '../dialogs/EditRoomDialog';
+import useNavigate from '@fuse/hooks/useNavigate';
 
-function RoomsTable() {
+type RoomsTableProps = {
+	apartmentId?: string;
+};
+
+function RoomsTable({ apartmentId }: RoomsTableProps) {
 	const { t } = useTranslation('roomManagementApp');
 	const { data: roomsData, isLoading: roomsLoading, isError: roomsError, error: roomsErrorObj } = useRooms();
 	const { data: apartmentsData, isLoading: apartmentsLoading, isError: apartmentsError, error: apartmentsErrorObj } = useApartments();
-	const deleteRoom = useDeleteRoom();
-	const { enqueueSnackbar } = useSnackbar();
-	const { openDialog } = useFuseDialogContext();
-	const [editDialogOpen, setEditDialogOpen] = useState(false);
-	const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+	const navigate = useNavigate();
+
+	// Filter rooms by apartmentId if provided
+	const filteredRooms = useMemo(() => {
+		if (!roomsData?.rows) return [];
+		if (!apartmentId) return roomsData.rows;
+		return roomsData.rows.filter(room => room.apartment_id === apartmentId);
+	}, [roomsData, apartmentId]);
 
 	// Create a lookup map for apartments
 	const apartmentsMap = useMemo(() => {
@@ -33,57 +37,6 @@ function RoomsTable() {
 		}, {} as Record<string, string>);
 	}, [apartmentsData]);
 
-	const handleEdit = (room: Room) => {
-		setSelectedRoom(room);
-		setEditDialogOpen(true);
-	};
-
-	const handleDelete = (room: Room) => {
-		openDialog({
-			id: `confirm-delete-room-${room._id}`,
-			content: ({ handleClose }) => (
-				<>
-					<DialogTitle>{t('DELETE_ROOM_TITLE')}</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							{t('DELETE_ROOM_MESSAGE')} <strong>{room.code}</strong>?
-							<br />
-							{t('DELETE_ROOM_WARNING')}
-						</DialogContentText>
-					</DialogContent>
-					<DialogActions>
-						<Button
-							onClick={handleClose}
-							color="inherit"
-						>
-							{t('CANCEL')}
-						</Button>
-						<Button
-							onClick={async () => {
-								try {
-									await deleteRoom.mutateAsync(room._id);
-									enqueueSnackbar('Room deleted successfully!', { variant: 'success' });
-									handleClose();
-								} catch (error: any) {
-									const errorMessage = error?.message || 'Failed to delete room. Please try again.';
-									enqueueSnackbar(errorMessage, {
-										variant: 'error'
-									});
-									console.error('Error deleting room:', error);
-									handleClose();
-								}
-							}}
-							variant="contained"
-							color="error"
-							autoFocus
-						>
-							{deleteRoom.isPending ? t('DELETING') : t('DELETE')}
-						</Button>
-					</DialogActions>
-				</>
-			)
-		});
-	};
 
 	const columns = useMemo<MRT_ColumnDef<Room>[]>(
 		() => [
@@ -117,16 +70,6 @@ function RoomsTable() {
 				Cell: ({ row }) => (
 					<Typography variant="body2">
 						{new Date(row.original.createdAt).toLocaleString()}
-					</Typography>
-				)
-			},
-			{
-				accessorKey: 'updatedAt',
-				header: t('CREATED_AT'),
-				size: 180,
-				Cell: ({ row }) => (
-					<Typography variant="body2">
-						{new Date(row.original.updatedAt).toLocaleString()}
 					</Typography>
 				)
 			}
@@ -173,7 +116,7 @@ function RoomsTable() {
 	}
 
 	// Issue 1: Empty state UI
-	if (!roomsData?.rows || roomsData.rows.length === 0) {
+	if (filteredRooms.length === 0) {
 		return (
 			<Paper
 				className="shadow-1 flex h-full w-full flex-auto flex-col items-center justify-center overflow-hidden rounded-t-lg rounded-b-none p-8"
@@ -211,37 +154,20 @@ function RoomsTable() {
 				elevation={0}
 			>
 			<DataTable
-				data={roomsData.rows}
+				data={filteredRooms}
 				columns={columns}
-				renderRowActions={({ row }) => (
-					<div className="flex items-center gap-1">
-						<IconButton
-							size="small"
-							onClick={() => handleEdit(row.original)}
-							color="primary"
-						>
-							<FuseSvgIcon size={20}>lucide:pencil</FuseSvgIcon>
-						</IconButton>
-						<IconButton
-							size="small"
-							onClick={() => handleDelete(row.original)}
-							color="error"
-						>
-							<FuseSvgIcon size={20}>lucide:trash-2</FuseSvgIcon>
-						</IconButton>
-					</div>
-				)}
+				enableRowActions={false}
+				muiTableBodyRowProps={({ row }) => ({
+					onClick: () => navigate(`/apps/room-management/room/${row.original._id}`),
+					sx: {
+						cursor: 'pointer',
+						'&:hover': {
+							backgroundColor: 'action.hover'
+						}
+					}
+				})}
 			/>
 			</Paper>
-
-			<EditRoomDialog
-				open={editDialogOpen}
-				onClose={() => {
-					setEditDialogOpen(false);
-					setSelectedRoom(null);
-				}}
-				room={selectedRoom}
-			/>
 		</>
 	);
 }

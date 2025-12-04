@@ -48,6 +48,7 @@ function InvoicesAppView(props: InvoicesAppProps) {
 	// Period filter state (default to current month)
 	const now = new Date();
 	const [selectedPeriod, setSelectedPeriod] = useState(`${now.getFullYear()}-${now.getMonth() + 1}`);
+	const [selectedApartment, setSelectedApartment] = useState('all');
 
 	useEffect(() => {
 		setRightSidebarOpen(!!routeParams.invoiceId);
@@ -59,6 +60,10 @@ function InvoicesAppView(props: InvoicesAppProps) {
 
 	const handlePeriodChange = (period: string) => {
 		setSelectedPeriod(period);
+	};
+
+	const handleApartmentChange = (apartmentId: string) => {
+		setSelectedApartment(apartmentId);
 	};
 
 	// Parse selected period to get month and year
@@ -134,9 +139,11 @@ function InvoicesAppView(props: InvoicesAppProps) {
 						selectedInvoiceIds={selectedInvoiceIds}
 						selectedPeriod={selectedPeriod}
 						onPeriodChange={handlePeriodChange}
+						selectedApartment={selectedApartment}
+						onApartmentChange={handleApartmentChange}
 					/>
 				}
-				content={<InvoicesTable onSelectionChange={setSelectedInvoiceIds} month={month} year={year} excludeRecent={excludeRecent} />}
+				content={<InvoicesTable onSelectionChange={setSelectedInvoiceIds} month={month} year={year} excludeRecent={excludeRecent} apartmentId={selectedApartment !== 'all' ? selectedApartment : undefined} />}
 				ref={pageLayout}
 				rightSidebarProps={{
 					content: (

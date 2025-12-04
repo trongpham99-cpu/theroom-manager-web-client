@@ -8,7 +8,7 @@ export const useDeleteItems = () => {
 	return useMutation<void, Error, string[]>({
 		mutationFn: fileManagerApi.deleteItems,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: itemsQueryKey('') });
+			queryClient.invalidateQueries({ queryKey: ['file-manager'] });
 		}
 	});
 };
