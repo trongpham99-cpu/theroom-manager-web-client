@@ -136,7 +136,6 @@ const navigationConfig: FuseNavItemType[] = [
 			}
 		]
 	}
-
 	// ========================================
 	// CÁC PHẦN SAU ĐÂY ĐÃ BỊ TẮT - BẠN CÓ THỂ BẬT LẠI DẦN DẦN:
 	// ========================================
